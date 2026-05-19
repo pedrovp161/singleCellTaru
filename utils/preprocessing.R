@@ -144,5 +144,3 @@ QualityControl <- setRefClass(
     }
   )
 )
-
-
