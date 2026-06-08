@@ -334,8 +334,7 @@ novos_nomes_clusters <- c("CD4 effector memory",           # Cluster 0
                           "eTreg",                         # Cluster 7
                           "ISG T cells",         # Cluster 8
                           "NK cells",                      # Cluster 9
-                          "B cells"                        # Cluster 10
-                          
+                          "B cells"                        # Cluster 10                      
 )                      
 names(novos_nomes_clusters) <- levels(pb21_ml)
 

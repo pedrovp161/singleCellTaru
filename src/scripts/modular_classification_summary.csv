@@ -1,0 +1,11 @@
+Cluster,Estado dominante,Nomenclatura modular,Score máximo
+0,TSM (TCM),TSM,0.0497
+1,Treg,Treg,1.7067
+2,TN (Naive),TN,0.2488
+3,TH17,TH17 DM,0.2023
+4,TH1,TH1 DM,0.1558
+5,TPEX (Xp+),TX_p+  (Xp+),0.175
+6,TH1,TH1 DM,0.3747
+7,LLEC,TDRM (LLEC),2.9426
+8,TG (Anérgica),TG,0.5946
+9,Treg,Treg,0.811
