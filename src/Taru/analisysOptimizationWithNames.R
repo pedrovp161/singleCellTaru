@@ -20,7 +20,7 @@ VlnPlot(pb21_ml, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol 
 pb21_ml$nUMI <- Matrix::colSums(GetAssayData(pb21_ml, slot = "counts"))
 summary(pb21_ml$nUMI)
 
-#Avalia qual valor de escala funcionara melhor para a normalizacao
+# Avalia qual valor de escala funcionara melhor para a normalizacao
 # Step 1: Plot UMI distribution
 vln_plot <- VlnPlot(pb21_ml, features = "nUMI", pt.size = 0.1) + ggtitle("UMI Distribution (Violin Plot)")
 hist_plot <- ggplot(data = data.frame(nUMI = pb21_ml$nUMI), aes(x = nUMI)) +
