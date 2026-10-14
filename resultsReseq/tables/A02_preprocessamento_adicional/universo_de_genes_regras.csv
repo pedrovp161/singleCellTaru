@@ -1,0 +1,6 @@
+regra,genes,citocinas_perdidas
+interseção das 14 (original),18852,12
+interseção sem HNP44_NS,19982,12
+união + ≥ 3 células no conjunto,31765,1
+união + ≥ 10 células no conjunto,28693,1
+união (≥ 1 célula),33836,0

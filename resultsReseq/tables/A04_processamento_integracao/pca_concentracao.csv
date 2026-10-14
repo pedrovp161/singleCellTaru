@@ -1,0 +1,4 @@
+variante,variância da matriz nos 10 genes de maior variância,os 5 de maior variância,carga² da 1ª componente nos 10 genes principais,genes que carregam a 1ª componente
+V1 fiel,0.917042,"MALAT1, IGKC, IGLC2, FTH1, IGHA1",0.97522,"MALAT1, FTH1, MT-ATP6, MT-ND3, MT-CO3, ANK3"
+V2 PCA corrigida,0.00602356,"RPL28, FTL, MT-CYB, SH3BGRL3, MBNL1",0.0743936,"TALAM1, RPL28, ZBTB20, LINC-PINT, PDE3B, MBNL1"
+V3 + universo completo,0.00685989,"MT-CO3, RPS5, MT-ATP6, ACTB, LRRN3",0.0905323,"TALAM1, RPL28, ZBTB20, LINC-PINT, PDE3B, MBNL1"

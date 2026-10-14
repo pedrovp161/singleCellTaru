@@ -1,0 +1,5 @@
+,"interseção · por biblioteca (V1, V2)",união · por biblioteca (V3),união · por paciente,"união · por biblioteca, sem HNP44_NS"
+"interseção · por biblioteca (V1, V2)",2000,1478,1227,1428
+união · por biblioteca (V3),1478,2000,1409,1854
+união · por paciente,1227,1409,2000,1460
+"união · por biblioteca, sem HNP44_NS",1428,1854,1460,2000

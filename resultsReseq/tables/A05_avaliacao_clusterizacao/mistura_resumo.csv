@@ -1,0 +1,7 @@
+variante,grafo,vizinhos_mesma_biblioteca_mediana_bibliotecas,ilisi_bibliotecas_mediano,ilisi_pacientes_mediano,separacao_NS_ML_mediana,ilisi_bibliotecas_esperado,ilisi_pacientes_esperado
+V1,antes,0.32262,1.96748,1.47492,0.335122,6.33539,4.11284
+V1,depois,0.169461,3.1783,2.38017,0.24691,6.33539,4.11284
+V2,antes,0.505847,1.30617,1.24615,0.599665,6.33539,4.11284
+V2,depois,0.107459,3.54613,2.78261,0.217383,6.33539,4.11284
+V3,antes,0.500284,1.31579,1.25581,0.606791,6.33539,4.11284
+V3,depois,0.0984692,3.62963,2.84252,0.21988,6.33539,4.11284

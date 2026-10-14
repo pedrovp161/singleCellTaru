@@ -1,0 +1,187 @@
+# Reseq — avaliação do ressequenciamento
+
+Avaliação preliminar das 14 bibliotecas de células T CD4⁺ (7 pacientes ×
+estimulado ML / não estimulado NS) ressequenciadas com mais profundidade
+(`data/allOuts`, Cell Ranger 10.1.0). O ressequenciamento foi feito para tentar
+resolver a baixa detecção de citocinas. Esta análise também testa a hipótese de
+que a baixa recuperação de células venha de excesso de doublets.
+
+O trabalho vai **até a clusterização dos dados integrados**. Nenhum cluster é
+anotado.
+
+O resultado, com todos os números, está em
+[`resultsReseq/RELATORIO_reseq.md`](../../resultsReseq/RELATORIO_reseq.md).
+
+## Perguntas e onde cada uma é respondida
+
+| pergunta | notebook |
+| --- | --- |
+| O que os web summaries e os demais arquivos do Cell Ranger mostram? | `comparativa/C01_websummary_metricas` |
+| O que mudou entre a corrida antiga e o ressequenciamento, célula a célula? | `comparativa/C02_antigo_vs_novo` |
+| Mais profundidade recuperaria citocinas? | `comparativa/C03_rarefacao_citocinas` |
+| O pré-processamento original, aplicado aos dados novos, dá o quê? | `analise/A01_preprocessamento` |
+| Falta algum pré-processamento? | `analise/A02_preprocessamento_adicional` |
+| A baixa recuperação de células vem de doublets? | `analise/A03_doublets_recuperacao` |
+| O processamento original, aplicado aos dados novos, dá o quê? E corrigido? | `analise/A04_processamento_integracao` |
+| Os clusters descrevem estados celulares ou artefatos? Os problemas antigos se repetem? | `analise/A05_avaliacao_clusterizacao` |
+
+## O que cada notebook faz
+
+**C01 — web summary e métricas.** Lê o JSON embutido nos 14
+`web_summary.html`, `metrics_summary.csv`, logs e a composição automática
+(Azimuth). Confere proveniência e parâmetros, lista os alarmes do Cell Ranger,
+mede o retorno da profundidade pelas curvas de saturação e a pureza do sorting.
+
+**C02 — corrida antiga × nova.** Confirma que são as mesmas bibliotecas
+(identidade de barcodes, sexo do doador). Compara chamada de células, UMIs e
+genes por célula pareada, reprodutibilidade das contagens, genes que
+"colapsaram" entre corridas e células positivas para citocinas.
+
+**C03 — rarefação e citocinas.** A partir do `molecule_info.h5`: reads por
+molécula, posição da corrida antiga na curva de rarefação, testes de artefato
+(troca de índice, erros de UMI e de barcode), genes sustentados só por reads
+isolados (com os genes do Y em doadoras como controle negativo) e, para cada
+citocina, quantas células positivas apareceriam com menos ou mais reads.
+
+**A01 — pré-processamento.** Réplica do `src/scripts/preprocessing.ipynb`:
+filtro MAD combinado (k = 5) do spatools, flag de MT, Scrublet com
+`expected_doublet_rate=0.06`. A réplica é validada antes nos dados antigos e
+reproduz os números do notebook original nas 14 bibliotecas.
+
+**A02 — pré-processamento adicional.** Avalia, sem alterar a linha principal,
+células de baixo conteúdo, RNA ambiente, fração intrônica e barcodes de
+material nuclear, contaminantes não-T, o universo de genes (interseção ×
+união) e a composição dos genes variáveis. Fecha com uma recomendação por item.
+
+**A03 — doublets e recuperação.** Quatro linhas de evidência independentes:
+aritmética do carregamento, régua de RNA (mistura em log-UMI), contaminantes
+B como segunda "espécie" e Scrublet com threshold automático e calibrado.
+
+**A04 — processamento e integração.** Réplica do `src/scripts/processing.ipynb`
+em três variantes sobre as mesmas células, mudando uma coisa por vez:
+
+| variante | universo de genes | matriz da PCA |
+| --- | --- | --- |
+| V1 fiel | interseção entre bibliotecas | contagens cruas (como no original) |
+| V2 | interseção | lognorm escalonada |
+| V3 | união + `min_cells=3` global | lognorm escalonada |
+
+Antes, a V1 é rodada sobre a corrida antiga e reproduz exatamente o
+`data/adata_harmony.h5ad` (mesmos genes variáveis, componentes e clusters).
+Inclui duas análises de sensibilidade: genes técnicos entre os genes variáveis
+e Harmony por paciente em vez de por biblioteca.
+
+**A05 — avaliação da clusterização.** Composição dos clusters por biblioteca e
+paciente, mistura antes e depois do Harmony, relação com a profundidade,
+estabilidade (sementes e resolução), QC por cluster, concordância com a corrida
+antiga, citocinas por cluster e o veredito "repete / não repete" para cada
+problema da análise anterior.
+
+## Estrutura
+
+```text
+src/Reseq/
+├── README.md
+├── build_notebook.sh       # .py (jupytext) → .ipynb executado
+├── functions/              # código compartilhado
+│   ├── config.py           # caminhos, mapa de nomes, desenho, painéis de genes, parâmetros
+│   ├── io.py               # leitores (web summary, 10x, molecule_info) e escrita versionada
+│   ├── compare.py          # pareamento antiga × nova
+│   ├── rarefaction.py      # rarefação analítica a partir de molecule_info.h5
+│   ├── qc.py               # réplica do QC, RNA ambiente
+│   ├── doublets.py         # testes da hipótese de doublets
+│   ├── pipeline.py         # variantes V1–V3, seleção de HVG, métricas de avaliação
+│   ├── plotting.py, fmt.py # estilo das figuras e números em português
+│   ├── issues.py           # registro de problemas por notebook
+│   └── legacy.py           # acesso às funções de src/scripts/claude/functions
+├── comparativa/            # C01–C03 (.py + .ipynb executado)
+└── analise/                # A01–A05 (.py + .ipynb executado)
+
+dataReseq/                  # objetos (parquet, h5ad) + MANIFEST.jsonl — fora do git
+resultsReseq/
+├── RELATORIO_reseq.md      # o resumo dos problemas encontrados
+├── figures/<notebook>/     # PNG + PDF
+└── tables/<notebook>/      # CSV; cada figura tem a sua tabela fig_<nome>.csv,
+                            # cada notebook tem o seu issues.csv
+```
+
+### Objetos principais em `dataReseq/`
+
+| arquivo | conteúdo |
+| --- | --- |
+| `A01_preprocessamento/new/<biblioteca>.h5ad` | as 14 bibliotecas após QC e Scrublet, no mesmo formato de `data/new` |
+| `A01_preprocessamento/celulas_qc.parquet` | todas as células do Cell Ranger, com o motivo de saída de cada uma |
+| `A02_preprocessamento_adicional/flags_adicionais.parquet` | baixo conteúdo, fração intrônica, rótulo automático, por célula |
+| `A03_doublets_recuperacao/flags_doublets.parquet` | sinal de célula B, conjugado T–B, Scrublet calibrado, por célula |
+| `A04_processamento_integracao/reseq_integrado.h5ad` | **o objeto integrado** (ver abaixo) |
+| `A04_processamento_integracao/antiga_variantes.parquet` | a corrida antiga processada pelas três variantes (clusters por célula) |
+| `C03_rarefacao_citocinas/mol_*.parquet` | resumos do `molecule_info.h5` (a passada leva ~6 min) |
+
+O objeto integrado tem 35.064 células e o universo completo de genes. `X` é a
+lognorm e `layers["counts"]` as contagens, conferidas entrada por entrada
+contra as matrizes do Cell Ranger. Cada variante entra com sufixo:
+`obs["leiden_V1"]`, `obsm["X_umap_V2"]`, `obsp["connectivities_V3"]`,
+`var["highly_variable_V3"]`. As chaves sem sufixo (`leiden`, `X_umap`,
+`X_emb_harmony`, `neighbors`, `highly_variable`) apontam para a V3, a linha de
+base proposta. As flags de A02 e A03 ficam fora do objeto, como deltas; a
+chave de junção é `obs["cell_key"]` = `library_id|barcode`.
+
+```python
+import anndata as ad, scanpy as sc
+adata = ad.read_h5ad("dataReseq/A04_processamento_integracao/reseq_integrado.h5ad")
+sc.pl.umap(adata, color="leiden")                       # V3
+sc.tl.leiden(adata, resolution=0.8, neighbors_key="neighbors_V3", key_added="leiden_0_8")
+```
+
+## Como executar
+
+```bash
+cd src/Reseq
+./build_notebook.sh comparativa/C01_websummary_metricas      # [timeout em s, padrão 3600]
+```
+
+A ordem importa, porque cada etapa lê o que a anterior gravou:
+C01 → C02 → C03 → A01 → A02 → A03 → A04 → A05. A cadeia inteira leva perto de
+uma hora. Ambiente: `/mnt/SATA/singleCellTaru/.venv` (scanpy 1.11, anndata
+0.12, harmonypy 2.0, spatools 0.38).
+
+* `RESEQ_OUT=<pasta>` grava em `<pasta>/dataReseq` e `<pasta>/resultsReseq`
+  (modo de teste; nada vai para o projeto).
+* `RESEQ_RECOMPUTE=1` força o C03 a refazer a passada pelo `molecule_info.h5`.
+
+## Regras de escrita
+
+* Nada em `data/` é escrito ou apagado, inclusive `data/allOuts`. O código
+  recusa gravar fora de `dataReseq/` e `resultsReseq/`.
+* Objetos em `dataReseq/` nunca são substituídos: conteúdo igual não é
+  regravado; conteúdo diferente vira `nome__v2`, `nome__v3`… Todo arquivo
+  gravado entra no `dataReseq/MANIFEST.jsonl` (append-only), com assinatura,
+  notebook de origem e versões dos pacotes. Cada h5ad é relido e conferido
+  logo depois de gravado.
+* Figuras e tabelas em `resultsReseq/` são regeneradas a cada execução.
+
+## Convenções
+
+* Nomes de biblioteca canônicos, iguais aos da corrida antiga. As pastas
+  `MB_34_SN` e `PB_20_SN` são **não estimuladas** (o `endswith("NS")` do código
+  original as rotularia como estimuladas); o mapa está em
+  `config.RESEQ_TO_CANONICAL`.
+* `obs["classificacao"]` preserva a regra original (HNP44 → "MB");
+  `obs["classification"]` é a corrigida (HNP44 → "NP").
+* Toda figura e tabela declara o número de pacientes e de bibliotecas. MB e NP
+  têm um paciente cada: são descritos, não testados. O único contraste testado
+  é o pareado estimulado × não estimulado (n = 7).
+* A corrida antiga é lida de `data/raw/<biblioteca>/` (mtx).
+  `data/raw_h5ad/CTH94_NS.h5ad` está corrompido e não é usado.
+
+## Desvios em relação aos notebooks originais
+
+* Símbolos de genes vêm da tabela de features do Cell Ranger, não do `mygene`
+  (rede). Não muda genes variáveis, PCA nem clusters.
+* A seleção de genes variáveis (`seurat_v3` por biblioteca) é a do scanpy,
+  reimplementada linha a linha em `pipeline.select_hvg` para que o loess de um
+  lote numericamente singular seja refeito com span maior em vez de abortar.
+  Isso só acontece no universo completo; na interseção o resultado é idêntico
+  ao do scanpy, e o notebook confere.
+* Não são reproduzidos o bug da célula 36 do `preprocessing.ipynb` (que
+  sobrescreveu `data/filtered_h5ad`) nem o `cache=True` da leitura.

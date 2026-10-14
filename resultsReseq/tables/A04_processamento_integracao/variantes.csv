@@ -1,0 +1,4 @@
+,universo (genes),genes variáveis em comum com a V1,matriz na PCA,variância nas 50 componentes,variância na 1ª componente,"clusters (Leiden 0,5)",maior cluster (células),menor cluster (células),clusters com menos de 50 células,Harmony,tempo (s)
+V1 fiel,18852,2000,contagens cruas,0.980683,0.566857,14,5843,43,1,Converged after 9 iterations,57
+V2 PCA corrigida,18852,2000,lognorm escalonada,0.168853,0.0377588,10,8822,122,0,Converged after 3 iterations,74
+V3 + universo completo,31756,1478,lognorm escalonada,0.179516,0.0350829,13,8067,93,0,Converged after 4 iterations,45

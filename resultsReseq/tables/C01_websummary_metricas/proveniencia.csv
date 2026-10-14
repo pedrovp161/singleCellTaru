@@ -1,0 +1,15 @@
+library_id,pasta_allOuts,id_no_web_summary,cellranger,quimica,referencia,include_introns,bam_gerado,inicio,duracao_h,falhas_antes_do_sucesso,retries_no_log,estado_final
+CTH92_NS,CTH92_NS,CTH92_NS,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-10-09 03:16:42,5.7,0,0,complete
+CTH92_ML,CTH92_ML,CTH92_ML,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-10-07 15:05:35,13.9,2,0,complete
+CTH94_NS,CTH94_NS,CTH94_NS,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-09-28 02:17:46,29.2,0,0,complete
+CTH94_ML,CTH94_ML,CTH94_ML,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-09-23 15:41:00,25.5,0,0,complete
+CTH97_NS,CTH97_NS,CTH97_NS,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-09-29 16:15:54,11.7,0,0,complete
+CTH97_ML,CTH97_ML,CTH97_ML,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-09-24 17:12:31,19.5,0,0,complete
+PB20_NS,PB_20_SN,PB_20_SN,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-10-07 14:16:47,30.7,2,1,complete
+PB20_ML,PB_20_ML,PB_20_ML,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-10-07 15:28:51,28.1,1,0,complete
+PB21_NS,PB_21_NS,PB_21_NS,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-09-18 18:32:26,33.3,3,0,complete
+PB21_ML,PB_21_ML,PB_21_ML,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-09-18 09:40:31,8.9,0,0,complete
+MB34_NS,MB_34_SN,MB_34_SN,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-09-30 13:01:15,15,0,0,complete
+MB34_ML,MB_34_ML,MB_34_ML,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-09-30 04:12:11,8.8,0,0,complete
+HNP44_NS,HNP_044_NS,HNP_044_NS,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-10-07 15:28:51,12.6,2,0,complete
+HNP44_ML,HNP_044_ML,HNP_044_ML,10.1.0,Single Cell 3' v3 (polyA),GRCh38-2024-A,True,False,2026-10-07 15:05:39,22.6,2,0,complete

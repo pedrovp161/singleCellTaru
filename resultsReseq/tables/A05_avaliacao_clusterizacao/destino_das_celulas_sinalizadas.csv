@@ -1,0 +1,19 @@
+variante,categoria,celulas,cluster_principal,frac_no_cluster_principal,frac_do_cluster_principal_que_e_da_categoria
+V1,baixo conteúdo (< 1.000 UMIs),730,7,0.810959,0.293214
+V1,rótulo automático não-T,1236,7,0.125405,0.0767707
+V1,sinal de célula B,263,7,0.155894,0.0203071
+V1,conjugado T–B,69,5,0.275362,0.00644723
+V1,Scrublet calibrado,1760,5,0.275,0.164235
+V1,fração intrônica alta,160,1,0.3375,0.00942737
+V2,baixo conteúdo (< 1.000 UMIs),730,3,0.630137,0.124729
+V2,rótulo automático não-T,1236,7,0.228964,0.216858
+V2,sinal de célula B,263,8,0.897338,0.802721
+V2,conjugado T–B,69,8,0.84058,0.197279
+V2,Scrublet calibrado,1760,0,0.357955,0.0714124
+V2,fração intrônica alta,160,0,0.4625,0.00838812
+V3,baixo conteúdo (< 1.000 UMIs),730,3,0.550685,0.0830407
+V3,rótulo automático não-T,1236,8,0.183657,0.804965
+V3,sinal de célula B,263,8,0.882129,0.822695
+V3,conjugado T–B,69,8,0.84058,0.205674
+V3,Scrublet calibrado,1760,0,0.336932,0.0735094
+V3,fração intrônica alta,160,0,0.4375,0.00867733

@@ -1,0 +1,6 @@
+comparação,o que mede,clusters,ARI,NMI,vizinhos em comum (mediana)
+V1 × V2,efeito da PCA,14 × 10,0.0834228,0.164834,0
+V2 × V3,efeito do universo de genes,10 × 13,0.524032,0.600435,0.4
+V1 × V3,os dois efeitos,14 × 13,0.0789091,0.168206,0
+V3 × V3 (outra semente),"referência: mesma análise, outra semente do Leiden",13 × 14,0.576923,0.706066,1
+corrida antiga: original × PCA corrigida,"o mesmo efeito da PCA, medido na auditoria anterior",13 × 10,0.0883131,0.167002,

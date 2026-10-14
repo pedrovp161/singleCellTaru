@@ -1,0 +1,4 @@
+grafo,separação NS × ML (mediana das bibliotecas),separação: mínimo,separação: máximo,iLISI de pacientes (mediana),iLISI de pacientes esperado,clusters,ARI contra a V3,células no cluster pareado com a V3,vizinhos em comum com a V3 (mediana)
+antes do Harmony (PCA),0.606791,0.351684,0.938112,1.25581,4.11284,,,,
+"Harmony por biblioteca (V3, original)",0.21988,-0.160547,0.663426,2.84252,4.11284,13,,,
+Harmony por paciente,0.628269,0.312041,0.929604,2.5974,4.11284,13,0.501865,0.678445,0.6

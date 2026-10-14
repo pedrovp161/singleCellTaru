@@ -1,0 +1,7 @@
+linha,resultado,o_que_prova,o_que_nao_prova
+aritmética do carregamento,"taxa esperada ≤ 1,5% nas bibliotecas pequenas; doublets reduzem a contagem em no máximo 2×","doublets não podem, sozinhos, explicar déficits de mais de 2×",se há ou não excesso de doublets
+régua de RNA,"teto de doublets T+T de 0,0%–4,1% nas bibliotecas pequenas; correlação com o nº de células 0,87",não há excesso de doublets de células T nas bibliotecas de baixa recuperação,a taxa exata nas bibliotecas de distribuição larga (CTH97_ML)
+contaminantes como segunda espécie,"70 doublets T + B validados (4,4× o esperado ao acaso), 0,20% dos barcodes",existem pares T–B pré-formados na suspensão (conjugados selecionados como CD4⁺),a taxa de pares T + T: o viés do sorting impede a extrapolação
+Scrublet,"0,18% chamadas com threshold automático; pega 1 de 70 doublets validados",nada sobre a taxa de doublets: o método não os enxerga nesta amostra,ausência de doublets
+TRBC1/TRBC2,34% das células T são 'mistas'; controle com uma célula T: 53%,nada: a exclusão mútua não vale no nível de RNA,—
+o que ficou fora das células,"material nuclear de células mortas abundante em CTH97_NS, PB21_NS, MB34_NS; quase ausente nas bibliotecas com menos células","morte celular antes da captura em três bibliotecas; nas menores, falta de células na entrada",quantas células foram carregadas

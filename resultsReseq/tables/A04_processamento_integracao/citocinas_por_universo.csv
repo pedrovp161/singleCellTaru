@@ -1,0 +1,17 @@
+citocina,células positivas,na interseção,na união,gene variável na interseção,gene variável na união
+IFNG,1098,True,True,True,True
+TNF,2319,True,True,True,True
+IL2,95,False,True,False,True
+IL4,104,False,True,False,False
+IL5,307,True,True,True,True
+IL9,143,False,True,False,True
+IL10,58,False,True,False,False
+IL13,68,False,True,False,True
+IL17A,81,False,True,False,True
+IL17F,315,False,True,False,True
+IL21,86,False,True,False,True
+IL22,355,False,True,False,True
+CSF2,137,False,True,False,False
+IL26,265,True,True,False,False
+IL31,11,False,True,False,False
+IL3,0,False,False,False,False

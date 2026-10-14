@@ -1,0 +1,9 @@
+item,veredito,evidencia,acao
+células de baixo conteúdo (< 1.000 UMIs),opcional,"730 células (2,1%), só em CTH92_ML, CTH97_ML; perfil mais próximo das demais células (r = 0,79–0,91) que do ambiente (r = 0,59–0,85)","manter; conferir em A05 se formam cluster próprio e, se formarem, aplicar piso de 1.000 UMIs"
+RNA ambiente,não necessário,"ρ de 0,2% a 3,3% por célula T (mediana 0,8%)",sem correção para a integração; cautela com eventos de 1 UMI de citocinas (ver C03)
+fração intrônica (células danificadas no objeto),não necessário,"só 0,5% das células mantidas acima de mediana + 5·MAD da própria biblioteca; a variação é entre bibliotecas (8%–40%)",sem filtro adicional; os barcodes de perfil nuclear já ficam fora pela chamada do Cell Ranger
+contaminantes não-T,"necessário, na etapa de anotação","3,5% das células mantidas não são rotuladas como T pela anotação automática (até 6,8% em PB20_ML)","remover não-T depois do clustering, como no fluxo anterior; fora do escopo desta etapa"
+universo de genes (inner join),necessário,18.852 genes na interseção contra 31.765 na união com ≥ 3 células; 12 de 16 citocinas perdidas,união + filtro global (variante V3 de A04)
+HVGs — genes de TCR/IG e de reads isolados,opcional,"10 TCR-V, 22 IG e 84 de reads isolados entre os 2000 HVGs da união",excluir da seleção de HVGs na etapa de refinamento; não altera esta etapa
+peso da biblioteca de poucas células na seleção de HVGs,não necessário,tirar HNP44_NS da seleção muda 146 de 2000 HVGs,manter batch_key por biblioteca
+biblioteca atípica CTH97_ML,atenção na interpretação,1.010 genes medianos e fração intrônica de 8%; concentra a resposta de citocinas,não remover; analisar citocinas por biblioteca

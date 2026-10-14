@@ -1,0 +1,9 @@
+verificação,original gravado,réplica (V1),confere
+células × genes após a concatenação,34.931 × 17.761,34.931 × 17.761,True
+células na mesma ordem e na mesma biblioteca,—,sim,True
+genes variáveis em comum,2.000,2.000,True
+variância nas 50 componentes,"98,2%","98,2%",True
+menor |r| nas 10 primeiras componentes da PCA,1,"1,0000",True
+menor |r| nas 10 primeiras dimensões do Harmony,1,"1,0000",True
+"clusters do Leiden 0,5",14,14,True
+índice de Rand ajustado entre os dois agrupamentos,1,"1,0000",True

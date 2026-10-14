@@ -1,0 +1,13 @@
+,V3 × V3 sem genes técnicos
+genes variáveis trocados,118
+  TCR (V),10
+  imunoglobulina,22
+  reads isolados (C03),83
+"  sexo (XIST, Y)",3
+clusters (V3 → sem genes técnicos),13 → 13
+ARI,0.39534646699349674
+NMI,0.5861558313048816
+células que ficam no cluster pareado,0.5644535706137349
+vizinhos em comum com a V3 (mediana),0.5333333333333333
+referência: vizinhos em comum V2 × V3,0.4
+ARI de referência entre sementes,0.5769233778192405

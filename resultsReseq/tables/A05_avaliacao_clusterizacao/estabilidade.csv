@@ -1,0 +1,4 @@
+variante,ARI com o agrupamento gravado em A04,ARI entre sementes (média),ARI entre sementes (mínimo),clusters por semente,"clusters de 0,1 a 1,0",maior intervalo de resolução sem mudar o nº de clusters,ARI entre resoluções vizinhas (mínimo),"clusters estáveis (Jaccard ≥ 0,75)","clusters instáveis (Jaccard < 0,5)",células em clusters instáveis
+V1,1,0.536263,0.454858,14 / 15 / 14 / 15,4 → 23,0.1,0.448842,3,4,0.243412
+V2,1,0.577769,0.497308,10 / 10 / 14 / 12,6 → 17,0.1,0.545128,5,3,0.254506
+V3,1,0.520447,0.442799,13 / 14 / 13 / 13,7 → 20,0.1,0.529447,6,1,0.142511
