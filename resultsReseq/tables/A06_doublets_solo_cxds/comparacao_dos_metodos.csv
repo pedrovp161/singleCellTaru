@@ -1,0 +1,7 @@
+método,chamadas,% das células,T + B validados pegos,sensibilidade,IC 95% inf,IC 95% sup,B sozinhas chamadas,UMIs das chamadas (× mediana da biblioteca),ρ (fração chamada × nº de células)
+Scrublet automático,62,0.00176507,1/70,0.0142857,0.00252625,0.0765819,2/196,1.33878,-0.776678
+Scrublet calibrado,1807,0.0514434,19/70,0.271429,0.181196,0.385443,3/196,1.40376,
+"Solo padrão (p > 0,5)",5175,0.147327,49/70,0.7,0.584557,0.794634,25/196,1.86211,-0.287912
+Solo calibrado,1558,0.0443546,20/70,0.285714,0.193222,0.400502,5/196,2.12457,
+cxds calibrado,1558,0.0443546,21/70,0.3,0.205366,0.415443,4/196,2.29015,
+consenso (≥ 2 dos 3 calibrados),1180,0.0335933,20/70,0.285714,0.193222,0.400502,2/196,2.18935,

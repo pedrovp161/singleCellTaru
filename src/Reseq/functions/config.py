@@ -190,6 +190,10 @@ MULTIPLET_RATE_PER_1000 = 0.008
 
 RANDOM_STATE = 42
 
+#: Biblioteca R isolada com o scds (fora do renv do projeto), usada só para
+#: conferir a reimplementação do cxds em A06.
+SCDS_R_LIB = Path("/home/pedrovp/R/reseq-scds")
+
 #: Números gravados nas saídas do notebook original (preprocessing.ipynb), usados
 #: para validar a réplica sobre os dados antigos.
 OLD_N_RAW = {

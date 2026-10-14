@@ -1,0 +1,4 @@
+método,doublets T + B validados,comportamento
+Scrublet (A03),"AUC 0,70; calibrado pega 19/70","automático: 0,18% chamadas"
+Solo,"AUC 0,82; calibrado pega 20/70","padrão: 14,7% chamadas; ρ com o nº de células -0,29; B sozinhas chamadas 25/196"
+cxds,"AUC 0,73; calibrado pega 21/70",pares que dirigem as chamadas: outros × outros 100%

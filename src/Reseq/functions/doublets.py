@@ -152,3 +152,70 @@ def mantel_haenszel_or(tables: list[np.ndarray]) -> tuple[float, float, float]:
     se = np.sqrt(var)
     return (float(or_mh), float(np.exp(np.log(or_mh) - 1.959964 * se)),
             float(np.exp(np.log(or_mh) + 1.959964 * se)))
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# cxds (scds) — coexpressão de genes mutuamente exclusivos
+# ─────────────────────────────────────────────────────────────────────────────
+
+def cxds(counts, ntop: int = 500, bin_thresh: float = 0) -> dict:
+    """cxds (Bais & Kostka, 2020), a mesma conta do pacote ``scds``.
+
+    Binariza as contagens, escolhe os ``ntop`` genes de maior variância da
+    presença (p·(1 − p)) e, para cada par de genes, mede o quanto eles são
+    mutuamente exclusivos: o número de células com exatamente um dos dois é
+    comparado a uma binomial com a probabilidade esperada sob independência, e
+    o par recebe ``−log P(X ≥ observado)``. O score de uma célula é a soma desses
+    pesos sobre os pares que ela expressa juntos — alto quando a célula carrega
+    programas que normalmente não convivem.
+
+    ``counts``: células × genes de **uma** biblioteca. Devolve o score por
+    célula, os índices dos genes usados e a matriz de pesos dos pares.
+    """
+    import scipy.sparse as sp
+    from scipy.stats import binom
+
+    B = sp.csr_matrix(counts) > bin_thresh
+    n = B.shape[0]
+    ps = np.asarray(B.mean(axis=0)).ravel()
+    top = np.argsort(-(ps * (1 - ps)), kind="stable")[:ntop]
+    Bp = B[:, top].toarray().astype(np.float64)
+    p = Bp.mean(axis=0)
+    prb = np.outer(p, 1 - p)
+    prb = prb + prb.T
+    obs = Bp.T @ (1 - Bp)
+    obs = obs + obs.T
+    S = -binom.logsf(obs - 1, n, np.clip(prb, 0, 1))
+    np.fill_diagonal(S, 0)
+    S[~np.isfinite(S)] = np.nanmax(S[np.isfinite(S)])
+    score = ((Bp @ S) * Bp).sum(axis=1)
+    return {"score": score, "genes": top, "S": S}
+
+
+def cxds_r(counts, ntop: int = 500, r_lib: str | None = None) -> np.ndarray | None:
+    """O mesmo score calculado pelo pacote ``scds`` no R, para conferência.
+
+    Grava a matriz num diretório temporário, roda ``functions/cxds.R`` com a
+    biblioteca R isolada e lê o score de volta. Devolve ``None`` se o R ou o
+    ``scds`` não estiverem disponíveis.
+    """
+    import os
+    import subprocess
+    import tempfile
+    from pathlib import Path
+
+    import scipy.io
+    import scipy.sparse as sp
+
+    script = Path(__file__).with_name("cxds.R")
+    env = dict(os.environ)
+    if r_lib:
+        env["R_LIBS_USER"] = r_lib
+    with tempfile.TemporaryDirectory() as d:
+        scipy.io.mmwrite(f"{d}/m.mtx", sp.csr_matrix(counts).T.astype(np.int64))
+        r = subprocess.run(["Rscript", "--vanilla", str(script), d, str(ntop)], env=env,
+                           capture_output=True, text=True, cwd=d)
+        if r.returncode != 0 or not os.path.exists(f"{d}/score.txt"):
+            print(r.stderr[-800:])
+            return None
+        return np.loadtxt(f"{d}/score.txt")

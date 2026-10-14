@@ -24,6 +24,7 @@ O resultado, com todos os números, está em
 | A baixa recuperação de células vem de doublets? | `analise/A03_doublets_recuperacao` |
 | O processamento original, aplicado aos dados novos, dá o quê? E corrigido? | `analise/A04_processamento_integracao` |
 | Os clusters descrevem estados celulares ou artefatos? Os problemas antigos se repetem? | `analise/A05_avaliacao_clusterizacao` |
+| Outros detectores de doublets (Solo, cxds) mudam a conclusão? | `analise/A06_doublets_solo_cxds` |
 
 ## O que cada notebook faz
 
@@ -77,6 +78,13 @@ estabilidade (sementes e resolução), QC por cluster, concordância com a corri
 antiga, citocinas por cluster e o veredito "repete / não repete" para cada
 problema da análise anterior.
 
+**A06 — Solo e cxds.** Dois detectores de doublets com lógicas diferentes do
+Scrublet: o Solo (scvi-tools; scVI treinado em todas as células na GPU e um
+classificador por biblioteca) e o cxds (pares de genes mutuamente exclusivos,
+sem simulação; reimplementado em Python e conferido contra o pacote `scds` do
+R). Avaliados contra os 70 doublets T + B validados em A03, contra células B
+sozinhas (controle negativo), pelo conteúdo de RNA e pela taxa esperada do 10x.
+
 ## Estrutura
 
 ```text
@@ -89,13 +97,14 @@ src/Reseq/
 │   ├── compare.py          # pareamento antiga × nova
 │   ├── rarefaction.py      # rarefação analítica a partir de molecule_info.h5
 │   ├── qc.py               # réplica do QC, RNA ambiente
-│   ├── doublets.py         # testes da hipótese de doublets
+│   ├── doublets.py         # testes da hipótese de doublets; cxds
+│   ├── cxds.R              # cxds do pacote scds, só para conferência
 │   ├── pipeline.py         # variantes V1–V3, seleção de HVG, métricas de avaliação
 │   ├── plotting.py, fmt.py # estilo das figuras e números em português
 │   ├── issues.py           # registro de problemas por notebook
 │   └── legacy.py           # acesso às funções de src/scripts/claude/functions
 ├── comparativa/            # C01–C03 (.py + .ipynb executado)
-└── analise/                # A01–A05 (.py + .ipynb executado)
+└── analise/                # A01–A06 (.py + .ipynb executado)
 
 dataReseq/                  # objetos (parquet, h5ad) + MANIFEST.jsonl — fora do git
 resultsReseq/
@@ -116,6 +125,7 @@ resultsReseq/
 | `A04_processamento_integracao/reseq_integrado.h5ad` | **o objeto integrado** (ver abaixo) |
 | `A04_processamento_integracao/antiga_variantes.parquet` | a corrida antiga processada pelas três variantes (clusters por célula) |
 | `C03_rarefacao_citocinas/mol_*.parquet` | resumos do `molecule_info.h5` (a passada leva ~6 min) |
+| `A06_doublets_solo_cxds/flags_solo_cxds*.parquet` | probabilidade do Solo, score do cxds, chamadas e consenso, por célula |
 
 O objeto integrado tem 35.064 células e o universo completo de genes. `X` é a
 lognorm e `layers["counts"]` as contagens, conferidas entrada por entrada
@@ -141,9 +151,12 @@ cd src/Reseq
 ```
 
 A ordem importa, porque cada etapa lê o que a anterior gravou:
-C01 → C02 → C03 → A01 → A02 → A03 → A04 → A05. A cadeia inteira leva perto de
-uma hora. Ambiente: `/mnt/SATA/singleCellTaru/.venv` (scanpy 1.11, anndata
-0.12, harmonypy 2.0, spatools 0.38).
+C01 → C02 → C03 → A01 → A02 → A03 → A04 → A05 → A06. A cadeia inteira leva
+perto de uma hora e meia. Ambiente: `/mnt/SATA/singleCellTaru/.venv` (scanpy
+1.11, anndata 0.12, harmonypy 2.0, spatools 0.38, scvi-tools 1.4 com GPU).
+O A06 confere o cxds contra o `scds` 2.0.0, instalado numa biblioteca R
+isolada em `~/R/reseq-scds` (fora do `renv` do projeto); sem ela, o notebook
+roda só com a reimplementação.
 
 * `RESEQ_OUT=<pasta>` grava em `<pasta>/dataReseq` e `<pasta>/resultsReseq`
   (modo de teste; nada vai para o projeto).
