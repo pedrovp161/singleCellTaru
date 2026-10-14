@@ -1,0 +1,1506 @@
+Claro. Abaixo está o **prompt completo já consolidado**, incluindo a alteração de que o preprocessing inicial **não deve ser auditado**, enquanto doublets em diante pode ser auditado/refeito.
+
+````text
+# PROJETO — Auditoria, reconstrução e análise integrada de scRNA-seq de células T CD4+ em hanseníase
+
+Você está trabalhando em um projeto de bioinformática/imunologia baseado em scRNA-seq de PBMCs de pacientes com hanseníase submetidos a sorting de células T CD4+.
+
+Seu objetivo NÃO é simplesmente executar uma lista de análises. Você deve atuar como um bioinformata sênior, realizando uma análise crítica do pipeline a partir da detecção de doublets, validando as anotações existentes, propondo uma nomenclatura modular para as células T CD4+ e executando as análises estatísticas e biológicas solicitadas.
+
+Você deve procurar ativamente erros próprios e erros existentes no pipeline, corrigir o que for necessário, executar novamente e continuar iterando até que todas as tarefas tenham sido concluídas ou exista um bloqueio real que não possa ser resolvido com os dados disponíveis.
+
+Não considere o trabalho concluído apenas porque os notebooks executaram sem erros.
+
+---
+
+# 1. DADO PRINCIPAL
+
+O objeto AnnData principal deste projeto está em:
+
+/mnt/SATA/singleCellTaru/data/adata_harmony_subset_T_no8_.h5ad
+
+Esse objeto foi originado de várias amostras de single-cell de PBMCs de pacientes com hanseníase, nas quais foi realizado sorting para células T CD4+.
+
+O objeto já passou por diversas etapas de processamento e possui anotações prévias.
+
+Use esse objeto como principal ponto de partida das análises atuais.
+
+Não sobrescreva o arquivo original.
+
+Quando precisar produzir uma versão modificada, salve em um novo arquivo claramente identificado.
+
+---
+
+# 2. IMPORTANTE — LIMITE DA AUDITORIA DO PIPELINE
+
+## NÃO AUDITAR O PREPROCESSAMENTO INICIAL
+
+O preprocessing inicial já foi realizado e deve ser considerado como uma etapa previamente concluída.
+
+Não quero que você refaça ou audite sistematicamente essa etapa apenas por preferência metodológica.
+
+Considere como pré-processamento já realizado:
+
+```text
+dados originais
+→ preprocessing inicial / QC
+→ normalização inicial
+→ demais etapas básicas já realizadas
+````
+
+Não refaça essas etapas sem uma evidência concreta de que existe um erro que comprometa diretamente as análises posteriores.
+
+---
+
+# 3. A PARTIR DA DETECÇÃO DE DOUBLETS, AUDITE CRITICAMENTE
+
+A partir da detecção de doublets, quero uma auditoria completa.
+
+Audite, valide e, quando necessário, refaça:
+
+```text
+detecção de doublets
+→ remoção/filtragem de doublets
+→ processamento posterior
+→ seleção de HVGs
+→ integração
+→ PCA/representações
+→ construção do grafo
+→ UMAP
+→ clustering
+→ seleção da resolução
+→ anotação
+```
+
+Se encontrar um problema:
+
+1. identifique o problema;
+2. classifique sua gravidade;
+3. explique seu impacto;
+4. proponha uma correção;
+5. implemente a correção;
+6. compare com o resultado original;
+7. documente a alteração.
+
+Nunca sobrescreva silenciosamente o resultado original.
+
+---
+
+# 4. ARQUIVOS EXISTENTES
+
+O projeto possui, entre outros, arquivos como:
+
+```text
+data/adata_harmony_subset_T_no8_.h5ad
+data/adata_harmony_subset_T_no8.h5ad
+data/adata_harmony_subset_T.h5ad
+data/adata_harmony.h5ad
+data/adata_scanorama.h5ad
+
+src/scripts/classificaModular_updated.ipynb
+src/scripts/classificaModular.ipynb
+src/scripts/clustertree.ipynb
+src/scripts/benchmark.ipynb
+src/scripts/preprocessing.ipynb
+src/scripts/processing.ipynb
+src/scripts/README_analise_vias.md
+src/scripts/metadata_updated.csv
+src/scripts/modular_classification_summary.csv
+src/scripts/modular_state_heatmap.pdf
+src/scripts/modular_umap_annotated.pdf
+```
+
+Leia os arquivos relevantes antes de executar análises que dependam deles.
+
+Em particular, consulte:
+
+```text
+classificaModular_updated.ipynb
+clustertree.ipynb
+benchmark.ipynb
+README_analise_vias.md
+```
+
+e outros scripts relacionados quando necessário.
+
+Não assuma que os notebooks antigos estão corretos apenas porque foram executados anteriormente.
+
+---
+
+# 5. SEPARAÇÃO ENTRE MEU CÓDIGO E SEU CÓDIGO
+
+Quero conseguir diferenciar claramente meu código original do código criado por você.
+
+Crie uma área própria para suas análises, por exemplo:
+
+```text
+src/scripts/claude/
+```
+
+Organize-a aproximadamente assim:
+
+```text
+src/scripts/claude/
+├── 01A_*.ipynb
+├── 01B_*.ipynb
+├── 02A_*.ipynb
+├── 02B_*.ipynb
+├── 03A_*.ipynb
+├── ...
+└── functions/
+    ├── *.py
+    ├── ...
+```
+
+Você pode modificar essa organização se encontrar uma estrutura melhor, mas mantenha a separação conceitual:
+
+```text
+notebooks = análise, execução e visualização
+
+functions/*.py = funções auxiliares, código pesado e código reutilizável
+```
+
+Não coloque funções longas dentro dos notebooks.
+
+Se uma função for reutilizada ou ficar grande, mova-a para `functions/`.
+
+Não altere meus scripts originais sem necessidade.
+
+Quando precisar corrigir um script existente, preserve a versão original e crie uma versão corrigida claramente identificada, salvo se houver uma razão forte para fazer diferente.
+
+---
+
+# 6. NOTEBOOKS
+
+Os notebooks devem ser numerados a partir de 01.
+
+Exemplo:
+
+```text
+01A_composicao_estatistica.ipynb
+01B_composicao_biologica.ipynb
+
+02A_auditoria_anotacao.ipynb
+02B_anotacao_modular.ipynb
+
+03A_analise_vias_ORA.ipynb
+03B_comparacao_vias.ipynb
+03C_interpretacao_biologica.ipynb
+
+04A_desenho_experimental.ipynb
+04B_comparacoes_estatisticas.ipynb
+04C_comparacoes_biologicas.ipynb
+
+05A_benchmark_integracao.ipynb
+05B_benchmark_visualizacao.ipynb
+```
+
+A estrutura final deve ser decidida depois de entender o projeto.
+
+Não crie notebooks desnecessariamente.
+
+Divida em A/B/C quando a separação entre estatística, análise biológica e visualização realmente melhorar a organização.
+
+---
+
+# 7. REQUISITO VISUAL
+
+Quero que o projeto seja MUITO visual e organizado.
+
+Principalmente os notebooks.
+
+Cada notebook deve começar com:
+
+1. título;
+2. objetivo;
+3. pergunta biológica;
+4. dados utilizados;
+5. metodologia;
+6. decisões importantes;
+7. análise;
+8. visualizações;
+9. interpretação;
+10. limitações;
+11. conclusão.
+
+Evite notebooks que sejam simplesmente grandes blocos de código.
+
+Produza, quando apropriado:
+
+* UMAPs;
+* dotplots;
+* heatmaps;
+* forest plots;
+* volcano plots;
+* pathway dotplots;
+* enrichment maps;
+* redes de vias;
+* barras de composição;
+* plots por paciente;
+* plots de efeito;
+* plots de estabilidade;
+* clustree;
+* matrizes de comparação;
+* plots de benchmark.
+
+As figuras devem ter:
+
+* títulos;
+* eixos claros;
+* legendas;
+* nomes consistentes;
+* resolução adequada;
+* dimensões adequadas para publicação.
+
+---
+
+# 8. AUDITORIA INICIAL DO ANNData
+
+Embora o preprocessing inicial não deva ser auditado, faça uma inspeção estrutural do objeto para saber exatamente o que existe.
+
+Inspecione:
+
+```python
+adata.shape
+adata.obs.columns
+adata.var.columns
+adata.obsm.keys()
+adata.layers.keys()
+adata.uns.keys()
+adata.raw
+```
+
+Determine:
+
+* qual matriz contém counts;
+* qual matriz contém expressão normalizada;
+* quais layers existem;
+* qual embedding integrado existe;
+* qual PCA existe;
+* qual UMAP existe;
+* qual grafo de vizinhança existe;
+* qual coluna representa paciente/amostra;
+* qual coluna representa batch;
+* qual coluna representa classificação;
+* qual coluna representa estímulo;
+* qual coluna representa cluster;
+* quais anotações já existem.
+
+Não suponha nomes de colunas.
+
+Descubra-os.
+
+Crie uma tabela de metadados contendo:
+
+```text
+field
+type
+meaning
+number_of_levels
+missing_values
+example_values
+```
+
+---
+
+# 9. AUDITORIA DE DOUBLETS
+
+A partir daqui começa a auditoria crítica.
+
+Leia o código usado para detecção de doublets.
+
+Determine:
+
+* qual método foi usado;
+* quais parâmetros;
+* em qual momento foi executado;
+* se foi feito por amostra/batch quando necessário;
+* qual foi o threshold;
+* quantos doublets foram detectados;
+* quantos foram removidos;
+* distribuição por amostra;
+* se existe alguma evidência de remoção excessiva ou insuficiente.
+
+Avalie se a estratégia foi adequada para os dados.
+
+Se necessário, teste uma abordagem alternativa.
+
+Não simplesmente substitua o método existente: compare.
+
+Produza uma tabela:
+
+```text
+sample
+n_cells_before
+n_doublets
+doublet_fraction
+n_cells_after
+```
+
+Procure especialmente diferenças anormais entre amostras.
+
+---
+
+# 10. AUDITORIA DO PROCESSAMENTO PÓS-DOUBLET
+
+Depois da remoção dos doublets, audite:
+
+* HVGs;
+* normalização posterior, se houver;
+* regressão;
+* scaling;
+* PCA;
+* integração;
+* neighbors;
+* UMAP;
+* clustering.
+
+Verifique:
+
+* se as etapas estão na ordem correta;
+* se algum objeto foi reutilizado de maneira incorreta;
+* se houve leakage;
+* se a matriz correta foi utilizada;
+* se parâmetros são coerentes;
+* se diferentes notebooks possuem pipelines conflitantes.
+
+Não audite/refaça o preprocessing inicial anterior aos doublets sem motivo concreto.
+
+---
+
+# 11. INTEGRAÇÃO
+
+Determine exatamente quais métodos foram utilizados.
+
+Entre os métodos relevantes estão:
+
+* Harmony;
+* Scanorama;
+* scVI;
+* BBKNN.
+
+Determine para cada método:
+
+```text
+input
+output
+embedding
+expression representation
+neighbors graph
+batch variable
+parameters
+```
+
+Não confunda:
+
+```text
+integração
+```
+
+com:
+
+```text
+expressão gênica
+```
+
+Uma representação integrada/embedding não deve ser automaticamente usada como matriz de expressão para DE ou pathway analysis.
+
+---
+
+# 12. SELEÇÃO DA RESOLUÇÃO
+
+Existe atualmente uma escolha de resolução baseada em silhouette.
+
+Não aceite automaticamente essa resolução como “a resolução biologicamente correta”.
+
+Reavalie a seleção usando uma abordagem multicritério envolvendo, quando apropriado:
+
+* silhouette;
+* estabilidade dos clusters;
+* tamanho dos clusters;
+* qualidade dos marcadores;
+* especificidade dos marcadores;
+* estabilidade entre pacientes;
+* estabilidade entre batches;
+* clustree;
+* coerência biológica;
+* separação em UMAP;
+* comparação entre resoluções adjacentes.
+
+Leia:
+
+```text
+src/scripts/clustertree.ipynb
+src/scripts/classificaModular_updated.ipynb
+```
+
+e reconstrua como a resolução atual foi escolhida.
+
+Produza uma justificativa final para a resolução escolhida.
+
+---
+
+# 13. ANOTAÇÃO ATUAL
+
+A anotação atual contém aproximadamente:
+
+```python
+celltype_map = {
+    "0": "CD4_CTL",
+    "1": "CD4_CTL_Effector",
+    "2": "CD4_TH1",
+    "3": "CD4_pTREG",
+    "4": "CD4_TH2_17",
+    "5": "TFR",
+    "6": "CD4_TH9",
+    "7": "CD4_TH2_17",
+    "8": "CD4_TH2_17",
+    "9": "CD4_tTREG",
+    "10": "CD4_TFH",
+    "11": "CD4_TH9",
+    "12": "CD4_TFH",
+    "13": "CD4_MZ_TFH",
+    "14": "CD4_CTL_Effector",
+    "15": "CD4_eTREG",
+    "16": "TFR"
+}
+```
+
+E uma classificação broad:
+
+```python
+broad_map = {
+    "CD4_CTL": "CD4_Effector",
+    "CD4_CTL_Effector": "CD4_Effector",
+    "CD4_TH1": "CD4_Effector",
+
+    "CD4_TH2_17": "CD4_Helper",
+    "CD4_TH9": "CD4_Helper",
+
+    "CD4_TFH": "CD4_TFH",
+    "CD4_MZ_TFH": "CD4_TFH",
+
+    "CD4_pTREG": "Treg",
+    "CD4_tTREG": "Treg",
+    "CD4_eTREG": "Treg",
+    "TFR": "Treg"
+}
+```
+
+Audite criticamente essa anotação.
+
+Não assuma que os labels estão corretos.
+
+---
+
+# 14. ARTIGO DE NOMENCLATURA DE CÉLULAS T
+
+A anotação inicial foi baseada em:
+
+[https://www.nature.com/articles/s41577-025-01238-2](https://www.nature.com/articles/s41577-025-01238-2)
+
+“Guidelines for T cell nomenclature”.
+
+Leia o artigo como fonte primária.
+
+Quero que você determine, para cada assinatura:
+
+1. quais marcadores realmente estão no consenso;
+2. quais foram adicionados por mim;
+3. quais são proxies;
+4. quais são inespecíficos;
+5. quais são problemáticos em scRNA-seq;
+6. quais marcadores estão ausentes no dataset;
+7. quais populações têm sobreposição;
+8. quais classificações são excessivamente específicas;
+9. quais classificações não podem ser inferidas apenas por transcriptoma.
+
+Crie uma tabela:
+
+```text
+current_label
+supporting_markers
+contradictory_markers
+missing_markers
+consensus_support
+proxy_markers
+potential_confounders
+confidence
+recommendation
+```
+
+---
+
+# 15. ASSINATURAS ATUAIS
+
+As assinaturas que utilizei foram:
+
+```python
+cd4_signatures = {
+    "TH1": {
+        "high": ["TBX21", "IFNG", "CXCR3", "TNF"],
+        "low": ["CCR4", "CCR6", "CXCR5"]
+    },
+
+    "TH2": {
+        "high": ["GATA3", "PTGDR2", "CCR4", "IL4", "IL5", "IL13"],
+        "low": ["CXCR3", "CCR6", "CXCR5", "IFNG"]
+    },
+
+    "TH9": {
+        "high": ["SPI1", "IRF4", "BATF", "IL9", "CCR8", "CCR4", "PPARG"],
+        "low": ["CXCR3", "CCR6", "CXCR5"]
+    },
+
+    "TH17": {
+        "high": ["RORC", "IL17A", "IL17F", "CCR6", "IL23R"],
+        "low": ["CXCR3", "CXCR5", "CCR3"]
+    },
+
+    "CD4_CTL": {
+        "high": ["GZMB", "GNLY", "NKG7", "PRF1", "CX3CR1", "EOMES"],
+        "low": ["CCR7", "CD27"]
+    },
+
+    "TFH": {
+        "high": ["BCL6", "CXCR5", "ICOS", "PDCD1", "IL21", "TOX2"],
+        "low": []
+    },
+
+    "GC_TFH": {
+        "high": ["BCL6", "CXCR5", "PDCD1", "ICOS"],
+        "low": ["SELPLG"]
+    },
+
+    "MZ_TFH": {
+        "high": ["SELPLG", "CXCR4"],
+        "low": ["BCL6", "CXCR5", "PDCD1"]
+    },
+
+    "TFHM": {
+        "high": ["TCF7", "CXCR4", "P2RX7"],
+        "low": ["FOXP3"]
+    },
+
+    "Treg": {
+        "high": ["FOXP3", "IL2RA", "CTLA4", "TNFRSF18"]
+    },
+
+    "tTreg": {
+        "high": ["FOXP3", "IL2RA", "CTLA4", "TNFRSF18", "IKZF2", "NRP1"]
+    },
+
+    "pTreg": {
+        "high": ["FOXP3", "IL2RA", "CTLA4", "TNFRSF18"],
+        "low": ["IKZF2", "NRP1"]
+    },
+
+    "eTreg": {
+        "high": ["FOXP3", "IL2RA", "CCR8", "ICOS", "IRF4", "IL10", "TGFB1", "IKZF2"]
+    },
+
+    "TFR": {
+        "high": ["CXCR5", "FOXP3", "TNFRSF18", "IL10", "BCL6", "PDCD1"]
+    }
+}
+```
+
+Audite completamente essas assinaturas.
+
+---
+
+# 16. BUG A SER INVESTIGADO OBRIGATORIAMENTE
+
+Existe uma possível falha importante no código utilizado para construir `broad_signatures`.
+
+O código original faz:
+
+```python
+for j in cd4_signatures[i]
+```
+
+mas `cd4_signatures[i]` é um dicionário contendo:
+
+```python
+"high"
+"low"
+```
+
+Portanto, existe a possibilidade de o código estar iterando sobre as chaves `"high"` e `"low"` em vez dos genes.
+
+Teste isso explicitamente.
+
+Se for um bug:
+
+1. demonstre o comportamento;
+2. corrija;
+3. identifique quais análises foram afetadas;
+4. refaça as análises afetadas;
+5. compare resultados antes/depois.
+
+Procure outros bugs semelhantes.
+
+---
+
+# 17. NÃO TRATAR TODOS OS SUBTIPOS COMO CATEGORIAS MUTUAMENTE EXCLUSIVAS
+
+Avalie cuidadosamente a diferença entre:
+
+* linhagem;
+* função;
+* estado de ativação;
+* memória;
+* diferenciação;
+* migração;
+* ontogenia;
+* regulação;
+* citotoxicidade;
+* propriedades foliculares.
+
+Particular atenção:
+
+```text
+TFH
+GC_TFH
+MZ_TFH
+TFHM
+
+Treg
+tTreg
+pTreg
+eTreg
+TFR
+```
+
+Não force uma célula a pertencer a uma única categoria se o modelo biológico for modular.
+
+---
+
+# 18. NOVA NOMENCLATURA MODULAR
+
+Além de validar a anotação existente, proponha uma nova nomenclatura baseada no consenso de 2025.
+
+Não quero simplesmente uma nova lista de “subtipos”.
+
+Quero uma representação modular.
+
+Quando suportado pelos dados, considere módulos como:
+
+```text
+lineage
+function
+differentiation
+memory
+activation
+migration
+cytotoxicity
+regulatory
+follicular
+```
+
+A anotação final pode conceitualmente representar algo como:
+
+```text
+CD4+ / TH1-like / effector / activated
+
+CD4+ / Treg / effector / activated
+
+CD4+ / TFH-like / memory
+
+CD4+ / cytotoxic / effector
+```
+
+Mas utilize a nomenclatura e estrutura efetivamente propostas pelo consenso quando aplicável.
+
+Não invente categorias.
+
+Quando uma propriedade não puder ser inferida com confiança a partir de scRNA-seq, marque-a como não determinável.
+
+Não confunda:
+
+```text
+gene expression evidence
+```
+
+com:
+
+```text
+proof of biological ontogeny
+```
+
+Se não for possível distinguir tTreg de pTreg com segurança, diga isso.
+
+Se não for possível provar GC-TFH/MZ-TFH exclusivamente por scRNA-seq, diga isso.
+
+---
+
+# 19. ANOTAÇÕES EM CAMADAS
+
+Sempre que possível, mantenha várias camadas:
+
+```text
+celltype_original
+celltype_validated
+celltype_modular
+broad_annotation
+annotation_confidence
+```
+
+E, quando aplicável:
+
+```text
+function_state
+memory_state
+activation_state
+regulatory_state
+follicular_state
+cytotoxic_state
+```
+
+Isso é preferível a destruir a anotação original.
+
+---
+
+# 20. VALIDAÇÃO DA ANOTAÇÃO
+
+Compare:
+
+```text
+anotação original
+marker scores
+DE markers
+module scores
+anotação validada
+anotação modular
+```
+
+Produza:
+
+* UMAP por anotação;
+* dotplot;
+* heatmap;
+* scores dos módulos;
+* distribuição por paciente;
+* distribuição por grupo;
+* confiança por cluster;
+* conflitos entre classificadores.
+
+Não escolha uma anotação apenas porque produz um UMAP visualmente mais bonito.
+
+---
+
+# 21. ANÁLISE DE COMPOSIÇÃO
+
+Uma análise de composição já foi realizada anteriormente.
+
+Quero que ela seja refeita em Python para este objeto.
+
+Use como referência os arquivos/métodos existentes relacionados a:
+
+```text
+xen_composicao.py
+xen_forest.py
+README_08-09_metodologia.md
+main.R
+```
+
+A ideia metodológica existente é:
+
+```text
+contagem/proporção por amostra
+→ filtro de prevalência
+→ CLR
+→ modelo
+→ contraste
+→ BH/FDR
+```
+
+Mas NÃO copie cegamente o método.
+
+Avalie se ele é adequado para esta coorte de single-cell.
+
+A unidade estatística deve ser a amostra/paciente, não a célula.
+
+Não faça pseudorreplicação.
+
+---
+
+# 22. COMPOSIÇÃO — AUDITORIA ESTATÍSTICA
+
+Verifique:
+
+* número de células por amostra;
+* número de pacientes;
+* tamanho dos grupos;
+* células raras;
+* zeros;
+* pseudocount;
+* prevalência;
+* batch;
+* covariáveis;
+* composição total;
+* contrastes.
+
+Para cada resultado, informe:
+
+```text
+effect
+confidence_interval
+raw_p
+adjusted_p
+n_samples
+n_samples_per_group
+```
+
+Produza:
+
+* forest plots;
+* composição por paciente;
+* composição por grupo;
+* distribuição de proporções;
+* efeitos estimados.
+
+---
+
+# 23. DESENHO EXPERIMENTAL
+
+Antes de executar comparações estatísticas, construa uma tabela:
+
+```text
+patient
+sample
+classification
+stimulation
+batch
+number_of_cells
+number_of_TCD4
+```
+
+Depois:
+
+```text
+classification × stimulation
+```
+
+e:
+
+```text
+patient × classification × stimulation
+```
+
+Determine:
+
+* quantos pacientes existem em cada grupo;
+* quais combinações existem;
+* quais estão ausentes;
+* quais têm n pequeno;
+* se estímulo é pareado;
+* se classificação é fixa por paciente;
+* se batch está confundido com grupo;
+* se existe pseudorreplicação.
+
+Não execute análises inferenciais importantes antes dessa auditoria.
+
+---
+
+# 24. GRUPOS
+
+As comparações principais envolvem:
+
+```text
+controle
+paucibacilar
+multibacilar
+neural pura
+```
+
+e dentro dessas classificações:
+
+```text
+estimulado
+não estimulado
+```
+
+Modele o desenho como:
+
+```text
+classification
+stimulation
+classification × stimulation
+```
+
+quando isso for estatisticamente suportado.
+
+Se houver pareamento por paciente, modele-o corretamente.
+
+Considere modelos mistos quando apropriado.
+
+Se o número de amostras for insuficiente, não tente compensar isso tratando células como réplicas.
+
+Nesse caso:
+
+* visualize;
+* quantifique;
+* deixe explícito;
+* classifique como exploratório;
+* não faça conclusões fortes.
+
+---
+
+# 25. ANÁLISE DE EXPRESSÃO
+
+Para comparações experimentais, priorize análise em nível de amostra/paciente quando apropriado.
+
+Considere pseudobulk.
+
+Não trate milhares de células de um mesmo paciente como milhares de réplicas independentes.
+
+Para cada análise informe:
+
+```text
+unit_of_analysis
+n_samples
+n_cells
+model
+covariates
+contrast
+multiple_testing_correction
+```
+
+Se uma análise single-cell for usada como exploratória, deixe isso explicitamente identificado.
+
+---
+
+# 26. ANÁLISE DE VIAS
+
+Refaça em Python as análises de vias existentes.
+
+Leia:
+
+```text
+src/scripts/README_analise_vias.md
+```
+
+e os códigos/resultados existentes relacionados às vias.
+
+Primeiro reconstrua o workflow existente.
+
+Depois audite.
+
+---
+
+# 27. ORA
+
+A análise de vias utiliza ORA.
+
+Preserve a ideia geral do workflow, mas avalie criticamente:
+
+* genes de entrada;
+* definição de DE genes;
+* thresholds;
+* up/down;
+* background/universe;
+* múltiplos testes;
+* redundância;
+* filtros;
+* sobreposição entre vias;
+* interpretação.
+
+O gene universe da ORA deve ser definido de maneira metodologicamente adequada e, quando aplicável, baseado nos genes realmente elegíveis/detectáveis.
+
+Não use automaticamente o genoma inteiro.
+
+---
+
+# 28. FILTRO DE REDUNDÂNCIA
+
+O workflow existente inclui filtro de redundância baseado em Jaccard.
+
+O threshold utilizado foi aproximadamente 10%.
+
+Audite esse procedimento.
+
+Não altere o threshold silenciosamente.
+
+Avalie:
+
+* sensibilidade ao threshold;
+* número de vias mantidas;
+* possibilidade de remoção excessiva;
+* redundância biológica;
+* representação dos processos principais.
+
+Quando útil, produza uma comparação entre thresholds.
+
+---
+
+# 29. COMPARAÇÃO DE VIAS
+
+Não quero apenas análises separadas por grupo.
+
+Compare diretamente as vias.
+
+Identifique:
+
+* vias compartilhadas;
+* vias específicas;
+* vias enriquecidas diferencialmente;
+* vias antagonistas;
+* módulos funcionais;
+* redundância;
+* relações entre vias.
+
+Utilize, quando apropriado:
+
+* Jaccard;
+* enrichment map;
+* redes;
+* clustering de termos;
+* heatmaps;
+* dotplots;
+* comparação de effect sizes;
+* GSEA/fgsea como análise complementar/sensibilidade.
+
+---
+
+# 30. BIOLOGIA DA HANSENÍASE
+
+Procure vias biologicamente relevantes associadas aos grupos:
+
+```text
+controle
+paucibacilar
+multibacilar
+neural pura
+```
+
+e:
+
+```text
+estimulado
+não estimulado
+```
+
+Investigue especialmente:
+
+* ativação de células T;
+* polarização CD4;
+* TH1;
+* TH2;
+* TH17;
+* Treg;
+* TFH;
+* citotoxicidade;
+* interferon;
+* inflamação;
+* apresentação de antígeno;
+* resposta antimicrobiana;
+* metabolismo;
+* diferenciação;
+* memória;
+* regulação imune;
+* interação hospedeiro-patógeno.
+
+Não faça cherry-picking.
+
+Primeiro produza os resultados estatísticos completos.
+
+Só depois interprete biologicamente.
+
+---
+
+# 31. BENCHMARK DE INTEGRAÇÃO
+
+Quero realizar benchmark de:
+
+```text
+Harmony
+Scanorama
+scVI
+BBKNN
+```
+
+IMPORTANTE:
+
+Isso é um benchmark de:
+
+```text
+single-cell integration / batch correction
+```
+
+e NÃO de:
+
+```text
+deconvolution
+```
+
+Não chame esses métodos de métodos de deconvolução.
+
+---
+
+# 32. MÉTRICAS DO BENCHMARK
+
+Avalie separadamente:
+
+## Batch correction
+
+Quando apropriado:
+
+* PCR;
+* kBET;
+* batch ASW;
+* graph connectivity;
+* outras métricas adequadas.
+
+## Biological conservation
+
+Quando apropriado:
+
+* cell type ASW;
+* NMI;
+* ARI;
+* isolated label metrics;
+* graph-based biological conservation.
+
+Utilize scIB quando adequado.
+
+Não compare métodos de forma injusta.
+
+Verifique se cada método está sendo avaliado:
+
+* no mesmo dataset;
+* com os mesmos labels;
+* com o mesmo batch variable;
+* usando outputs comparáveis.
+
+---
+
+# 33. INTEGRAÇÃO NÃO É MATRIZ DE EXPRESSÃO
+
+Regra obrigatória:
+
+Não utilize automaticamente uma matriz integrada para:
+
+* DE;
+* pseudobulk;
+* ORA;
+* GSEA.
+
+Primeiro determine:
+
+```text
+counts
+normalized expression
+integrated representation
+embedding
+neighbors graph
+```
+
+e utilize a representação adequada para cada tarefa.
+
+Documente isso.
+
+---
+
+# 34. FUNÇÕES DE VALIDAÇÃO
+
+Crie funções auxiliares quando necessário, por exemplo:
+
+```python
+validate_adata()
+validate_metadata()
+validate_groups()
+validate_sample_balance()
+validate_layers()
+validate_annotation()
+validate_pathway_input()
+validate_pseudobulk()
+validate_doublets()
+```
+
+Essas funções devem detectar problemas como:
+
+* coluna inexistente;
+* NA excessivo;
+* grupo ausente;
+* amostra sem classificação;
+* n muito pequeno;
+* ausência de counts;
+* assinatura com poucos genes detectáveis;
+* contraste impossível;
+* matriz inadequada;
+* confundimento.
+
+---
+
+# 35. REPRODUTIBILIDADE
+
+Cada notebook deve registrar:
+
+* arquivo de entrada;
+* parâmetros;
+* número de células;
+* número de amostras;
+* grupos;
+* contrastes;
+* modelo estatístico;
+* versão dos principais pacotes, quando relevante;
+* outputs.
+
+Não use caminhos frágeis.
+
+Centralize configurações quando útil.
+
+Evite duplicação de parâmetros.
+
+---
+
+# 36. AUTOAUDITORIA
+
+Depois de cada grande etapa, pare e faça uma autoauditoria.
+
+Pergunte:
+
+```text
+O que posso ter feito errado?
+
+Qual hipótese estou assumindo?
+
+Essa hipótese é justificável?
+
+Qual resultado depende dela?
+
+Existe uma maneira simples de testar isso?
+
+Estou tratando células como réplicas quando deveria tratar pacientes?
+
+Estou usando uma matriz integrada onde deveria usar counts?
+
+Estou confundindo expressão de marcador com evidência de linhagem?
+
+Estou fazendo cherry-picking?
+
+O tamanho amostral permite essa conclusão?
+
+Estou usando o teste estatístico adequado?
+```
+
+Se encontrar um problema:
+
+```text
+corrija
+→ execute novamente
+→ compare
+→ documente
+→ continue
+```
+
+Não pare na primeira solução que funciona.
+
+---
+
+# 37. CLASSIFICAÇÃO DE PROBLEMAS
+
+Todo problema encontrado deve ser classificado como:
+
+```text
+CRITICAL
+MAJOR
+MINOR
+INFO
+```
+
+Para cada um:
+
+```text
+problem
+location
+severity
+impact
+correction
+validation
+```
+
+Exemplo:
+
+```text
+CRITICAL
+broad_signatures iterava sobre as chaves "high"/"low" em vez dos genes
+impacto: scores de módulos estavam incorretos
+correção: corrigir a iteração e refazer os scores
+validação: comparar resultados antes/depois
+```
+
+---
+
+# 38. REGRA PARA ALTERAR O PIPELINE
+
+Você pode alterar/refazer etapas a partir da detecção de doublets quando houver justificativa.
+
+Porém:
+
+* não altere silenciosamente;
+* não sobrescreva resultados originais;
+* documente a mudança;
+* compare original vs corrigido;
+* explique o impacto.
+
+Para o preprocessing inicial:
+
+**não refaça ou audite sistematicamente.**
+
+Somente revisite essa etapa se surgir uma evidência concreta de que existe um erro que torne impossível interpretar corretamente uma etapa posterior.
+
+---
+
+# 39. CRITÉRIO DE CONCLUSÃO
+
+Não considere o projeto concluído simplesmente porque todos os notebooks executam.
+
+Considere concluído quando:
+
+1. doublets foram auditados;
+2. processamento pós-doublet foi auditado;
+3. integração foi validada;
+4. clustering foi validado;
+5. resolução foi justificada;
+6. anotação existente foi auditada;
+7. nova nomenclatura modular foi proposta;
+8. composição foi refeita;
+9. desenho experimental foi validado;
+10. análises estatísticas foram realizadas corretamente;
+11. vias foram refeitas;
+12. vias foram comparadas;
+13. interpretação biológica foi realizada;
+14. benchmark foi executado;
+15. resultados foram visualmente organizados;
+16. limitações foram documentadas;
+17. problemas encontrados foram registrados;
+18. os notebooks executam de ponta a ponta.
+
+---
+
+# 40. RELATÓRIO FINAL
+
+Crie um relatório consolidado com:
+
+## A. Pipeline
+
+O que foi mantido.
+
+O que foi alterado.
+
+## B. Problemas encontrados
+
+Tabela:
+
+```text
+problem
+severity
+impact
+correction
+status
+```
+
+## C. Anotação
+
+Comparar:
+
+```text
+original
+validated
+modular
+```
+
+## D. Composição
+
+Mostrar:
+
+* principais efeitos;
+* IC;
+* p;
+* FDR;
+* n por grupo.
+
+## E. Pathways
+
+Mostrar:
+
+* vias significativas;
+* vias compartilhadas;
+* vias específicas;
+* principais processos biológicos.
+
+## F. Benchmark
+
+Comparar:
+
+```text
+Harmony
+Scanorama
+scVI
+BBKNN
+```
+
+separando:
+
+```text
+batch correction
+biological conservation
+```
+
+## G. Limitações
+
+Incluir explicitamente:
+
+* tamanho amostral;
+* grupos desbalanceados;
+* combinações ausentes;
+* possíveis confundimentos;
+* limitações da inferência de ontogenia;
+* limitações de scRNA-seq;
+* limitações da nomenclatura;
+* limitações estatísticas.
+
+---
+
+# 41. REGRA FINAL
+
+Não seja apenas um executor de código.
+
+Atue como um bioinformata sênior revisando um pipeline antes de uma publicação.
+
+Quando minha abordagem estiver correta, mantenha-a.
+
+Quando estiver errada, explique e corrija.
+
+Quando estiver razoável, mas puder ser melhorada, compare as alternativas.
+
+Quando duas abordagens forem biologicamente plausíveis, execute ambas quando o custo computacional permitir.
+
+Não faça mudanças metodológicas silenciosas.
+
+Não esconda resultados negativos.
+
+Não invente marcadores.
+
+Não invente vias.
+
+Não invente significância.
+
+Não force os dados para uma nomenclatura pré-existente.
+
+Não transforme limitações amostrais em conclusões fortes.
+
+Não trate células como réplicas biológicas quando a unidade experimental for o paciente/amostra.
+
+Não use matriz integrada automaticamente para expressão diferencial ou pathway analysis.
+
+O objetivo final é produzir uma análise:
+
+**estatisticamente defensável + biologicamente coerente + visualmente clara + reproduzível + adequada para publicação.**
+
+Execute as tarefas de forma autônoma, iterativa e crítica, corrigindo os próprios erros até chegar à versão final.
+
+```
+```

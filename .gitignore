@@ -6,3 +6,4 @@
 *.pdf
 /dataReseq
 src/scripts/cache/
+src/scripts/claude/

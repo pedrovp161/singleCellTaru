@@ -1,0 +1,477 @@
+% !TeX program = pdflatex
+% Resumo do Consensus Statement "Guidelines for T cell nomenclature"
+% Masopust et al., Nature Reviews Immunology 26:298-313 (April 2026)
+% DOI: 10.1038/s41577-025-01238-2
+% Ênfase: subpopulações (subsets) de células T CD4+ e nomenclatura modular v1.0
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[brazil]{babel}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{ragged2e}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+% ----- Macros auxiliares -----
+\newcommand{\up}[1]{\textsuperscript{#1}}          % sobrescrito de marcador (+, --, hi, low)
+\newcommand{\tc}[1]{T\textsubscript{#1}}           % nome de subset com subscrito: \tc{CM}, \tc{H}1, \tc{reg}
+\newcommand{\gd}{\ensuremath{\gamma\delta}}        % gama-delta
+\newcommand{\ifng}{IFN\ensuremath{\gamma}}
+\newcommand{\rort}{ROR\ensuremath{\gamma}t}
+
+% Coluna de parágrafo justificado à esquerda para tabelas
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+
+\definecolor{cd4blue}{RGB}{20,80,150}
+\definecolor{softgray}{RGB}{95,95,95}
+
+\hypersetup{
+  pdftitle={Diretrizes para a Nomenclatura de Celulas T -- Resumo},
+  pdfauthor={Resumo automatizado}
+}
+
+\title{\textbf{Diretrizes para a Nomenclatura de Células T}\\[4pt]
+\large Resumo do \emph{Consensus Statement} com ênfase nas subpopulações de células T CD4\up{+}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2.2em}
+
+\begin{center}
+\small\color{softgray}
+Baseado em: Masopust D., Awasthi A., Bosselut R.\ \emph{et al.}
+``Guidelines for T cell nomenclature'' (Consensus Statement).\\
+\emph{Nature Reviews Immunology} \textbf{26}, 298--313 (abril 2026).
+\href{https://doi.org/10.1038/s41577-025-01238-2}{doi:10.1038/s41577-025-01238-2}.
+\end{center}
+
+\vspace{0.5em}
+\hrule
+\vspace{1em}
+
+\section*{Resumo}
+Os avanços na biologia de células T revelaram uma heterogeneidade que a nomenclatura
+tradicional (baseada em poucos ``subsets'' idealizados) não consegue capturar. Isso levou a
+um alargamento \emph{ad hoc} das definições e à criação de designações novas e pouco
+padronizadas. O documento de consenso propõe três soluções: (1) que artigos primários
+\textbf{definam explicitamente, na seção de Métodos}, o critério experimental usado para
+designar cada subset; (2) um conjunto de \textbf{definições padronizadas} para os termos
+já existentes (Tabelas~\ref{tab:dif}--\ref{tab:mod}); e (3) uma \textbf{nomenclatura
+modular v1.0}, que descreve propriedades biológicas individuais de uma população por meio
+de descritores curtos e combináveis, em vez de forçar a célula para dentro de um subset
+único. Este resumo cobre todo o artigo, mas detalha em especial as subpopulações de
+células T CD4\up{+}.
+
+\tableofcontents
+\vspace{1em}
+\hrule
+
+% =====================================================================
+\section{Contexto e motivação}
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{Histórico:} anos 1960 --- linfócitos separados em B e T; anos 1970 ---
+        T divididas em CD4\up{+} e CD8\up{+} (co-receptor do TCR); anos 1990 --- a citometria
+        de 4 cores populariza os termos memória central (\tc{CM}) e memória efetora (\tc{EM}).
+  \item \textbf{O problema:} propriedades de migração, função, proliferação, potencial de
+        diferenciação e longevidade \emph{nem sempre são co-reguladas}. Um vocabulário
+        limitado de subsets falha, por princípio, em capturar todas essas propriedades.
+  \item \textbf{Agravante:} tecnologias de célula única de alta dimensão expõem uma
+        heterogeneidade massiva, tornando insustentável a classificação em poucos subsets
+        ``tidy''.
+  \item \textbf{Origem do consenso:} \emph{workshop} no Keystone Symposia sobre memória de
+        células T (Banff, Alberta, fev.\ 2020); recomendações desenvolvidas entre 2020 e 2025,
+        lideradas por D.~Masopust e R.~Ahmed.
+\end{itemize}
+
+\subsection{As três recomendações (Box 1)}
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+  \item Autores devem declarar claramente, sob um título próprio nos \textbf{Métodos}, como
+        os subsets relevantes foram definidos --- requisito a ser cobrado por editores e
+        revisores.
+  \item As definições atuais dos principais subsets ficaram ``amorfas''; é preciso um
+        \textbf{dicionário comum} de definições e ensaios/marcadores substitutos (\emph{proxies}).
+  \item Deve-se desenvolver um sistema de classificação que \textbf{acomode} (em vez de ser
+        rompido por) perfis de alta dimensão, adaptável a novas descobertas e ciente das
+        desigualdades técnicas entre áreas, espécies e laboratórios.
+\end{enumerate}
+
+\subsection{Definir os termos nos Métodos (Box 2)}
+A intenção não é impor regras rígidas, mas dar \emph{transparência}. Exemplos citados:
+``\tc{CM} refere-se a células T CD62L\up{+}CD44\up{+}'' ou ``células \tc{H}17 foram definidas por
+marcação intracelular de IL-17A após estímulo com peptídeo cognato e expressão de \rort{}''.
+
+% =====================================================================
+\section{Estados de diferenciação principais (TCR\texorpdfstring{$\alpha\beta$}{ab}\up{+})}
+Definições da Tabela~1 do artigo, aplicáveis tanto a CD4\up{+} quanto a CD8\up{+}.
+
+\renewcommand{\arraystretch}{1.25}
+\small
+\begin{longtable}{L{2.4cm} L{6.2cm} L{6.6cm}}
+\caption{Estados de diferenciação de células T (proxies representativos).}\label{tab:dif}\\
+\toprule
+\textbf{Estado} & \textbf{Marcadores / ensaios} & \textbf{Descrição} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Estado} & \textbf{Marcadores / ensaios} & \textbf{Descrição} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\textbf{Naive (N)} &
+Humano: CCR7\up{hi}, CD45RA\up{+}, CD45RO\up{--}, CD95\up{--}.
+Camund.: CD62L\up{+}, CD44\up{low}, CD11a\up{low}, CD122\up{low} &
+T madura que saiu do timo, nunca estimulada por antígeno cognato na periferia; permanece
+indiferenciada. Expressa mal \ifng{}/IL-4/IL-5 em estímulo curto (5--12\,h). \\
+\textbf{Efetora} &
+Qualquer molécula efetora (ex.: granzima~B, perforina, citocinas antimicrobianas, CD40L) &
+Maior expressão de moléculas/genes ``efetores'', típica de células recém-estimuladas.
+O termo é ambíguo (implica ou não diferenciação terminal / vida curta). \\
+\textbf{Ativada (A)} &
+Transitoriamente CD69\up{+}, CD25\up{hi}, KLF2\up{low}; muitas vezes Ki67\up{+}, HLA-DR\up{+},
+CD38\up{hi} (humano) &
+Estimulação recente via TCR (salvo ``bystander''). Não implica destino, longevidade nem
+função específica. \\
+\textbf{Memória (M)} &
+Humano: CD11a\up{hi}, freq.\ CD95\up{+}, CD58\up{+}, CD49d\up{+}.
+Camund.: CD44\up{hi}, CD11a\up{hi}, tipic.\ CD127\up{+} &
+Progênie proliferada de uma célula naive que sofreu ativação e diferenciação. Longeva
+(meses a décadas), relativamente quiescente e \emph{fenotipicamente diversa}. \\
+\textbf{Anérgica (G)} &
+Camund.: CD44\up{+}, FR4\up{+}, CD73\up{+}, FOXP3\up{--}, CD304/NRP1\up{+}, CXCR5\up{--}
+(humano: mal caracterizado) &
+Célula previamente ativada, hiporresponsiva; perde capacidade de produzir IL-2 ao sinal do
+TCR (TCR autorreativo). \\
+\textbf{Memória virtual (\tc{VM})} &
+Camund.: CD44\up{hi}, CD49d\up{low}, CD62L\up{hi}, CD122\up{hi} &
+Células naive que proliferaram \emph{sem} reconhecimento de antígeno cognato, adquirindo
+diferenciação parcial. \\
+\end{longtable}
+\normalsize
+
+% =====================================================================
+\section{Subpopulações de células T CD4\texorpdfstring{\up{+}}{+} (ênfase)}
+\label{sec:cd4}
+Recomendação editorial do consenso: usar o número do \emph{helper} em \textbf{subscrito}
+(ex.: \tc{H}1, não ``TH1'' ou ``Th1''). Nas células CD4\up{+}, o ``H'' (de \emph{helper}) é,
+na prática, redundante com CD4, mas foi mantido por estar consolidado.
+
+\subsection{Células T auxiliares (\emph{helper}) e CD4\up{+} citotóxicas}
+\renewcommand{\arraystretch}{1.3}
+\small
+\begin{longtable}{L{1.7cm} L{5.4cm} L{3.3cm} L{4.4cm}}
+\caption{Subsets auxiliares CD4\up{+} e CD4\up{+} CTL.}\label{tab:helper}\\
+\toprule
+\textbf{Subset} & \textbf{Humano} & \textbf{Camundongo} & \textbf{Descrição / função} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Subset} & \textbf{Humano} & \textbf{Camundongo} & \textbf{Descrição / função} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\tc{H}1 &
+CXCR3\up{+}, CCR4\up{--}, CCR6\up{--}, CXCR5\up{--}, T-bet\up{+}; \ifng{}\up{+} ao estímulo &
+T-bet\up{+}; \ifng{}\up{+} ao estímulo &
+Predispostas a \ifng{} (não IL-4/5/13). Dependem de \textbf{T-bet}. Imunidade a patógenos
+intracelulares que escapam de macrófagos. \\
+\tc{H}2 &
+CRTh2\up{+}, CXCR3\up{--}, CCR4\up{+}, CCR6\up{--}, CXCR5\up{--}, GATA3\up{+};
+IL-4/5/13\up{+} ao estímulo &
+GATA3\up{+}; IL-4/5/13\up{+} ao estímulo &
+Predispostas a IL-4, IL-5, IL-13 (não \ifng{}). Dependem de \textbf{GATA3}. Imunidade a
+helmintos; inflamação alérgica. \\
+\tc{H}9 &
+CXCR3\up{--}, CCR4\up{+}, CCR6\up{--}, CXCR5\up{--}, CCR8\up{+}, PU.1\up{+}; IL-9 ao estímulo;
+PPAR\ensuremath{\gamma}\up{+} na pele &
+PU.1\up{+}; IL-9 ao estímulo &
+Predispostas a IL-9. Dependem de \textbf{PU.1, IRF4, BATF}. Variantes: p\tc{H}2 /
+\tc{H}2A (alérgica, humano) / \tc{H}9RM (memória residente, camundongo). \\
+\tc{H}17 &
+CXCR3\up{--}, CCR4\up{+/--}, CCR6\up{+}, CXCR5\up{--}, \rort{}\up{+}; IL-17\up{+} ao estímulo &
+\rort{}\up{+}; IL-17\up{+} ao estímulo &
+Predispostas a IL-17. Dependem de \textbf{\rort{}}. Imunidade de barreira (bactérias
+extracelulares, fungos). Podem ser \emph{homeostáticas} ou \emph{patogênicas}. \\
+CD4\up{+} CTL &
+Ensaio de liberação de cromo; granzima~B\up{+}, CCR7\up{--}, CD27\up{--}; pode expressar
+CD95 (FAS) & Igual ao humano &
+Célula T CD4\up{+} com atividade citolítica. \\
+\end{longtable}
+\normalsize
+
+\subsection{Família T folicular auxiliar (\tc{FH})}
+As células \tc{FH} promovem ativação de células B, produção de anticorpos, hipermutação
+somática, troca de classe e memória; dependem de \textbf{BCL6}. Podem ser subclassificadas
+por citocinas (\tc{FH}1, \tc{FH}2). A definição de \tc{FR} e de \tc{FH} de centro germinativo
+depende crucialmente da \emph{localização}, exigindo dados de imagem.
+
+\renewcommand{\arraystretch}{1.3}
+\small
+\begin{longtable}{L{2.0cm} L{4.3cm} L{4.6cm} L{4.0cm}}
+\caption{Subsets da família \tc{FH}.}\label{tab:tfh}\\
+\toprule
+\textbf{Subset} & \textbf{Humano} & \textbf{Camundongo} & \textbf{Descrição} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Subset} & \textbf{Humano} & \textbf{Camundongo} & \textbf{Descrição} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\tc{FH} & CXCR5\up{+}, BCL6\up{+} & Igual ao humano & Auxílio a células B; depende de BCL6. \\
+GC \tc{FH} \newline (centro germinativo) & ND &
+BCL6\up{hi}, CXCR5\up{hi}, PD-1\up{hi}, ICOS\up{+}, FR4\up{hi}, PSGL1\up{low} &
+Residem em centros germinativos; selecionam células B de alta afinidade. \\
+MZ \tc{FH} \newline (zona do manto) & ND &
+BCL6\up{low}, CXCR5\up{low}, PD-1\up{low}, FR4\up{low}, PSGL1\up{hi} &
+Na zona do manto; possíveis precursoras de GC \tc{FH} (ou GC \tc{FH} que retornaram). \\
+\tc{FHM} \newline (memória) & CXCR4\up{+}, FOXP3\up{--} &
+TCF1\up{+}, FR4\up{+}, P2RX7\up{+}, CXCR4\up{+} &
+\tc{FH} longevas que persistem, supostamente, após a eliminação do antígeno. \\
+\end{longtable}
+\normalsize
+
+\subsection{Família reguladora (\tc{reg})}
+As células \tc{reg} regulam respostas imunes e promovem tolerância; dependem de
+\textbf{FOXP3}. Marcadores comuns (humano e camundongo): FOXP3\up{+}, CD25\up{hi},
+CD127\up{low}, CTLA4\up{hi}, GITR\up{hi}. \emph{Nota importante:} em humanos não há
+marcadores estabelecidos para distinguir t\tc{reg} de p\tc{reg}; no camundongo,
+neuropilina-1 e Helios fazem essa distinção.
+
+\renewcommand{\arraystretch}{1.3}
+\small
+\begin{longtable}{L{1.9cm} L{4.6cm} L{4.8cm} L{3.6cm}}
+\caption{Subsets de células T reguladoras.}\label{tab:treg}\\
+\toprule
+\textbf{Subset} & \textbf{Humano} & \textbf{Camundongo} & \textbf{Descrição} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Subset} & \textbf{Humano} & \textbf{Camundongo} & \textbf{Descrição} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\tc{reg} & FOXP3\up{+}, CD25\up{hi}, CD127\up{low}, CTLA4\up{+}, GITR\up{+} & Igual ao humano &
+Regulação imune e tolerância; depende de FOXP3. \\
+t\tc{reg} \newline (tímica / natural) &
+FOXP3\up{+}, CCR7\up{hi}, CD45RA\up{+}, CD45RO\up{--} &
+FOXP3\up{+}, CD62L\up{+}, CD44\up{low}, neuropilina-1\up{hi}, Helios\up{hi} &
+Diferenciam-se por autoantígenos no timo. Difíceis de distinguir de p\tc{reg} em humanos. \\
+p\tc{reg} \newline (periférica / induzida) &
+FOXP3\up{+}, CCR7\up{hi}, CD45RA\up{+}, CD45RO\up{--} &
+FOXP3\up{+}, CD62L\up{+}, CD44\up{low}, neuropilina-1\up{low}, Helios\up{low/int}
+(\rort{}\up{+} ou GATA3\up{hi}) &
+Diferenciam-se por antígenos (self, comensais, dieta) na periferia. \\
+e\tc{reg} \newline (efetora) &
+FOXP3\up{hi}, CD45RO\up{+}, CCR8\up{hi}, ICOS\up{hi}, IRF4\up{+} &
+FOXP3\up{hi}, CD62L\up{--}, CD44\up{hi}, BLIMP1\up{+}, IL-10\up{+}, TGF\ensuremath{\beta}\up{+} &
+t\tc{reg}/p\tc{reg} com diferenciação adicional; maior secreção de citocinas supressoras
+(IL-10, TGF\ensuremath{\beta}). \\
+i\tc{reg} \newline (\emph{in vitro}) & ND & ND &
+CD4\up{+} induzidas a \tc{reg} \emph{in vitro} por citocinas. \\
+\tc{FR} \newline (folicular reg.) &
+CXCR5\up{+}, FOXP3\up{+}, GITR\up{+}, IL-10\up{+} &
+CXCR5\up{+}, PD-1\up{+}, BCL6\up{+}, FOXP3\up{+}, GITR\up{+}, IL-10\up{+} &
+\tc{reg} localizadas em folículos B / centros germinativos (classificação requer imagem). \\
+\end{longtable}
+\normalsize
+
+% =====================================================================
+\section{Subsets de memória (CD4\texorpdfstring{\up{+}}{+} ou CD8\texorpdfstring{\up{+}}{+})}
+Os termos abaixo são usados independentemente da especialização funcional (ex.: \tc{H}1 vs.\ \tc{H}2).
+
+\renewcommand{\arraystretch}{1.25}
+\small
+\begin{longtable}{L{2.2cm} L{6.2cm} L{6.6cm}}
+\caption{Subsets de memória.}\label{tab:mem}\\
+\toprule
+\textbf{Subset} & \textbf{Marcadores (proxies)} & \textbf{Descrição} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Subset} & \textbf{Marcadores (proxies)} & \textbf{Descrição} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\tc{CM} (memória central) &
+Humano: CD62L\up{+}, CCR7\up{+}. Camund.: CD44\up{hi}, CD62L\up{+}, TCF1\up{+}, CCR7\up{+} &
+Recirculam entre linfa e sangue; cruzam HEVs em repouso; mantêm capacidade de
+proliferar/diferenciar. \\
+\tc{EM} (memória efetora) &
+CCR7\up{--}, CD45RA\up{--} (humano); CD44\up{hi}, CD62L\up{--} (camund.) &
+Carecem de receptores de \emph{homing} (CD62L, CCR7). Termo ``guarda-chuva'' para ampla gama
+de estados. \\
+\tc{EMRA} &
+CCR7\up{--}, CD45RA\up{+}; CD27\up{--}, CX3CR1\up{hi}, CD57\up{+} &
+Subset humano de \tc{EM} que re-expressa CD45RA. \textbf{Não se aplica a camundongos.} \\
+\tc{RM} (residente) &
+KLF2\up{low}, CD69\up{+}, CD62L\up{--}, CCR7\up{--}; freq.\ CD103\up{+}, CD49a\up{+}, CXCR6\up{+} &
+Residem em um único tecido/órgão sem recircular pelo sangue. Marcadores variam por órgão. \\
+Ex\tc{RM} &
+Fenocopia \tc{EM}/\tc{CM}; pode reter CD43 elevado (clone 1B11) &
+\tc{RM} que se diferenciou e voltou à circulação; pode reter imprint epigenético de residência. \\
+\tc{PM} (memória periférica) &
+CD45RA\up{--}, CCR7\up{int}, CD27\up{+}; CX3CR1\up{int} (camund.) &
+Recirculam entre tecidos não linfoides e sangue (sem marcadores definitivos). \\
+\tc{SCM} (memória tronco) &
+CD95\up{+}, CCR7\up{+}, CD27\up{+}, CD28\up{+}, CD45RA\up{+}, Eomes\up{--} &
+Raras, pouco diferenciadas; auto-renovação + diferenciação em outros subsets.
+Compartilham marcadores com naive. \\
+\end{longtable}
+\normalsize
+
+% =====================================================================
+\section{Subsets de exaustão e efetores CD8\texorpdfstring{\up{+}}{+} (síntese)}
+Embora centrados em CD8\up{+}, são incluídos para completude.
+
+\noindent\textbf{Efetores/ativados CD8\up{+} (Tabela~2):} \tc{SLEC}/TE (efetor terminal,
+citotóxica, morre na transição --- KLRG1\up{+}, CD127\up{low}); \tc{MPEC} (precursora de memória,
+sobrevive à transição --- CD127\up{+}, CD27\up{+}, TCF1\up{+}); \tc{EEC} (efetora inicial ---
+KLRG1\up{low}, CXCR3\up{+}, produz \ifng{}/TNF); \tc{LLEC} (efetora longeva, muito citotóxica,
+prolifera mal --- KLRG1\up{hi}, CX3CR1\up{hi}, granzima~B\up{hi}).
+
+\vspace{4pt}
+\noindent\textbf{Exaustão (Tabela~5)} --- os marcadores variam por contexto (câncer vs.\
+infecção), sobretudo em humanos:
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{\tc{PEX} (progenitora/precursora exausta):} sustenta a resposta na estimulação
+        crônica, auto-renova e responde ao bloqueio de PD-1. PD-1\up{+}, TOX\up{+}, TCF1\up{+},
+        SLAMF6\up{+}, CXCR5\up{+}, TIM3\up{--}. Também chamada ``stem-like''. Módulo modular: \textbf{X\textsubscript{p}}.
+  \item \textbf{\tc{EX-int} / \tc{EX-eff} (intermediária / efetora-símile):} transicional;
+        expressa granzima~B, perforina, \ifng{}; PD-1\up{+}, TIM3\up{+}, T-bet\up{+}, TCF1\up{--}.
+  \item \textbf{\tc{EX-term} (terminalmente exausta):} baixa proliferação, função efetora
+        reduzida; PD-1\up{+}, TOX\up{+}, TIM3\up{+}, CD39\up{+}, CD101\up{+}, TCF1\up{--}. Em câncer,
+        frequentemente chamada ``disfuncional''. Módulo modular: \textbf{X\textsubscript{t}}.
+\end{itemize}
+
+\noindent\textbf{Innate-like (Tabela~6, menção):} MAIT (TCR$\alpha$ invariante, MR1),
+iNKT (CD1d-$\alpha$GalCer), \gd{} T (definidas pelo TCR\gd{}; fortemente associadas ao uso
+V$\gamma$/V$\delta$), CD8$\alpha\alpha$\up{+} TCR$\alpha\beta$, duplo-negativas (DN) e
+duplo-positivas extratímicas (DP).
+
+% =====================================================================
+\section{Nomenclatura modular v1.0}
+\label{sec:modular}
+\textbf{Ideia central:} assim como 26 letras geram $\sim$1 milhão de palavras, poucos
+descritores combináveis capturam a complexidade das células T \emph{sem} inventar rótulos
+novos. O esquema descreve propriedades individuais e \textbf{não obriga} o pesquisador a
+inferir o que não mediu (permite ``desconhecido''). Evita-se ``C'' e ``E'' para não confundir
+com \tc{CM}/\tc{EM}.
+
+\renewcommand{\arraystretch}{1.25}
+\small
+\begin{longtable}{L{3.2cm} L{2.0cm} L{9.6cm}}
+\caption{Módulos da nomenclatura modular v1.0 (Fig.~1 do artigo).}\label{tab:mod}\\
+\toprule
+\textbf{Módulo} & \textbf{Código} & \textbf{Significado} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Módulo} & \textbf{Código} & \textbf{Significado} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Linhagem & CD4\up{+}, CD8\up{+}, \gd{}\up{+}, NKT, MAIT, CD8$\alpha\alpha$\up{+} &
+Pode estender-se a NK, ILC. \\
+Função & \tc{H}1, \tc{reg}, \tc{C}2\ldots & Subsets funcionais atuais (idem prática vigente). \\
+\midrule
+\multirow{3}{*}{Migração}
+ & \textbf{S} & \emph{Secondary lymphoid organ}: entra em SLO não inflamado a partir do sangue
+                (proxy: CD62L\up{+} e/ou CCR7\up{+}). \\
+ & \textbf{D} & \emph{Disseminated}: não entra em SLO não inflamado (proxy: CD62L\up{--} e/ou
+                CCR7\up{--}). Engloba \tc{EM}, \tc{PM} e \tc{RM}. \\
+ & \textbf{U} & \emph{Unknown}: propriedades de migração desconhecidas / não avaliadas. \\
+\midrule
+\multirow{3}{*}{\shortstack[l]{Migração\\(subscrito)}}
+ & \textsubscript{B} & \emph{Blood}: isolada do sangue, sem outras alegações (ex.: D\textsubscript{B}). \\
+ & \textsubscript{W} & \emph{Widespread}: recircula por órgãos não linfoides (ex.: D\textsubscript{W}). \\
+ & \textsubscript{R} & \emph{Resident}: estacionada em órgãos/compartimentos (ex.: D\textsubscript{R}). \\
+\midrule
+\multirow{5}{*}{\shortstack[l]{Estado de\\diferenciação}}
+ & \textbf{N} & Naive. \\
+ & \textbf{A} & Ativada. \\
+ & \textbf{M} & Memória. \\
+ & \textbf{X} & Exausta. \\
+ & \textbf{G} & Anérgica. \\
+\midrule
+\shortstack[l]{Estado\\(subscrito)}
+ & \textsubscript{p}, \textsubscript{t} & \emph{progenitor} / \emph{terminal}
+   (ex.: \tc{PEX}=X\textsubscript{p}; \tc{SCM}=M\textsubscript{p}; MPEC=A\textsubscript{p}; SLEC=A\textsubscript{t}). \\
+\midrule
+\multirow{2}{*}{Antígeno}
+ & \textbf{+} & Antígeno presente no organismo (ex.: M+). \\
+ & \textbf{0} & Antígeno eliminado ou irrelevante para a célula (ex.: M0). \\
+\end{longtable}
+\normalsize
+
+\noindent\emph{Ordem de leitura:} \texttt{[Linhagem] [Função] T[Migração][subscrito
+migração][Estado][subscrito estado][Antígeno]}. Ex.: \textbf{CD4\up{+} \tc{H}2D\textsubscript{R}M0}.
+
+\subsection{Exemplos aplicados a CD4\up{+} (Fig.~3 e Tabela~7)}
+\renewcommand{\arraystretch}{1.3}
+\small
+\begin{longtable}{L{8.6cm} L{6.0cm}}
+\caption{Descrição em prosa vs.\ nomenclatura modular (exemplos CD4\up{+}).}\\
+\toprule
+\textbf{Descrição da célula} & \textbf{Modular} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Descrição da célula} & \textbf{Modular} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+CD4\up{+} sem outra caracterização & CD4\up{+} T cell \\
+\tc{H}2 CD62L\up{--}, recém-estimulada, isolada do sangue & CD4\up{+} \tc{H}2D\textsubscript{B}A \\
+CD4\up{+} do pulmão, CCR7\up{--}, CD69\up{+}, migração desconhecida & Pulmão CD4\up{+} TD \\
+\ldots{} idem, alegada recém-ativada & Pulmão CD4\up{+} TDA \\
+\ldots{} idem, alegada memória residente & Pulmão CD4\up{+} TD\textsubscript{R}M \\
+CD4\up{+} \tc{H}17 do pulmão, residente, antígeno eliminado &
+Pulmão CD4\up{+} \tc{H}17D\textsubscript{R}M0 \\
+\midrule
+\multicolumn{2}{l}{\textit{Progressão de detalhe para a mesma célula \tc{H}2 (Fig.~3):}}\\
+Só linhagem $\rightarrow$ + função $\rightarrow$ + memória $\rightarrow$ + migração $\rightarrow$ + antígeno &
+CD4\up{+} $\rightarrow$ CD4\up{+}\tc{H}2 $\rightarrow$ CD4\up{+}\tc{H}2\,M $\rightarrow$
+CD4\up{+}\tc{H}2D\,M $\rightarrow$ CD4\up{+}\tc{H}2D\textsubscript{R}M0 \\
+\end{longtable}
+\normalsize
+
+\noindent\textbf{Observação sobre função de CD8\up{+}:} pode-se usar ``C'' (historicamente
+``citotóxica'', hoje só ``CD8\up{+}''): p.ex.\ CD8\up{+}\,\tc{C}2, \tc{C}17, \tc{C}22, ou
+CD8\up{+}\,\tc{reg}. Células citotóxicas CD4\up{+} \emph{ou} CD8\up{+} podem ser \tc{CTL}.
+
+% =====================================================================
+\section{Conclusões}
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item As diretrizes entregam: (i) definições padronizadas de termos existentes;
+        (ii) o pedido de explicitar critérios nos Métodos; (iii) a nomenclatura modular.
+  \item A nomenclatura modular \textbf{separa} função, migração, estado de diferenciação e
+        status de antígeno, dando precisão sob demanda \emph{sem} forçar alegações não medidas
+        e \emph{sem} inflar o vocabulário.
+  \item É extensível (fatores de transcrição, epigenética) e pode servir também a NK e ILC.
+        Deve coexistir com a nomenclatura clássica por algum tempo; os autores podem usar uma,
+        outra, ou ambas no mesmo artigo, desde que a comunicação seja inequívoca.
+\end{itemize}
+
+\vfill
+\begin{center}\small\color{softgray}
+Pôster oficial das diretrizes:
+\href{https://doi.org/10.1038/s41577-025-01246-2}{doi:10.1038/s41577-025-01246-2}.
+\end{center}
+
+\end{document}

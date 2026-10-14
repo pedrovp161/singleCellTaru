@@ -1,0 +1,306 @@
+.
+├── data
+│   ├── adata_harmony.h5ad
+│   ├── adata_harmony_subset_T.h5ad
+│   ├── adata_harmony_subset_T_no8.h5ad
+│   ├── adata_harmony_subset_T_no8_.h5ad
+│   ├── adata_harmony_subset_T_no8.RDS
+│   ├── adata_scanorama.h5ad
+│   ├── filtered_h5ad
+│   │   ├── CTH92_ML.h5ad
+│   │   ├── CTH92_NS.h5ad
+│   │   ├── CTH94_ML.h5ad
+│   │   ├── CTH94_NS.h5ad
+│   │   ├── CTH97_ML.h5ad
+│   │   ├── CTH97_NS.h5ad
+│   │   ├── HNP44_ML.h5ad
+│   │   ├── HNP44_NS.h5ad
+│   │   ├── MB34_ML.h5ad
+│   │   ├── MB34_NS.h5ad
+│   │   ├── PB20_ML.h5ad
+│   │   ├── PB20_NS.h5ad
+│   │   ├── PB21_ML.h5ad
+│   │   └── PB21_NS.h5ad
+│   ├── integratedFiltered_.h5ad
+│   ├── integratedFiltered_v3.h5ad
+│   ├── new
+│   │   ├── CTH92_ML.h5ad
+│   │   ├── CTH92_NS.h5ad
+│   │   ├── CTH94_ML.h5ad
+│   │   ├── CTH94_NS.h5ad
+│   │   ├── CTH97_ML.h5ad
+│   │   ├── CTH97_NS.h5ad
+│   │   ├── HNP44_ML.h5ad
+│   │   ├── HNP44_NS.h5ad
+│   │   ├── MB34_ML.h5ad
+│   │   ├── MB34_NS.h5ad
+│   │   ├── PB20_ML.h5ad
+│   │   ├── PB20_NS.h5ad
+│   │   ├── PB21_ML.h5ad
+│   │   └── PB21_NS.h5ad
+│   ├── raw
+│   │   ├── CTH92_ML
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── CTH92_NS
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── CTH94_ML
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── CTH94_NS
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── CTH97_ML
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── CTH97_NS
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── HNP44_ML
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── HNP44_NS
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── MB34_ML
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── MB34_NS
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── PB20_ML
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── PB20_NS
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   ├── PB21_ML
+│   │   │   ├── barcodes.tsv.gz
+│   │   │   ├── features.tsv.gz
+│   │   │   └── matrix.mtx.gz
+│   │   └── PB21_NS
+│   │       ├── barcodes.tsv.gz
+│   │       ├── features.tsv.gz
+│   │       └── matrix.mtx.gz
+│   └── raw_h5ad
+│       ├── CTH92_ML.h5ad
+│       ├── CTH92_NS.h5ad
+│       ├── CTH94_ML.h5ad
+│       ├── CTH94_NS.h5ad
+│       ├── CTH97_ML.h5ad
+│       ├── CTH97_NS.h5ad
+│       ├── HNP44_ML.h5ad
+│       ├── HNP44_NS.h5ad
+│       ├── MB34_ML.h5ad
+│       ├── MB34_NS.h5ad
+│       ├── PB20_ML.h5ad
+│       ├── PB20_NS.h5ad
+│       ├── PB21_ML.h5ad
+│       └── PB21_NS.h5ad
+├── renv
+│   ├── activate.R
+│   ├── library
+│   │   └── linux-arch-rolling
+│   │       └── R-4.6
+│   │           └── x86_64-pc-linux-gnu
+│   │               ├── backports -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/backports/1.5.1/e3e65442a2749b59692220f368f46c46/backports
+│   │               ├── brew -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/brew/1.0-10/8f4a384e19dccd8c65356dc096847b76/brew
+│   │               ├── callr -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/callr/3.8.0/cb2799e0a02c2ac4d0395b0e29bb6799/callr
+│   │               ├── cli -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/cli/3.6.6/a73d822b669d443ff8de6928f9c49850/cli
+│   │               ├── collections -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/collections/0.3.12/43ebf25f5ad137028c241cfb791558ac/collections
+│   │               ├── commonmark -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/commonmark/2.0.0/8cba62334c1088d21689d353a7e87663/commonmark
+│   │               ├── cpp11 -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/cpp11/0.5.5/20ecb9105a3fb48a8390919abc3b7e90/cpp11
+│   │               ├── desc -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/desc/1.4.3/99b79fcbd6c4d1ce087f5c5c758b384f/desc
+│   │               ├── digest -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/digest/0.6.39/d18028e978a88b2b16ef8d400cb49adf/digest
+│   │               ├── evaluate -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/evaluate/1.0.5/94cf2c54237f6841cee68e3ba4ab5a14/evaluate
+│   │               ├── fs -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/fs/2.1.0/09278623bca442bc53b0940ffa2f6d87/fs
+│   │               ├── glue -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/glue/1.8.1/f8122473e9a49e00d0642f78235ca5e3/glue
+│   │               ├── highr -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/highr/0.12/2a2f862ade01a56dcbcd60944de11255/highr
+│   │               ├── jsonlite -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/jsonlite/2.0.0/b0776f526d36d8bd4a3344a88fe165c4/jsonlite
+│   │               ├── knitr -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/knitr/1.51/27682babb50f03b6eb7939ea69ec79ca/knitr
+│   │               ├── languageserver -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/languageserver/0.3.18/59651834ff4ad614cf0b47340b420d6c/languageserver
+│   │               ├── lifecycle -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/lifecycle/1.0.5/36dbfe4fba6c064db50a671a90297c85/lifecycle
+│   │               ├── lintr -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/lintr/3.3.0-1/ffec3ff32470c41e4de843fdbca4121e/lintr
+│   │               ├── magrittr -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/magrittr/2.0.5/665e77ab6e5f37a7913226d40b324e37/magrittr
+│   │               ├── otel -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/otel/0.2.0/627d6993db1043703c0b084fa432f21f/otel
+│   │               ├── pkgbuild -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/pkgbuild/1.4.8/fc9fc4162e79a94f760aac8d328ee6c9/pkgbuild
+│   │               ├── pkgload -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/pkgload/1.5.3/912acb56e1e3362766b63278d8b60a61/pkgload
+│   │               ├── processx -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/processx/3.9.0/188d6caf38e81bf15b5e918726a6fd3d/processx
+│   │               ├── ps -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/ps/1.9.3/83e7e486c434e7acc71766dfc20adf2b/ps
+│   │               ├── purrr -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/purrr/1.2.2/0a35605539b085a4828ec55ad973fe60/purrr
+│   │               ├── R6 -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/R6/2.6.1/d4335fe7207f1c01ab8c41762f5840d4/R6
+│   │               ├── R.cache -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/R.cache/0.17.0/115af52efb5dae7e2a0774e0828fae8f/R.cache
+│   │               ├── renv
+│   │               │   ├── bin
+│   │               │   │   ├── renv
+│   │               │   │   └── renv.bat
+│   │               │   ├── config.yml
+│   │               │   ├── DESCRIPTION
+│   │               │   ├── doc
+│   │               │   │   ├── ci.html
+│   │               │   │   ├── ci.R
+│   │               │   │   ├── ci.Rmd
+│   │               │   │   ├── docker.html
+│   │               │   │   ├── docker.R
+│   │               │   │   ├── docker.Rmd
+│   │               │   │   ├── faq.html
+│   │               │   │   ├── faq.R
+│   │               │   │   ├── faq.Rmd
+│   │               │   │   ├── index.html
+│   │               │   │   ├── package-install.html
+│   │               │   │   ├── package-install.R
+│   │               │   │   ├── package-install.Rmd
+│   │               │   │   ├── packages.html
+│   │               │   │   ├── package-sources.html
+│   │               │   │   ├── package-sources.R
+│   │               │   │   ├── package-sources.Rmd
+│   │               │   │   ├── packages.R
+│   │               │   │   ├── packages.Rmd
+│   │               │   │   ├── packrat.html
+│   │               │   │   ├── packrat.R
+│   │               │   │   ├── packrat.Rmd
+│   │               │   │   ├── profiles.html
+│   │               │   │   ├── profiles.R
+│   │               │   │   ├── profiles.Rmd
+│   │               │   │   ├── python.html
+│   │               │   │   ├── python.R
+│   │               │   │   ├── python.Rmd
+│   │               │   │   ├── renv.html
+│   │               │   │   ├── renv.R
+│   │               │   │   ├── renv.Rmd
+│   │               │   │   ├── rsconnect.html
+│   │               │   │   ├── rsconnect.R
+│   │               │   │   └── rsconnect.Rmd
+│   │               │   ├── ext
+│   │               │   │   └── renv.c
+│   │               │   ├── help
+│   │               │   │   ├── aliases.rds
+│   │               │   │   ├── AnIndex
+│   │               │   │   ├── figures
+│   │               │   │   │   └── logo.svg
+│   │               │   │   ├── paths.rds
+│   │               │   │   ├── renv.rdb
+│   │               │   │   └── renv.rdx
+│   │               │   ├── html
+│   │               │   │   ├── 00Index.html
+│   │               │   │   └── R.css
+│   │               │   ├── INDEX
+│   │               │   ├── libs
+│   │               │   │   └── renv.so
+│   │               │   ├── LICENSE
+│   │               │   ├── Meta
+│   │               │   │   ├── features.rds
+│   │               │   │   ├── hsearch.rds
+│   │               │   │   ├── links.rds
+│   │               │   │   ├── nsInfo.rds
+│   │               │   │   ├── package.rds
+│   │               │   │   ├── Rd.rds
+│   │               │   │   └── vignette.rds
+│   │               │   ├── NAMESPACE
+│   │               │   ├── NEWS.md
+│   │               │   ├── R
+│   │               │   │   ├── renv
+│   │               │   │   ├── renv.rdb
+│   │               │   │   └── renv.rdx
+│   │               │   ├── README.md
+│   │               │   ├── repos
+│   │               │   │   └── src
+│   │               │   │       └── contrib
+│   │               │   │           ├── PACKAGES
+│   │               │   │           ├── PACKAGES.gz
+│   │               │   │           ├── PACKAGES.rds
+│   │               │   │           └── renv_1.2.2.tar.gz
+│   │               │   ├── resources
+│   │               │   │   ├── activate.R
+│   │               │   │   ├── scripts-git-askpass.cmd
+│   │               │   │   ├── scripts-git-askpass.sh
+│   │               │   │   ├── vendor
+│   │               │   │   │   └── renv.R
+│   │               │   │   ├── watchdog-process.R
+│   │               │   │   └── WELCOME
+│   │               │   ├── rstudio
+│   │               │   │   └── addins.dcf
+│   │               │   ├── schema
+│   │               │   │   └── draft-07.renv.lock.schema.json
+│   │               │   └── sysreqs
+│   │               │       └── sysreqs.json
+│   │               ├── rex -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/rex/1.2.2/8a57cfc695e0ca319880c22bb4d5f2ce/rex
+│   │               ├── rlang -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/rlang/1.3.0/8d05afdb0b0dd5ef01b306db289fe21f/rlang
+│   │               ├── R.methodsS3 -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/R.methodsS3/1.8.2/278c286fd6e9e75d0c2e8f731ea445c8/R.methodsS3
+│   │               ├── R.oo -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/R.oo/1.27.1/a94afc14a90a68dd5043ceb9c089853b/R.oo
+│   │               ├── roxygen2 -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/roxygen2/8.0.0/726b105343767ad1dbe7c3cae0986138/roxygen2
+│   │               ├── rprojroot -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/rprojroot/2.1.1/b2453de2d29aa646afe4781defdc7903/rprojroot
+│   │               ├── R.utils -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/R.utils/2.13.0/d32373d88da809f8974d5307481862b0/R.utils
+│   │               ├── stringi -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/stringi/1.8.7/2b56088e23bdd58f89aebf43a0913457/stringi
+│   │               ├── styler -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/styler/1.11.0/d5af3fb664c987303b81f0b9afd9a621/styler
+│   │               ├── vctrs -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/vctrs/0.7.3/2dcde2d30d3ad67bf1d3a37177457b87/vctrs
+│   │               ├── withr -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/withr/3.0.3/d979712ec72df779bc2d30bcc5d0d541/withr
+│   │               ├── xfun -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/xfun/0.60/8304c2894061f6ae062996f09dd1528e/xfun
+│   │               ├── xml2 -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/xml2/1.6.0/568fe669c645b2007e4e8fcf5cde40e7/xml2
+│   │               ├── xmlparsedata -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/xmlparsedata/1.0.5/45e4bf3c46476896e821fc0a408fb4fc/xmlparsedata
+│   │               └── yaml -> /home/pedrovp/.cache/R/renv/cache/v5/linux-arch-rolling/R-4.6/x86_64-pc-linux-gnu/yaml/2.3.12/7cd77cb32abd9220d744307e9fc94ffb/yaml
+│   ├── settings.json
+│   └── staging
+├── renv.lock
+├── src
+│   ├── scripts
+│   │   ├── benchmark.ipynb
+│   │   ├── cache
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-CTH92_ML-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-CTH92_NS-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-CTH94_ML-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-CTH94_NS-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-CTH97_ML-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-CTH97_NS-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-HNP44_ML-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-HNP44_NS-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-MB34_ML-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-MB34_NS-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-PB20_ML-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-PB20_NS-matrix.h5ad
+│   │   │   ├── mnt-SATA-singleCellTaru-data-raw-PB21_ML-matrix.h5ad
+│   │   │   └── mnt-SATA-singleCellTaru-data-raw-PB21_NS-matrix.h5ad
+│   │   ├── classificaModular.ipynb
+│   │   ├── classificaModular_updated.ipynb
+│   │   ├── clustertree.ipynb
+│   │   ├── decontx_.ipynb
+│   │   ├── decontx_.py
+│   │   ├── figures
+│   │   │   └── umap_separacao_nk_t.png
+│   │   ├── main.R
+│   │   ├── metadata_updated.csv
+│   │   ├── modular_classification_summary.csv
+│   │   ├── modular_state_heatmap.pdf
+│   │   ├── modular_umap_annotated.pdf
+│   │   ├── preprocessing.ipynb
+│   │   ├── processing.ipynb
+│   │   ├── __pycache__
+│   │   │   └── decontx.cpython-311.pyc
+│   │   ├── README_analise_vias.md
+│   │   ├── resumo_nomenclatura_tcell.pdf
+│   │   ├── resumo_nomenclatura_tcell.tex
+│   │   ├── teste.R
+│   │   └── test.R
+│   ├── Taru
+│   │   ├── analisysOptimization.R
+│   │   ├── analisysOptimizationWithNames.R
+│   │   └── MergeAndDifferentialTestAllSamplesHarmony.R
+│   └── utils
+│       ├── preprocessing.R
+│       └── qualityPlot.R
+└── tree.txt
+
+51 directories, 253 files
