@@ -1,0 +1,15 @@
+cluster,células,estabilidade (Jaccard),marca
+0,5590,0.752331,
+1,4664,0.621623,
+2,4529,0.655177,
+3,4484,0.604728,
+4,3864,0.706678,
+5,2624,0.519836,
+6,2444,0.370974,baixo conteúdo de RNA (mediana de 1.099 UMIs)
+7,2107,0.445362,
+8,1882,0.904681,
+9,1230,0.699803,
+10,1209,0.906421,
+11,295,0.930599,não-T (marcadores de B ou mieloides)
+12,232,0.0810425,baixo conteúdo de RNA (mediana de 1.272 UMIs)
+13,93,0.537734,não-T (marcadores de B ou mieloides)

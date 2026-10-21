@@ -1,0 +1,8 @@
+etapa do capítulo,o que foi feito,evidência disponível,onde
+QC das leituras (FastQC),não refeito — sem FASTQ,"Q30: barcode 97,4% – 97,8%, UMI 97,9% – 98,2%, RNA 95,0% – 97,5%",C01
+alinhamento ao genoma,"Cell Ranger 10.1.0 (STAR), GRCh38-2024-A, íntrons incluídos","mapeados no genoma 87,9% – 98,3%; no transcriptoma 62,3% – 82,2%; antisense 9,5% – 22,2%",C01
+correção de barcode (lista de permissão),"Cell Ranger, distância de Hamming 1","barcodes válidos 93,9% – 97,4%",C01
+resolução de UMI,"Cell Ranger, distância 1 entre UMIs do mesmo gene","UMIs válidos 96,1% – 96,6%; erros de UMI explicam 0% – 21% das moléculas de 1–2 reads","C01, C03"
+gotas vazias,"Cell Ranger: OrdMag + teste tipo EmptyDrops, com piso de 500 UMIs",refeito aqui e em P02,"P01, P02"
+RNA ambiente,não corrigido pelo Cell Ranger,SoupX e CellBender,"P02, P04"
+doublets,não tratado pelo Cell Ranger,"scDblFinder (e Scrublet, Solo, cxds em A03/A06)",P04

@@ -9,6 +9,8 @@ que a baixa recuperação de células venha de excesso de doublets.
 O trabalho vai **até a clusterização dos dados integrados**. Nenhum cluster é
 anotado.
 
+O guia da análise a partir da matriz raw (P01–P07) está em [`raw/README.md`](raw/README.md).
+
 O resultado, com todos os números, está em
 [`resultsReseq/RELATORIO_reseq.md`](../../resultsReseq/RELATORIO_reseq.md).
 
@@ -25,6 +27,7 @@ O resultado, com todos os números, está em
 | O processamento original, aplicado aos dados novos, dá o quê? E corrigido? | `analise/A04_processamento_integracao` |
 | Os clusters descrevem estados celulares ou artefatos? Os problemas antigos se repetem? | `analise/A05_avaliacao_clusterizacao` |
 | Outros detectores de doublets (Solo, cxds) mudam a conclusão? | `analise/A06_doublets_solo_cxds` |
+| Partindo da matriz raw, como no sc-best-practices, dá para recuperar células? | `raw/P01`–`P06` |
 
 ## O que cada notebook faz
 
@@ -85,6 +88,59 @@ sem simulação; reimplementado em Python e conferido contra o pacote `scds` do
 R). Avaliados contra os 70 doublets T + B validados em A03, contra células B
 sozinhas (controle negativo), pelo conteúdo de RNA e pela taxa esperada do 10x.
 
+## Pré-processamento a partir da matriz raw (`raw/`)
+
+Segue os capítulos *raw data processing* e *quality control* do
+[sc-best-practices](https://www.sc-best-practices.org/introduction/raw-data-processing/),
+a partir de `raw_feature_bc_matrix.h5`.
+
+| notebook | o que faz |
+| --- | --- |
+| `P01_gotas_vazias` | checklist do capítulo; knee plots; `emptyDrops` e `emptyDropsCellRanger` (DropletUtils); teste de "perfil de célula" com controles de profundidade para os barcodes extras |
+| `P02_cellbender` | lê o CellBender (treinado antes por `raw/run_cellbender.py`); convergência, chamadas e RNA ambiente |
+| `P03_qc_best_practices` | QC do capítulo (5 MADs nos dois lados, top-20, MT em logit + 8%) + filtro de material nuclear; piso de chamada; **valor único de 200 UMIs** (padrão adotado) |
+| `P04_ambiente_e_doublets` | SoupX (ρ e contagens corrigidas) e scDblFinder (limiar calibrado pela taxa do 10x), por biblioteca |
+| `P05_integracao` | filtro global de genes (≥ 20 células), V3 sobre as células aprovadas sem doublets; grava `reseq_raw_integrado__v2.h5ad` |
+| `P06_balanco_final` | funil antigo × novo por biblioteca, alternativas, citocinas, veredito |
+| `P07_integracao_clusterizacao` | avaliação do Harmony (por biblioteca) no objeto principal; varredura de resolução com 3 sementes; escala fina 0,8 (14 clusters, principal) e grossa 0,2; clusters técnicos; citocinas e estímulo por cluster; grava `clusters__v3.parquet` |
+
+Padrão adotado (`config.QC_MIN_UMIS = 200`):
+- **valor único:** 200 UMIs para chamada e QC em todas as bibliotecas, no
+  lugar dos 5 MADs por biblioteca, com as demais regras do capítulo;
+- **células do Cell Ranger** (≡ `emptyDropsCellRanger`) entram se passarem
+  nessas regras;
+- **barcodes fora do Cell Ranger** só entram com perfil de célula (teste de
+  P01) e ficam marcados em `obs["baixa_profundidade"]`;
+- **doublets removidos:** scDblFinder com limiar calibrado pela taxa do 10x,
+  mais os T + B validados.
+
+Resultado: 35.247 células. As de baixa profundidade formam um cluster
+técnico; marcá-lo na anotação.
+
+### Ambientes externos (fora do `.venv` e do `renv` do projeto)
+
+| ambiente | caminho | uso |
+| --- | --- | --- |
+| R 4.5 + DropletUtils, scDblFinder, SoupX (bioconda) | `~/venvs/reseq-r` (`config.RESEQ_RSCRIPT`) | P01, P04, via `functions/droplets.R`, `soupx.R`, `scdblfinder.R` |
+| CellBender 0.4.0 (Python, GPU) | `~/venvs/cellbender` (`config.CELLBENDER_BIN`) | `raw/run_cellbender.py` |
+| R do sistema + scds | `~/R/reseq-scds` | conferência do cxds em A06 |
+
+O R do sistema não tem gfortran, por isso o ambiente conda. As saídas brutas
+de DropletUtils, CellBender, SoupX e scDblFinder ficam no NVMe, em
+`/home/pedrovp/singleCellTaru_claude/reseq_raw/` (`config.HEAVY_OUT`).
+
+Ordem: `python raw/run_cellbender.py` (~4–5 h na GPU; PB20_NS e HNP44_NS com
+`--total-droplets 4000` e `2000`) → P01 → P02 → P03 → P04 → P05 → P06 → P07.
+
+### spatools
+
+As correções dos plots e do pré-processamento do spatools estão no branch
+`reseq-qc-melhorias` (worktree em `~/spatools-reseq`, commit local, sem push e
+sem instalar no `.venv`). Inclui a pipeline `BEST_PRACTICES`, os limiares
+gravados em `uns`, a ordem e a classificação corrigidas no `outlier_quality`,
+`barcode_rank`, `qc_scatter` e `tests/test_qc.py` (9/9). As versões usadas
+aqui estão em `functions/qcplots.py` e `functions/bpqc.py`.
+
 ## Estrutura
 
 ```text
@@ -98,13 +154,18 @@ src/Reseq/
 │   ├── rarefaction.py      # rarefação analítica a partir de molecule_info.h5
 │   ├── qc.py               # réplica do QC, RNA ambiente
 │   ├── doublets.py         # testes da hipótese de doublets; cxds
+│   ├── droplets.py         # DropletUtils, CellBender, SoupX, scDblFinder; teste de perfil de célula
+│   ├── droplets.R, soupx.R, scdblfinder.R
+│   ├── bpqc.py             # QC do sc-best-practices
+│   ├── qcplots.py          # plots de QC (versões corrigidas dos do spatools)
 │   ├── cxds.R              # cxds do pacote scds, só para conferência
 │   ├── pipeline.py         # variantes V1–V3, seleção de HVG, métricas de avaliação
 │   ├── plotting.py, fmt.py # estilo das figuras e números em português
 │   ├── issues.py           # registro de problemas por notebook
 │   └── legacy.py           # acesso às funções de src/scripts/claude/functions
 ├── comparativa/            # C01–C03 (.py + .ipynb executado)
-└── analise/                # A01–A06 (.py + .ipynb executado)
+├── analise/                # A01–A06 (.py + .ipynb executado)
+└── raw/                    # P01–P06 + run_cellbender.py
 
 dataReseq/                  # objetos (parquet, h5ad) + MANIFEST.jsonl — fora do git
 resultsReseq/
@@ -126,6 +187,9 @@ resultsReseq/
 | `A04_processamento_integracao/antiga_variantes.parquet` | a corrida antiga processada pelas três variantes (clusters por célula) |
 | `C03_rarefacao_citocinas/mol_*.parquet` | resumos do `molecule_info.h5` (a passada leva ~6 min) |
 | `A06_doublets_solo_cxds/flags_solo_cxds*.parquet` | probabilidade do Solo, score do cxds, chamadas e consenso, por célula |
+| `P03_qc_best_practices/qc_candidatos*.parquet` | todo barcode com ≥ 100 UMIs ou chamado: chamadas, métricas, regras; `passa` = padrão de 500 UMIs |
+| `P07_integracao_clusterizacao/clusters__v3.parquet` | rótulos do Leiden do objeto principal: `leiden_final` (0,8), `leiden_grossa` (0,2), `leiden_r*`, `cluster_tecnico`; chave `cell_key` |
+| `P05_integracao/reseq_raw_integrado__v2.h5ad` | **o objeto do pré-processamento novo**: 35.247 células (padrão de 200 UMIs, sem doublets), contagens SoupX e brutas, V3; a versão sem sufixo é a anterior (500 UMIs) |
 
 O objeto integrado tem 35.064 células e o universo completo de genes. `X` é a
 lognorm e `layers["counts"]` as contagens, conferidas entrada por entrada

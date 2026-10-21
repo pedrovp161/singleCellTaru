@@ -1,0 +1,4 @@
+,células,UMIs medianos,genes medianos,% MT mediana,fração intrônica mediana,fração dos UMIs em marcadores T
+demais,33196,9149.5,2811,3.08668,0.227849,0.00260973
+do Cell Ranger que o MAD descartaria,1262,1349,762.5,2.48446,0.273155,0.0024149
+baixa profundidade (fora do Cell Ranger),789,327,253,2.51572,0.28692,0.00214592

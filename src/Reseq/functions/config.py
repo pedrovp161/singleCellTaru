@@ -51,10 +51,15 @@ FIGURES = RESULTS / "figures"
 TABLES = RESULTS / "tables"
 MANIFEST = DATA_OUT / "MANIFEST.jsonl"
 
-#: Prefixos sob os quais a escrita é permitida. `io` recusa qualquer outro.
-WRITABLE_ROOTS = (DATA_OUT, RESULTS)
+#: Saídas volumosas de ferramentas externas (CellBender: ~0,3–1 GB por
+#: biblioteca) ficam no NVMe; em `dataReseq` entram só os resumos.
+HEAVY_OUT = (Path(_out_override) / "heavy" if _out_override
+             else Path("/home/pedrovp/singleCellTaru_claude/reseq_raw"))
 
-for _d in (DATA_OUT, FIGURES, TABLES):
+#: Prefixos sob os quais a escrita é permitida. `io` recusa qualquer outro.
+WRITABLE_ROOTS = (DATA_OUT, RESULTS, HEAVY_OUT)
+
+for _d in (DATA_OUT, FIGURES, TABLES, HEAVY_OUT):
     _d.mkdir(parents=True, exist_ok=True)
 
 
@@ -190,9 +195,40 @@ MULTIPLET_RATE_PER_1000 = 0.008
 
 RANDOM_STATE = 42
 
-#: Biblioteca R isolada com o scds (fora do renv do projeto), usada só para
-#: conferir a reimplementação do cxds em A06.
-SCDS_R_LIB = Path("/home/pedrovp/R/reseq-scds")
+#: Biblioteca R isolada (fora do renv do projeto): scds (A06), DropletUtils,
+#: scDblFinder e SoupX (P01–P04). Chamada por ``Rscript --vanilla``.
+RESEQ_R_LIB = Path("/home/pedrovp/R/reseq-scds")
+SCDS_R_LIB = RESEQ_R_LIB
+
+#: Ambiente conda com R, DropletUtils, scDblFinder e SoupX já compilados
+#: (bioconda). O R do sistema não tem gfortran, e statmod/igraph não compilam.
+RESEQ_RSCRIPT = Path("/home/pedrovp/venvs/reseq-r/bin/Rscript")
+
+#: Ambiente Python separado do CellBender (não altera o .venv do projeto).
+CELLBENDER_BIN = Path("/home/pedrovp/venvs/cellbender/bin/cellbender")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Pré-processamento a partir da matriz raw (sc-best-practices, P01–P06)
+# ─────────────────────────────────────────────────────────────────────────────
+
+EMPTYDROPS_LOWER = 100         # barcodes com ≤ 100 UMIs definem o perfil ambiente
+EMPTYDROPS_NITERS = 10_000
+EMPTYDROPS_FDR = 0.001
+CELLRANGER_UMI_FLOOR = 500     # piso aplicado pelo Cell Ranger 10 (observado em C01/P01)
+CELLBENDER_FPR = 0.01
+CELLBENDER_EPOCHS = 150
+CELLBENDER_PROB = 0.5          # probabilidade de célula para chamar
+BP_K = 5                       # MADs, dois lados: log1p(counts), log1p(genes), top-20
+BP_K_MT = 3                    # MADs acima, em logit da fração MT
+BP_MT_PCT = 8.0                # e % MT acima disto
+BP_MIN_CELLS = 20              # filtro de genes do capítulo de QC
+QC_MIN_UMIS = 200              # valor único (chamada e mínimo do QC) para todas as bibliotecas — ver P03, seção 8
+#: Doublets removidos: scDblFinder com limiar calibrado pela taxa do 10x (por
+#: biblioteca) + doublets T + B validados em A03. O limiar padrão do scDblFinder
+#: marcava 1,7× a taxa esperada (P04).
+DOUBLETS_CALIBRADOS = True
+INTRONIC_DEBRIS = 0.5          # fração intrônica a partir da qual o barcode é tratado como material nuclear
+SEED = 123                     # semente do capítulo (scDblFinder)
 
 #: Números gravados nas saídas do notebook original (preprocessing.ipynb), usados
 #: para validar a réplica sobre os dados antigos.

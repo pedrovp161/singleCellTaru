@@ -66,6 +66,18 @@ Objeto integrado: `dataReseq/A04_processamento_integracao/reseq_integrado.h5ad`.
    Estímulo e canal estão confundidos neste desenho. O efeito do estímulo deve
    ser testado nas contagens (pseudobulk pareado por paciente), não pela
    presença ou ausência de clusters.
+7. **Partir da matriz raw quase não recupera células com conteúdo útil
+   (P01–P06).** Sem o piso de 500 UMIs do Cell Ranger, o emptyDrops chama
+   38.005 barcodes a mais. Com controle de profundidade, só ~2.300 têm perfil
+   de célula, quase todos abaixo de 500 UMIs. O padrão adotado é um **valor
+   único de 200 UMIs** para chamada e QC em todas as bibliotecas:
+   - fora do Cell Ranger, só entram barcodes com perfil de célula;
+   - saem os doublets do scDblFinder calibrados pela taxa do 10x e os T + B
+     validados.
+
+   Resultado: **35.247 células** (antigo: 35.064), e HNP44_NS passa de 70
+   para **111**. As 789 células de baixa profundidade formam um cluster
+   técnico e ficam marcadas.
 
 ---
 
@@ -82,6 +94,7 @@ Objeto integrado: `dataReseq/A04_processamento_integracao/reseq_integrado.h5ad`.
 | processamento | A04 | réplica do `processing.ipynb` (validada: reproduz `adata_harmony.h5ad` exatamente) e duas correções |
 | clusterização | A05 | os clusters são estados celulares ou artefatos? os problemas antigos se repetem? |
 | outros detectores | A06 | Solo (scvi-tools) e cxds (scds) mudam a conclusão sobre doublets? |
+| a partir da matriz raw | P01–P06 | gotas vazias (emptyDrops, CellBender), QC do best practices, SoupX, scDblFinder, valor único de corte |
 
 As três variantes de processamento, sobre as mesmas 35.064 células:
 
@@ -333,15 +346,155 @@ captura. *A02.*
 
 ---
 
-## 4. O que fazer a partir daqui
+## 4. Pré-processamento a partir da matriz raw (P01–P06)
+
+Refeito a partir de `raw_feature_bc_matrix.h5`, seguindo os capítulos *raw
+data processing* e *quality control* do
+[sc-best-practices](https://www.sc-best-practices.org/introduction/raw-data-processing/).
+Sem FASTQ nem BAM, as etapas anteriores à matriz (alinhamento, correção de
+barcode, UMIs) só podem ser auditadas pelo que o Cell Ranger registrou (C01,
+C03).
+
+**Gotas vazias (P01, P02).**
+- O `emptyDropsCellRanger` (DropletUtils) reproduz a chamada do Cell Ranger:
+  37.783 de 37.898 células.
+- O `emptyDrops` sem o piso de 500 UMIs acrescenta **38.005** barcodes, com
+  mediana de 153 UMIs; 49% deles têm perfil nuclear. PB21_NS sozinha soma
+  21.388.
+- O CellBender (Python, GPU) concorda com o Cell Ranger e, como o emptyDrops,
+  toma o material nuclear de PB21_NS por célula (+18.584).
+
+**Os extras parecem célula?**
+- O teste compara o perfil de cada barcode com o das células e com o do
+  ambiente, usando dois controles na mesma profundidade: células reais
+  subamostradas e gotas vazias somadas. Uma célula reduzida a ~170 UMIs
+  continua reconhecível.
+- Por esse critério, cerca de 2.260 dos 38.005 extras têm perfil de célula, quase
+  todos abaixo de 500 UMIs.
+- Em HNP44_NS, os 732 extras (mediana de 170 UMIs, contra 18.121 nas células)
+  ficam no nível das gotas vazias. Eles ainda trazem genes do Y numa doadora e
+  os genes de moléculas espúrias do C03.
+
+**O valor único (P03).** Com os limiares do capítulo calculados nas células do
+Cell Ranger, o piso de chamada quase não pesa. O que decide é o limite
+inferior de 5 MADs por biblioteca, que vai de ~150 a ~3.800 UMIs. Um mínimo
+fixo, o mesmo para chamada e QC em todas as bibliotecas, antes dos doublets:
+
+| mínimo de UMIs | células (todos os barcodes acima do mínimo) | extras ao Cell Ranger | extras com perfil de célula |
+| --- | --- | --- | --- |
+| **200 (adotado, só extras com perfil)** | 39.544 → **36.979** | 3.354 → 789 | 789 |
+| 300 | 37.936 | 1.746 | 471 |
+| 500 | 36.940 | 750 | 17 |
+| 1.000 | 35.514 | 499 | 8 |
+| 5 MADs por biblioteca | 35.671 | 743 | 227 |
+
+O padrão adotado é **200 UMIs**, com três regras:
+- **células do Cell Ranger** entram se passarem nas demais regras do
+  capítulo: limites superiores, top-20, MT em logit + 8% e o filtro de
+  material nuclear;
+- **barcodes fora do Cell Ranger** só entram com perfil de célula pelo teste
+  de P01. São 789, marcados em `obs["baixa_profundidade"]`, com mediana de
+  327 UMIs e 253 genes;
+- **o teste de perfil não é aplicado às células do Cell Ranger.** Ele foi
+  calibrado para barcodes de ~150 UMIs e compara com o perfil médio da
+  biblioteca. Aplicado a elas, reprovaria **8.512 células reais** (mediana de
+  7.242 UMIs), concentradas em alguns clusters (até 75% de um cluster) e mais
+  positivas para citocina que as demais (11,2% contra 9,2%).
+
+O padrão também mantém **1.262 células do Cell Ranger** que o MAD descartava
+nas bibliotecas profundas (mediana de 1.349 UMIs e 763 genes). Elas se
+espalham pelos clusters.
+
+**As células de baixa profundidade não se misturam.** 680 das 789 formam,
+com outras células pobres, um **cluster técnico** (cluster 7 de P05: 1.366
+células, mediana de 504 UMIs e 342 genes, quase sem citocinas). Na anotação,
+ele deve ser marcado como técnico. Sem ele, o objeto tem ~34 mil células com
+conteúdo útil.
+
+> **Cuidado com o QC literal.** Recalcular os limiares sobre candidatos não
+> filtrados desloca tudo. Em HNP44_NS, 723 barcodes "passariam". Com piso de
+> 100 UMIs, ~8.000 células reais sairiam como outliers superiores.
+
+**Ambiente e doublets (P04).**
+- **SoupX:** ρ fica no piso da busca (1%) na maioria das bibliotecas, ou
+  seja, ≤ 1%. A correção tira sobretudo eventos de 1 UMI de citocina em
+  CTH97_ML.
+- **scDblFinder:** com o limiar padrão, marca 7,6% das células, contra ~4,5%
+  esperados, nos clusters de mais RNA.
+- **Removidos 1.732 doublets:** o limiar do scDblFinder calibrado pela taxa
+  do 10x, por biblioteca, mais os T + B validados. Todas as variantes testadas
+  tiram células com ~2× a mediana de UMIs; não dá para separar doublet de
+  célula grande.
+
+**Balanço (P06).**
+
+| | antigo (A01) | novo |
+| --- | --- | --- |
+| células finais | 35.064 | **35.247** |
+| de onde vem a diferença | — | +1.262 do Cell Ranger que o MAD descartava, +789 de baixa profundidade, −1.732 doublets (950 em PB21_ML) |
+| HNP44_NS | 70 | **111** |
+| bibliotecas pequenas | — | +2% a +10% |
+| genes (filtro global ≥ 20 células) | — | 26.053; 14 de 16 citocinas |
+| concordância com a V3 de A04 | — | ARI 0,56 (entre sementes: 0,55) |
+
+Objeto: `dataReseq/P05_integracao/reseq_raw_integrado__v2.h5ad`:
+- contagens SoupX em `layers["counts"]` e brutas em `layers["counts_raw"]`;
+- `X` = lognorm, com a V3 (PCA, Harmony, UMAP, `leiden`);
+- marcas em `obs`: `baixa_profundidade`, `so_no_padrao` e `scdbl_doublet`
+  (limiar padrão, só informativo).
+
+O `reseq_raw_integrado.h5ad` sem sufixo é a versão anterior, com o padrão de
+500 UMIs e os doublets só marcados, preservada.
+
+### Integração e clusterização do objeto principal (P07)
+
+O objeto principal (`reseq_raw_integrado__v2.h5ad`, 35.247 células) foi
+integrado com **Harmony por biblioteca**, como no original. A vizinhança usa as
+15 primeiras dimensões.
+
+**A integração mistura bem:**
+- os vizinhos da mesma biblioteca caem de 41% para 11% (mediana);
+- o número efetivo de pacientes na vizinhança vai de 1,4 para 2,9 (o máximo
+  possível é 4,3);
+- continuam mais separadas MB34_ML, CTH97_ML, PB20_NS e HNP44_NS (~3× o
+  esperado);
+- como em A04, a correção também aproxima as duas bibliotecas de cada
+  paciente (0,54 → 0,22).
+
+**Resolução.** O 0,5 do original está entre as resoluções menos estáveis entre
+sementes (ARI 0,54). Ficam duas escalas:
+
+| escala | resolução | clusters | ARI entre sementes |
+| --- | --- | --- | --- |
+| **fina (principal)** | 0,8 | 14 | 0,62 |
+| grossa | 0,2 | 6 | 0,76 |
+
+**Clusters técnicos na escala fina:** 6 e 12 (baixo conteúdo de RNA, 1.100–1.300
+UMIs medianos, onde caem as células de baixa profundidade) e 11 e 13
+(não-T). Somam 3.064 células. Sem eles, a profundidade explica 22% da variância
+de UMIs dentro da biblioteca, como na V3 de A05.
+
+O cluster 7 tem mais células nas bibliotecas estimuladas nos 7 pacientes
+(p exato 0,016; 0,11 após correção) e 47% delas vêm de CTH97. É uma hipótese
+para a anotação.
+
+Rótulos: `dataReseq/P07_integracao_clusterizacao/clusters__v3.parquet`:
+- colunas `leiden_final` (0,8), `leiden_grossa` (0,2), `leiden_r*` e
+  `cluster_tecnico`;
+- chave `cell_key` do objeto principal.
+
+## 5. O que fazer a partir daqui
 
 1. **Não sequenciar mais estas bibliotecas.** Mais sinal de citocina exige
    mais células respondedoras: mais células por captura, enriquecimento
    (sorting por marcador de ativação, captura de células secretoras) ou leitura
    direcionada. Também convém rever o estímulo (dose, tempo até a coleta,
    presença de células apresentadoras).
-2. **Usar o objeto integrado da V3** (`reseq_integrado.h5ad`, chaves padrão)
-   como linha de base. A V1 fica no objeto só como registro do original.
+2. **Partir de `reseq_raw_integrado__v2.h5ad`** (P05), com os rótulos do P07
+   (`clusters__v3.parquet`): padrão de 200 UMIs, contagens SoupX, sem doublets,
+   Harmony por biblioteca, Leiden 0,8. Tirar os clusters técnicos
+   (`cluster_tecnico`) antes de anotar. O `reseq_integrado.h5ad` (A04) continua sendo o
+   registro das três variantes sobre o pré-processamento antigo.
 3. **Antes de anotar:**
    - remover os clusters técnicos (8, 10, 11, 12) e os barcodes com sinal de B;
    - não remover células por Scrublet, Solo ou cxds; levar o consenso dos três
@@ -360,7 +513,7 @@ captura. *A02.*
    antes de carregar; considerar remoção de células mortas e multiplexação
    (hashing), que mede doublets diretamente.
 
-## 5. Perguntas que só o laboratório pode responder
+## 6. Perguntas que só o laboratório pode responder
 
 - Quantas células foram carregadas por canal, e com que viabilidade? Com isso
   dá para calcular a eficiência de captura de cada biblioteca e fechar a

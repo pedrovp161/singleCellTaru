@@ -1,0 +1,3 @@
+grafo,vizinhos da mesma biblioteca (mediana das bibliotecas),iLISI de bibliotecas (mediana),iLISI de pacientes (mediana),separação NS × ML no paciente (mediana),"iLISI de bibliotecas, mistura perfeita","iLISI de pacientes, mistura perfeita"
+antes do Harmony (PCA),0.407687,1.54839,1.43781,0.543862,6.77936,4.32322
+depois do Harmony,0.105258,3.76744,2.92208,0.21531,6.77936,4.32322
