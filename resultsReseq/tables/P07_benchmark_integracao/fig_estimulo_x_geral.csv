@@ -1,0 +1,19 @@
+key,rotulo,Overall score,estímulo preservado,separacao_estimulo
+scgen,scGen*,0.765731,0.485599,0.300959
+scanvi,scANVI*,0.651758,0.681265,0.422227
+combat_esc,ComBat,0.565763,0.529675,0.328277
+seurat_rpca,Seurat v5 RPCA,0.517531,0.411447,0.255002
+seurat_cca,Seurat v5 CCA,0.504861,0.277453,0.171957
+scvi,scVI,0.500513,0.640422,0.396914
+harmony_esc,Harmony,0.498282,0.353534,0.219109
+scanorama_esc_emb,Scanorama,0.495763,0.529678,0.328278
+combat,ComBat,0.478566,0.551908,0.342056
+scanorama_emb,Scanorama,0.476067,0.541743,0.335756
+harmony_esc_15d,Harmony · 15 dims (P05),0.448386,0.347403,0.21531
+harmony,Harmony,0.441493,0.3684,0.228323
+scanorama_genes,Scanorama,0.434649,0.525865,0.325915
+nao_integrado_esc,Não integrado,0.350493,1,0.619769
+bbknn_esc,BBKNN,0.343953,-0.254417,-0.15768
+nao_integrado,Não integrado,0.319563,1.03754,0.643036
+scanorama_esc_genes,Scanorama,0.31722,0.521665,0.323312
+bbknn,BBKNN,0.284651,-0.262339,-0.16259

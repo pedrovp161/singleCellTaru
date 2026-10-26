@@ -1,0 +1,16 @@
+key,ajuste,tempo_s,memoria_pico_gb
+nao_integrado_esc,pca_esc,0.268552,0.000507904
+nao_integrado,pca,0.259116,0.000503808
+harmony_esc,harmony_esc,3.58375,0.132956
+harmony,harmony,2.74257,0.118862
+scanorama_esc_emb,scanorama_esc,122.139,6.97558
+scanorama_emb,scanorama,113.411,6.6128
+bbknn_esc,bbknn_esc,11.9911,0.350192
+bbknn,bbknn,11.9834,0.343892
+combat_esc,combat_esc,5.24294,2.72247
+combat,combat,5.20131,2.19421
+scvi,scvi,312.35,1.14409
+scanvi,scanvi,352.71,1.64164
+scgen,scgen,124.522,2.21538
+seurat_cca,seurat_cca,592.887,4.87568
+seurat_rpca,seurat_rpca,527.532,6.13457

@@ -1,0 +1,8 @@
+grupo,rótulos do Azimuth,células,% das rotuladas,bibliotecas com o rótulo
+CD4 naive,Naive CD4 T cell,25249,0.751727,14
+CD4 memória,"Memory CD4 T cell, Tfh cell, KLRB1 cytotoxic CD4 T",4194,0.124866,14
+Treg,Treg cell,2897,0.086251,14
+CD8 e T não convencional,"GZMB CD8 T cell, GZMK CD8 T cell, Naive CD8 T cell, MAIT cell, CD8aa+ T cell, gdT cell",864,0.0257235,14
+B e plasmócito,"Naive B cell, Memory B cell, Plasma cell, ProB cell",265,0.00788972,14
+NK e ILC,"CD16 NK cell, CD56 NK cell, ILC",77,0.00229249,13
+mieloide,"CD14 monocyte, CD16 monocyte, CD14/CD16 monocyte, mregDC, LYVE1 macrophage, Mast cell",42,0.00125045,12

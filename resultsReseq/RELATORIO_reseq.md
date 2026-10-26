@@ -12,7 +12,10 @@ dos dados integrados, **sem anotação**.
 
 Código e notebooks: `src/Reseq/` (ver `src/Reseq/README.md`). Figuras e
 tabelas: `resultsReseq/figures/<notebook>/` e `resultsReseq/tables/<notebook>/`.
-Objeto integrado: `dataReseq/A04_processamento_integracao/reseq_integrado.h5ad`.
+Objeto principal: `dataReseq/P05_integracao/reseq_raw_integrado__v2.h5ad`, com a
+integração do P07 e os clusters do P08 (seção 4). O
+`dataReseq/A04_processamento_integracao/reseq_integrado.h5ad` é o registro das
+variantes sobre o pré-processamento antigo.
 
 > **Limite de inferência.** 7 pacientes, 14 bibliotecas. MB e NP têm um
 > paciente cada; 41% das células vêm de um paciente (PB21). Composições por
@@ -78,6 +81,32 @@ Objeto integrado: `dataReseq/A04_processamento_integracao/reseq_integrado.h5ad`.
    Resultado: **35.247 células** (antigo: 35.064), e HNP44_NS passa de 70
    para **111**. As 789 células de baixa profundidade formam um cluster
    técnico e ficam marcadas.
+8. **No benchmark de integração no formato do scIB (P07), o ComBat vence o
+   Harmony.** Foram 10 métodos e 18 execuções, com as métricas e a agregação
+   de Luecken et al. (2022). O ComBat sobre a lognorm escalonada teve o maior
+   score geral entre os métodos que não usam rótulo (0,566), em 1º sob as 6
+   formas de agregar. Ele preserva 53% da separação NS × ML, contra 35% do
+   Harmony usado até aqui, que ficou em 9º de 14. A clusterização foi refeita
+   sobre ele (P08): 19 clusters na resolução 1,0, dos quais 4 são técnicos.
+9. **Anotação e clusterização alternativa (P09–P11).**
+   - **Anotação:** por marcadores canônicos, a amostra é 33% CD4 naive, 37%
+     memória (Tcm, Tfh-like, Th17, Tem GZMK⁺), 9% ativadas pelo TCR, 5% Treg e
+     4% citotóxicas. Há 1,2% de contaminantes (B/plasmócito, monócito,
+     progenitor CD34⁺, basófilo) e 11% de células de baixa qualidade. A
+     anotação concorda em 79% com o atlas CD4⁺ de Yasumizu et al. (2024),
+     mapeado com o Symphony sem usar a nossa integração.
+   - **NMF:** o método do mesmo artigo (programas gênicos de NMF) supera o
+     Leiden na comparação com réguas independentes. Concorda mais com o atlas
+     (ARI 0,23 contra 0,14), é muito mais estável (0,94 contra 0,47 em
+     subamostras) e separa a resposta a interferon e a Treg efetora. Metade das
+     células, porém, é mistura de programas.
+10. **O benchmark de integração refeito com rótulos melhores (P12)** mantém o
+    ComBat no grupo de cima, ao lado do Seurat RPCA e do Harmony com 50
+    dimensões, a poucos centésimos um do outro. A regra do P07 escolheria o
+    RPCA com a anotação e com o atlas. O ComBat continua: fica entre os 3
+    primeiros em todas as variantes e é o único do grupo que devolve a matriz
+    de genes que a NMF exige. O Harmony de 15 dimensões fica sempre para trás,
+    e a vantagem do scGen no P07 vinha do rótulo com que foi treinado.
 
 ---
 
@@ -346,7 +375,7 @@ captura. *A02.*
 
 ---
 
-## 4. Pré-processamento a partir da matriz raw (P01–P06)
+## 4. Pré-processamento a partir da matriz raw (P01–P08)
 
 Refeito a partir de `raw_feature_bc_matrix.h5`, seguindo os capítulos *raw
 data processing* e *quality control* do
@@ -446,42 +475,177 @@ Objeto: `dataReseq/P05_integracao/reseq_raw_integrado__v2.h5ad`:
 O `reseq_raw_integrado.h5ad` sem sufixo é a versão anterior, com o padrão de
 500 UMIs e os doublets só marcados, preservada.
 
-### Integração e clusterização do objeto principal (P07)
+### Benchmark de métodos de integração (P07)
 
-O objeto principal (`reseq_raw_integrado__v2.h5ad`, 35.247 células) foi
-integrado com **Harmony por biblioteca**, como no original. A vizinhança usa as
-15 primeiras dimensões.
+O Harmony por biblioteca do P05 foi posto contra os métodos do benchmark de
+Luecken et al. (2022, *Nat Methods* 19:41–50), com o pacote de métricas do
+artigo (`scib` 1.1.7), a mesma agregação (min-max; 0,4 × lote + 0,6 × bio) e
+figuras no mesmo formato.
 
-**A integração mistura bem:**
-- os vizinhos da mesma biblioteca caem de 41% para 11% (mediana);
-- o número efetivo de pacientes na vizinhança vai de 1,4 para 2,9 (o máximo
-  possível é 4,3);
-- continuam mais separadas MB34_ML, CTH97_ML, PB20_NS e HNP44_NS (~3× o
-  esperado);
-- como em A04, a correção também aproxima as duas bibliotecas de cada
-  paciente (0,54 → 0,22).
+**Métodos.** Não integrado, Harmony, Scanorama (embedding e matriz), BBKNN,
+ComBat, scVI, scANVI\*, scGen\*, Seurat v5 CCA e RPCA. Todos usam as mesmas
+2.000 HVG, com e sem escala quando o método aceita: 18 execuções.
 
-**Resolução.** O 0,5 do original está entre as resoluções menos estáveis entre
-sementes (ARI 0,54). Ficam duas escalas:
+**Adaptações:**
+- o rótulo biológico é o Azimuth do Cell Ranger, agrupado em 7 classes, já
+  que não há anotação;
+- lote = biblioteca;
+- uma métrica do estudo, a separação NS × ML preservada, veta quem apaga o
+  estímulo mais que o Harmony atual;
+- scANVI e scGen usam o rótulo no treino e não são elegíveis;
+- o kBET foi portado para Python.
+
+**Resultado:**
+
+| posição (elegíveis) | execução | geral | lote | bio | estímulo preservado |
+| --- | --- | --- | --- | --- | --- |
+| **1** | **ComBat, escalado** | **0,566** | 0,598 | 0,544 | **53%** |
+| 2 | Seurat v5 RPCA | 0,518 | 0,506 | 0,525 | 41% |
+| 3 | Seurat v5 CCA | 0,505 | 0,488 | 0,516 | 28% |
+| 4 | scVI | 0,501 | 0,683 | 0,379 | 64% |
+| 5 | Harmony, escalado (50 dimensões) | 0,498 | 0,543 | 0,468 | 35% |
+| 9 | Harmony do P05 (15 dimensões) | 0,448 | 0,474 | 0,432 | 35% |
+
+- O ComBat remove toda a variância da PCA explicada pela biblioteca (PCR
+  1,00) e tem o maior ARI de todas as execuções (0,51).
+- Ficou em 1º sob as 6 formas de agregar, entre elas z-score, pesos iguais e
+  sem as métricas de rótulo isolado (que aqui medem um grupo de 42 células).
+- Só scGen\* (0,766) e scANVI\* (0,652), que usam o rótulo, ficaram acima.
+- Os dois BBKNN foram vetados: misturam as duas bibliotecas de cada paciente
+  além do acaso.
+
+A tarefa é simples: um tipo celular separado por citometria, em bibliotecas de
+composição parecida. Nesse cenário, um modelo linear por gene basta. Isso é
+coerente com os benchmarks anteriores citados pelo artigo, em que o ComBat ou o
+Harmony superavam os métodos não lineares em tarefas simples.
+
+### Clusterização sobre o ComBat (P08)
+
+**Mistura.**
+- Os vizinhos da mesma biblioteca caem de 41% para 17%; com o Harmony, eram
+  11%.
+- O número efetivo de pacientes vai de 1,4 para 2,6; com o Harmony, 2,9.
+- A separação NS × ML fica em 0,33; com o Harmony, 0,22.
+
+**Resolução.**
 
 | escala | resolução | clusters | ARI entre sementes |
 | --- | --- | --- | --- |
-| **fina (principal)** | 0,8 | 14 | 0,62 |
-| grossa | 0,2 | 6 | 0,76 |
+| **fina (principal)** | 1,0 | 19 | 0,58 |
+| intermediária | 0,2 | 6 | 0,79 |
+| grossa | 0,1 | 4 | 0,98 |
 
-**Clusters técnicos na escala fina:** 6 e 12 (baixo conteúdo de RNA, 1.100–1.300
-UMIs medianos, onde caem as células de baixa profundidade) e 11 e 13
-(não-T). Somam 3.064 células. Sem eles, a profundidade explica 22% da variância
-de UMIs dentro da biblioteca, como na V3 de A05.
+Entre 0,6 e 1,0 o ARI quase não muda; só 8 dos 19 clusters são estáveis
+entre sementes.
 
-O cluster 7 tem mais células nas bibliotecas estimuladas nos 7 pacientes
-(p exato 0,016; 0,11 após correção) e 47% delas vêm de CTH97. É uma hipótese
+**Clusters técnicos na escala fina** (3.136 células):
+- 7 (1.855 células) e 11 (914): baixo conteúdo de RNA; no 11, 60% são de baixa
+  profundidade;
+- 14 e 15: não-T.
+
+Sem eles, a profundidade explica 22% da variância de UMIs dentro da biblioteca.
+
+Os clusters 4, 7, 10 e 13 têm mais células nas bibliotecas estimuladas em 6 de
+7 pacientes. Nenhum resiste à correção, e o 10 é 74% de CTH97. São hipóteses
 para a anotação.
 
-Rótulos: `dataReseq/P07_integracao_clusterizacao/clusters__v3.parquet`:
-- colunas `leiden_final` (0,8), `leiden_grossa` (0,2), `leiden_r*` e
-  `cluster_tecnico`;
-- chave `cell_key` do objeto principal.
+**Arquivos:**
+- integração: `dataReseq/P07_benchmark_integracao/integracao_escolhida.h5ad`
+  (embedding, grafo e UMAP do ComBat);
+- rótulos: `dataReseq/P08_clusterizacao/clusters.parquet` (`leiden_final`,
+  `leiden_grossa`, `leiden_r*`, `cluster_tecnico`);
+- os dois se unem ao objeto principal pela chave `cell_key`. O trecho de
+  código está em `src/Reseq/README.md`.
+
+Os rótulos anteriores, sobre o Harmony, continuam em
+`dataReseq/P07_integracao_clusterizacao/clusters__v3.parquet`.
+
+### Anotação, programas de NMF e o benchmark refeito (P09–P12)
+
+**Régua independente.** O artigo indicado para a clusterização alternativa é
+Yasumizu et al. (2024, *Cell Genomics* 4:100473), um atlas de células T CD4⁺
+do sangue. As 33.999 células que o Azimuth chama de CD4⁺ foram mapeadas na
+referência pública do atlas com o Symphony (lote = biblioteca), sem usar a
+nossa integração nem os nossos clusters. Ficaram 5 tipos L1 e 18 L2 por
+célula. Dos 1.271 genes da referência, 1.177 estão nos dados (o atlas é 5′ v2).
+
+**Anotação (P09).** Painel de marcadores canônicos com referências (linhagem,
+naive/memória, Treg, Th17, Tfh, citotóxica, ativação e contaminantes),
+genes diferenciais e o atlas como conferência:
+
+| classe | clusters | células |
+| --- | --- | --- |
+| CD4 naive | 0, 2, 12 | 33,4% |
+| CD4 memória (Tcm, Tcm/Tfh, transição, Th17, Tem GZMK⁺) | 1, 3, 5, 6, 16 | 36,8% |
+| CD4 ativada pelo TCR | 4, 13 | 9,0% |
+| Treg | 8 | 4,9% |
+| CD4 citotóxica | 9 | 3,7% |
+| contaminantes (B/plasmócito, monócito, progenitor CD34⁺, basófilo) | 14, 15, 17, 18 | 1,2% |
+| baixa qualidade | 7, 10, 11 | 11,1% |
+
+- Concordância com o L1 do atlas: 79,2% (κ 0,65). Em naive e Treg, 94,7%,
+  contra 65,7% do Azimuth automático.
+- O Tem do atlas cai quase todo em Tcm: o painel não separa memória central
+  e efetora fora do eixo CCR7.
+- As classes ativadas aumentam com o estímulo em 6 de 7 pacientes, e o Th17
+  em repouso diminui. É descritivo.
+
+**Programas de NMF (P10).** É a alternativa do artigo ao Leiden. Os 18 tipos
+do atlas foram definidos com Leiden, mas, para descrever o CD4⁺, os autores
+usam programas gênicos de NMF, porque delimitar clusters num contínuo seria
+artificial.
+
+- **A receita:** regressão de UMIs, %MT e ciclo; escala com os negativos
+  zerados; `sklearn` NMF. Aplicada aos dados corrigidos pelo ComBat.
+- **O número de programas:** os critérios do artigo só limitam por baixo
+  (k > 7). O desempate foi a reprodutibilidade entre sementes, que dá k = 14,
+  com k = 9 como sensibilidade.
+- **Os programas:** naive, naive com interferon, transição, Tcm, Tfh-like,
+  Th17, ativação, Treg, Treg efetora (HLA-DR⁺ CD39⁺), citotóxico, um programa
+  técnico (MALAT1/NEAT1) e três de contaminantes.
+- **O contínuo:** em 50,5% das células, o programa dominante tem menos de 40%
+  do total.
+- **Os programas publicados** projetam bem (POH 0,20), mas, como clusters,
+  quase tudo cai no Naive-F.
+
+**Leiden × NMF (P11).** Cinco partições, com métricas de concordância com as
+réguas independentes, robustez, peso técnico, especificidade de marcadores e
+anotação:
+
+| | Leiden 1,0 (anterior) | Leiden 0,6 | **NMF k = 14 (novo)** | NMF k = 9 |
+| --- | --- | --- | --- | --- |
+| ARI com o atlas L2 | 0,14 | 0,15 | **0,23** | 0,24 |
+| ARI em subamostras de 80% | 0,47 | 0,41 | **0,94** | 0,98 |
+| η² da profundidade | 0,59 | 0,26 | **0,33** | 0,07 |
+| AUROC dos marcadores | 0,77 | 0,80 | **0,77** | 0,78 |
+| anotação × atlas L1 | 0,79 | — | **0,80** | — |
+| score geral | 0,28 | 0,48 | **0,65** | 0,79 |
+
+- A NMF supera o Leiden mesmo com o mesmo número de grupos.
+- O Leiden 0,6 tem os marcadores mais específicos.
+- A robustez da NMF entre sementes (0,998) é alta por construção, porque foi
+  o critério da escolha de k. A das subamostras não é.
+
+**Benchmark de integração com os rótulos novos (P12).** As 18 execuções do P07
+foram reavaliadas com a anotação do P09 e com o tipo L2 do atlas no lugar do
+Azimuth. As métricas, a agregação e a regra são as mesmas. A agregação
+principal deixa de fora as métricas de rótulo isolado, porque o rótulo isolado
+das réguas novas tem 14–18 células e nenhuma integração o isola.
+
+| régua | maior score elegível | escolhido pela regra | ComBat entre os elegíveis |
+| --- | --- | --- | --- |
+| Azimuth (P07) | ComBat (0,566) | ComBat | 1º |
+| anotação (P09) | Seurat RPCA (0,717) | Seurat RPCA | 2º (0,695) |
+| atlas L2 | Harmony 50 dims (0,726) | Seurat RPCA (empate com o Harmony; mais estímulo) | 3º (0,696) |
+| atlas L2, agregação completa | Harmony 50 dims | ComBat (empate; mais estímulo) | 2º |
+
+- O grupo de cima é o mesmo com as três réguas (ρ 0,84–0,87 entre as
+  classificações).
+- O ComBat segue como integração do pipeline, porque a NMF precisa de matriz
+  de genes, e o Seurat v5 e o Harmony devolvem só embedding.
+- O Harmony de 15 dimensões fica entre o 9º e o 12º lugar.
+- O scGen cai do 1º para o 5º/6º lugar quando a régua não é o rótulo com que
+  foi treinado.
 
 ## 5. O que fazer a partir daqui
 
@@ -490,23 +654,28 @@ Rótulos: `dataReseq/P07_integracao_clusterizacao/clusters__v3.parquet`:
    (sorting por marcador de ativação, captura de células secretoras) ou leitura
    direcionada. Também convém rever o estímulo (dose, tempo até a coleta,
    presença de células apresentadoras).
-2. **Partir de `reseq_raw_integrado__v2.h5ad`** (P05), com os rótulos do P07
-   (`clusters__v3.parquet`): padrão de 200 UMIs, contagens SoupX, sem doublets,
-   Harmony por biblioteca, Leiden 0,8. Tirar os clusters técnicos
-   (`cluster_tecnico`) antes de anotar. O `reseq_integrado.h5ad` (A04) continua sendo o
+2. **Partir de `reseq_raw_integrado__v2.h5ad`** (P05), com a integração do
+   P07 (`integracao_escolhida.h5ad`, ComBat) e os rótulos do P08
+   (`clusters.parquet`): padrão de 200 UMIs, contagens SoupX, sem doublets,
+   Leiden 1,0. Tirar os clusters técnicos (`cluster_tecnico`) antes de
+   anotar. A matriz corrigida pelo ComBat serve só para vizinhança e
+   clusterização; DE e citocinas usam as contagens. O `reseq_integrado.h5ad` (A04) continua sendo o
    registro das três variantes sobre o pré-processamento antigo.
-3. **Antes de anotar:**
-   - remover os clusters técnicos (8, 10, 11, 12) e os barcodes com sinal de B;
+3. **Usar a anotação do P09 e os programas do P10:**
+   - tirar contaminantes e baixa qualidade (coluna `grupo`) antes de analisar
+     CD4⁺;
    - não remover células por Scrublet, Solo ou cxds; levar o consenso dos três
      como coluna de sensibilidade;
-   - considerar tirar os 118 genes técnicos da seleção de genes variáveis;
-   - escolher a resolução por marcadores, conferindo a estabilidade de cada
-     cluster interpretado.
+   - para estados contínuos (ativação, interferon, Treg efetora), preferir a
+     atividade dos programas de NMF (`H14_*`) a clusters;
+   - para separar memória central e efetora, acrescentar marcadores além do
+     CCR7 ou usar o tipo do atlas.
 4. **Citocinas:** reportar sempre por biblioteca. Para chamar uma célula
    positiva, exigir ≥ 2 UMIs ou uma molécula com ≥ 3 reads.
 5. **Estímulo:** testar por pseudobulk pareado por paciente, sobre as
-   contagens. Se a composição por cluster for usada, repetir a integração com
-   Harmony por paciente e comparar.
+   contagens. O ComBat preserva mais o estímulo que o Harmony (53% contra 35%
+   da separação), mas ainda apaga parte dela. Se a composição por cluster for
+   usada, conferir contra a integração por paciente.
 6. **Estatística no nível de biblioteca e paciente.** HNP44_NS (70 células)
    fica fora de composição e pseudobulk.
 7. **Em novas capturas:** contar células e medir viabilidade imediatamente

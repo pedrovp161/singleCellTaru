@@ -1,0 +1,19 @@
+key,Azimuth (P07),anotação por marcadores (P09),atlas L2 (independente)
+Não integrado (nao_integrado_esc),14,17,17
+Não integrado (nao_integrado),16,15,14
+Harmony (harmony_esc),7,5,1
+Harmony (harmony),12,11,10
+Harmony · 15 dims (P05) (harmony_esc_15d),11,12,15
+Scanorama (scanorama_esc_emb),8,10,9
+Scanorama (scanorama_emb),10,13,11
+Scanorama (scanorama_esc_genes),17,18,18
+Scanorama (scanorama_genes),13,14,13
+BBKNN (bbknn_esc),15,7,12
+BBKNN (bbknn),18,16,16
+ComBat (combat_esc),3,2,4
+ComBat (combat),9,4,6
+scVI (scvi),6,9,7
+scANVI* (scanvi),2,8,2
+scGen* (scgen),1,6,5
+Seurat v5 CCA (seurat_cca),5,3,8
+Seurat v5 RPCA (seurat_rpca),4,1,3

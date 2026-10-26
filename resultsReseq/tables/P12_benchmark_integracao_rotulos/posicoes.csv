@@ -1,0 +1,15 @@
+key,Azimuth (P07),anotação por marcadores (P09),atlas L2 (independente),"anotação por marcadores (P09), agregação completa","atlas L2 (independente), agregação completa"
+ComBat (combat_esc),1,2,3,2,2
+Seurat v5 RPCA (seurat_rpca),2,1,2,1,3
+Seurat v5 CCA (seurat_cca),3,3,6,3,6
+scVI (scvi),4,7,5,6,4
+Harmony (harmony_esc),5,5,1,4,1
+Scanorama (scanorama_esc_emb),6,8,7,8,8
+ComBat (combat),7,4,4,5,5
+Scanorama (scanorama_emb),8,11,9,11,9
+Harmony · 15 dims (P05) (harmony_esc_15d),9,10,12,9,11
+Harmony (harmony),10,9,8,10,7
+Scanorama (scanorama_genes),11,12,11,12,12
+BBKNN (bbknn_esc),12,6,10,7,10
+Scanorama (scanorama_esc_genes),13,14,14,13,14
+BBKNN (bbknn),14,13,13,14,13

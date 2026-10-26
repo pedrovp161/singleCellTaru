@@ -1,0 +1,20 @@
+cluster,células,rótulo,grupo,marcadores (% que detectam),atlas L1,atlas L2,Azimuth,evidência
+0,6940,CD4 naive,CD4 naive,"CCR7 94%, SELL 90%, LEF1 95%, TCF7 87%",Tnaive 98%,Tnaive 59%,Naive CD4 T cell 99%,"naive clássica (TSHZ2, FHIT, LEF1 nos diferenciais)"
+2,4415,CD4 naive,CD4 naive,"CCR7 93%, SELL 87%, LEF1 89%, TCF7 83%",Tnaive 98%,Tnaive 71%,Naive CD4 T cell 99%,naive; difere do 0 por genes ribossomais
+12,404,CD4 naive,CD4 naive,"CCR7 94%, SELL 90%, LEF1 93%, TCF7 89%",Tnaive 79%,Tnaive 52%,Naive CD4 T cell 97%,naive; difere do 0 por dois lncRNAs
+5,2696,CD4 transição naive/Tcm,CD4 memória,"CCR7 74%, LEF1 55%, S100A4 53%, ANXA1 63%",Tnaive 44%,Tnaive 40%,Naive CD4 T cell 61%,CCR7⁺ com marcadores de memória em parte; o atlas divide 44% naive / 40% Tcm
+1,4968,CD4 Tcm,CD4 memória,"CCR7 73%, ANXA1 85%, S100A4 48%, GATA3 39%, CCR4 35%",Tcm 57%,TcmTh0 40%,Naive CD4 T cell 77%,"memória central CCR7⁺; inclina a Th2 (GATA3, CCR4); atlas: TcmTh0"
+3,3086,CD4 Tcm/Tfh,CD4 memória,"CCR7 84%, KLRB1 48%, CXCR5 16%, TIGIT 31%",Tcm 58%,TcmTh0 34%,Naive CD4 T cell 86%,memória central com CXCR5 e TIGIT; atlas: TcmTh0 e TcmTfh
+6,2159,CD4 Th17,CD4 memória,"CCR6 64%, KLRB1 61%, RORC 19%, S100A4 82%",Tcm 63%,TcmTh17 50%,Naive CD4 T cell 57%,CCR6⁺ KLRB1⁺ (CD161) RORC⁺; atlas: TcmTh17
+16,56,CD4 Tem GZMK⁺,CD4 memória,"GZMK 77%, TIGIT 59%, CTLA4 45%, CCR7 88%",Tem 51%,TemTph 49%,Naive CD4 T cell 52%,GZMK⁺ TIGIT⁺; atlas: TemTph (49%); poucas células
+4,2798,CD4 ativada,CD4 ativada,"TNFRSF4 49%, IL2RA 43%, MIR155HG 33%, CD69 51%",Tcm 55%,TcmTh0 22%,Naive CD4 T cell 43%,"ativação pelo TCR (OX40, CD25, MIR155HG); mistura de naive e memória no atlas"
+13,357,CD4 ativada (Th17),CD4 ativada,"CD69 92%, TNFRSF4 84%, IL2RA 76%, CCR6 67%",Tcm 61%,TcmTh17 49%,Memory CD4 T cell 41%,ativação forte com CCR6/KLRB1; atlas: TcmTh17
+8,1733,Treg,Treg,"FOXP3 79%, IL2RA 72%, CTLA4 62%, IKZF2 78%",Treg 78%,TregEff 37%,Treg cell 88%,"FOXP3⁺ Helios⁺; atlas: TregEff, TregAct, TregNaive"
+9,1321,CD4 citotóxica (Temra),CD4 citotóxica,"GZMB 71%, PRF1 75%, GNLY 86%, NKG7 86%",Temra 79%,TemraTh1 79%,GZMB CD8 T cell 56%,"programa citotóxico; atlas: TemraTh1; uma minoria tem marcadores de NK (KLRF1, FCGR3A)"
+14,309,B e plasmócito,contaminante,"MS4A1 66%, CD79A 71%, JCHAIN 34%, MZB1 22%",Treg 30%,TregEff 30%,Memory B cell 33%,linhagem B; CD3 em <25%
+15,58,monócito,contaminante,"CD14 36%, LYZ 59%, FCGR3A 28%, HLA-DRA 79%",Tcm 41%,TemraTh1 32%,CD16 monocyte 28%,linhagem mieloide
+17,36,progenitor CD34⁺,contaminante,"CD34 44%, KIT 36%, GATA2 67%, SOX4 78%",Tcm 31%,TemraTh1 31%,HSC 44%,progenitor hematopoético
+18,14,basófilo,contaminante,"HDC 93%, CLC 79%, GATA2 71%, IL3RA 93%",Tnaive 50%,Tnaive 30%,Mast cell 29%,basófilo maduro (KIT⁻ CD34⁻)
+7,1855,baixa qualidade,baixa qualidade,"CD3E 41%, CCR7 50%",Tnaive 69%,Tnaive 50%,Naive CD4 T cell 92%,baixo conteúdo de RNA (mediana de 1.353 UMIs)
+10,1128,baixa qualidade,baixa qualidade,"CD3E 66%, CCR7 65%",Tnaive 58%,Tnaive 47%,Naive CD4 T cell 75%,"baixo conteúdo (2.568 UMIs), genes ribossomais, 74% de CTH97"
+11,914,baixa qualidade,baixa qualidade,"CD3E 13%, CCR7 14%",Tnaive 64%,Tnaive 50%,Naive CD4 T cell 77%,422 UMIs; 60% de baixa profundidade

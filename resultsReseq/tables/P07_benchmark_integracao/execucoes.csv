@@ -1,0 +1,19 @@
+key,execução,saída,escala,usa rótulo,linguagem,ajuste (s),info
+nao_integrado_esc,Não integrado,embedding,escalado,False,Python,0.268552,
+nao_integrado,Não integrado,embedding,sem escala,False,Python,0.259116,
+harmony_esc,Harmony,embedding,escalado,False,Python,3.58375,Converged after 4 iterations
+harmony,Harmony,embedding,sem escala,False,Python,2.74257,Converged after 3 iterations
+harmony_esc_15d,Harmony · 15 dims (P05),embedding,escalado,False,Python,3.58375,Converged after 4 iterations
+scanorama_esc_emb,Scanorama,embedding,escalado,False,Python,122.139,
+scanorama_emb,Scanorama,embedding,sem escala,False,Python,113.411,
+scanorama_esc_genes,Scanorama,genes,escalado,False,Python,122.139,
+scanorama_genes,Scanorama,genes,sem escala,False,Python,113.411,
+bbknn_esc,BBKNN,grafo,escalado,False,Python,11.9911,
+bbknn,BBKNN,grafo,sem escala,False,Python,11.9834,
+combat_esc,ComBat,genes,escalado,False,Python,5.24294,
+combat,ComBat,genes,sem escala,False,Python,5.20131,
+scvi,scVI,embedding,—,False,Python,312.35,227 épocas
+scanvi,scANVI*,embedding,—,True,Python,352.71,scVI 227 + scANVI 10 épocas
+scgen,scGen*,genes,sem escala,True,Python,124.522,26 épocas
+seurat_cca,Seurat v5 CCA,embedding,—,False,R,592.887,"Seurat 5.5.1 CCA: 35247 células × 50 dimensões (dims 1:30); k.weight = 100, k.filter = 110; 9.5 min"
+seurat_rpca,Seurat v5 RPCA,embedding,—,False,R,527.532,"Seurat 5.5.1 RPCA: 35247 células × 50 dimensões (dims 1:30); k.weight = 85, k.filter = 110; 8.4 min"

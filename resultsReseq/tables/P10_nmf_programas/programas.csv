@@ -1,0 +1,15 @@
+programa,rótulo,grupo,genes,células,fração dominante (mediana)
+P13 · CD4 naive,CD4 naive,CD4 naive,"LEF1-AS1, IGF1R, FHIT, TXK, CERS6",11134,0.438661
+P9 · CD4 naive IFN⁺,CD4 naive IFN⁺,CD4 naive,"IFIT3, RSAD2, MX1, ISG15, OAS3",1535,0.343958
+P5 · CD4 transição naive/Tcm,CD4 transição naive/Tcm,CD4 memória,"CD7, MIF, S100A11, S100A6, VIM",5714,0.398018
+P6 · CD4 Tcm,CD4 Tcm,CD4 memória,"NR3C1, TGFBR3, PHACTR2, SAMSN1",3739,0.357992
+P7 · CD4 Th17,CD4 Th17,CD4 memória,"CCR6, KLRB1, SLC4A10, MYBL1",2191,0.369909
+P10 · CD4 Tcm/Tfh,CD4 Tcm/Tfh,CD4 memória,"MAF, TOX, PRKCB, ITGA4, IFNG-AS1",1871,0.330785
+P4 · CD4 ativada,CD4 ativada,CD4 ativada,"MIR155HG, LTA, CCL20, TNFRSF4, IL2RA, TNF",921,0.368823
+P11 · Treg efetora (HLA-DR⁺),Treg efetora (HLA-DR⁺),Treg,"HLA-DRB1, HLA-DQB1, ENTPD1, FOXP3, LGALS3",982,0.409405
+P3 · Treg,Treg,Treg,"IKZF2, FOXP3, RTKN2, TIGIT, IL2RA",942,0.394828
+P8 · CD4 citotóxica (Temra),CD4 citotóxica (Temra),CD4 citotóxica,"NKG7, GNLY, GZMH, GZMB, PRF1",1293,0.608411
+P0 · B e plasmócito,B e plasmócito,contaminante,"BANK1, MS4A1, PAX5, CD79A",307,0.699583
+P12 · progenitor/basófilo (GATA2⁺),progenitor/basófilo (GATA2⁺),contaminante,"ATP8B4, ZNF521, SOX4, GATA2, MEIS1",131,0.357022
+P1 · monócito,monócito,contaminante,"FCER1G, MS4A7, TYROBP, CD68, CST3",73,0.676023
+P2 · programa nuclear (MALAT1/NEAT1),programa nuclear (MALAT1/NEAT1),baixa qualidade,"TALAM1, MALAT1, NEAT1, ARHGAP15, ZBTB20",4414,0.377968

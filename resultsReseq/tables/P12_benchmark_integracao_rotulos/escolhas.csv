@@ -1,0 +1,4 @@
+,escolhido,escolhido (agregação completa do artigo),maior geral elegível,empatados,vetados
+Azimuth (P07),ComBat (combat_esc),combat_esc,combat_esc,combat_esc,"bbknn_esc, bbknn"
+anotação por marcadores (P09),Seurat v5 RPCA (seurat_rpca),seurat_rpca,seurat_rpca,seurat_rpca,"bbknn_esc, bbknn"
+atlas L2 (independente),Seurat v5 RPCA (seurat_rpca),combat_esc,harmony_esc,"harmony_esc, seurat_rpca","bbknn_esc, bbknn"

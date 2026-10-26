@@ -1,0 +1,20 @@
+tipo,marcadores,referências
+célula T,"CD3E, CD3D, CD2, TRAC",Hao2021
+CD4,"CD4, CD40LG",Hao2021
+CD8,"CD8A, CD8B",Hao2021
+naive,"CCR7, SELL, LEF1, TCF7",Sallusto1999; Mahnke2013
+memória,"FAS, S100A4, ANXA1, AQP3",Mahnke2013; Yasumizu2024
+efetora (Tem),"GZMK, CCL5, KLRB1",Sallusto1999; Szabo2019
+citotóxica (Temra),"GZMB, PRF1, GNLY, NKG7, GZMH, CX3CR1",Patil2018; Mahnke2013
+Treg,"FOXP3, IL2RA, CTLA4, IKZF2, TIGIT",Fontenot2003; Thornton2010
+Th17,"RORC, CCR6, IL23R",AcostaRodriguez2007; Cosmi2008
+Th2,"GATA3, CCR4",Yasumizu2024
+Th1,"TBX21, CXCR3, IFNG",Yasumizu2024
+Tfh,"CXCR5, PDCD1, ICOS, BCL6",Crotty2011
+ativação (TCR),"CD69, TNFRSF4, TNFRSF9, MIR155HG, HLA-DRA",Szabo2019
+proliferação,"MKI67, TOP2A",Szabo2019
+B / plasmócito,"MS4A1, CD79A, CD19, JCHAIN, MZB1",Hao2021
+monócito,"CD14, LYZ, FCGR3A, CD68",Hao2021
+NK,"KLRF1, NCAM1, KLRD1",Hao2021
+progenitor CD34⁺,"CD34, KIT, GATA2, SOX4",Hao2021
+basófilo,"HDC, CLC, CPA3, IL3RA, FCER1A",Papavasileiou2025

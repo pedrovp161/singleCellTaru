@@ -1,0 +1,19 @@
+key,Batch correction,Bio conservation,Overall score,rotulo,output,escala,uses_labels,estímulo preservado,separacao_estimulo,profundidade_vizinhanca
+scgen,0.696019,0.812207,0.765731,scGen*,genes,sem escala,True,0.485599,0.300959,0.694737
+scanvi,0.672547,0.637898,0.651758,scANVI*,embedding,—,True,0.681265,0.422227,0.632991
+combat_esc,0.597816,0.544395,0.565763,ComBat,genes,escalado,False,0.529675,0.328277,0.737861
+seurat_rpca,0.505642,0.525456,0.517531,Seurat v5 RPCA,embedding,—,False,0.411447,0.255002,0.697357
+seurat_cca,0.487656,0.51633,0.504861,Seurat v5 CCA,embedding,—,False,0.277453,0.171957,0.663094
+scvi,0.68336,0.378615,0.500513,scVI,embedding,—,False,0.640422,0.396914,0.544368
+harmony_esc,0.543389,0.46821,0.498282,Harmony,embedding,escalado,False,0.353534,0.219109,0.71394
+scanorama_esc_emb,0.51064,0.485844,0.495763,Scanorama,embedding,escalado,False,0.529678,0.328278,0.707434
+combat,0.575947,0.413645,0.478566,ComBat,genes,sem escala,False,0.551908,0.342056,0.621126
+scanorama_emb,0.552282,0.425258,0.476067,Scanorama,embedding,sem escala,False,0.541743,0.335756,0.647334
+harmony_esc_15d,0.473573,0.431595,0.448386,Harmony · 15 dims (P05),embedding,escalado,False,0.347403,0.21531,0.712709
+harmony,0.539914,0.37588,0.441493,Harmony,embedding,sem escala,False,0.3684,0.228323,0.628967
+scanorama_genes,0.352156,0.489644,0.434649,Scanorama,genes,sem escala,False,0.525865,0.325915,0.714503
+nao_integrado_esc,0.194088,0.454763,0.350493,Não integrado,embedding,escalado,False,1,0.619769,0.744514
+bbknn_esc,0.659804,0.133386,0.343953,BBKNN,grafo,escalado,False,-0.254417,-0.15768,0.579177
+nao_integrado,0.245322,0.369057,0.319563,Não integrado,embedding,sem escala,False,1.03754,0.643036,0.667954
+scanorama_esc_genes,0.082759,0.473527,0.31722,Scanorama,genes,escalado,False,0.521665,0.323312,0.633962
+bbknn,0.631954,0.0531162,0.284651,BBKNN,grafo,sem escala,False,-0.262339,-0.16259,0.533711
