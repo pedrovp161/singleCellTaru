@@ -1,0 +1,3 @@
+grafo,vizinhos da mesma biblioteca (mediana),iLISI de bibliotecas (mediana),iLISI de pacientes (mediana),separação NS × ML no paciente (mediana),"|ρ| profundidade, maior das 5 primeiras dims","iLISI de bibliotecas, mistura perfeita"
+"antes (ComBat do P07, restrito)",0.35,3.46154,2.5881,0.33844,0.414349,6.483
+depois (ComBat só nas CD4),0.333333,3.52083,2.6036,0.316307,0.333041,6.483

@@ -1,0 +1,4 @@
+cluster,FOXP3 não detectado,Helios⁺ (perfil tTreg de camundongo),Helios⁻ RORC⁺/GATA3hi (perfil pTreg de camundongo),Helios⁻ sem RORC/GATA3
+0 · eTreg,0.144218,0.715646,0.0408163,0.0993197
+1 · Treg naive,0.226714,0.634446,0.00702988,0.13181
+2 · Treg ativada,0.300699,0.48951,0.0582751,0.151515

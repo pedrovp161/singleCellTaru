@@ -1,0 +1,8 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+CD4 naive,hanseniase - controle,hanseniase,controle,0.332521,0.079844,0.127275,0.537766,0.00878461,5,0.417901,0.306982,0.0614923,hanseniase,p < 0.05
+Treg,hanseniase - controle,hanseniase,controle,0.302287,0.142181,-0.0632012,0.667775,0.0868352,5,0.0594018,0.0453141,0.185995,hanseniase,Não significativo
+CD4 ativada,hanseniase - controle,hanseniase,controle,-1.04753,0.523604,-2.3935,0.298435,0.101859,5,0.0354918,0.155006,0.185995,controle,Não significativo
+CD4 transição naive/Tcm,hanseniase - controle,hanseniase,controle,1.10741,0.56289,-0.339549,2.55436,0.106283,5,0.162492,0.0868994,0.185995,hanseniase,Não significativo
+CD4 Th17,hanseniase - controle,hanseniase,controle,-0.461117,0.294692,-1.21865,0.296413,0.178415,5,0.0470811,0.088831,0.249781,controle,Não significativo
+CD4 Tcm/Tfh,hanseniase - controle,hanseniase,controle,-0.247356,0.281821,-0.971801,0.477088,0.420271,5,0.0980931,0.120613,0.490316,controle,Não significativo
+CD4 Tcm,hanseniase - controle,hanseniase,controle,0.0137911,0.0759501,-0.181445,0.209027,0.863043,5,0.154233,0.162781,0.863043,hanseniase,Não significativo

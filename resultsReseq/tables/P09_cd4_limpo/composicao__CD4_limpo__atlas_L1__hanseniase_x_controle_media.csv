@@ -1,0 +1,5 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+Tcm,hanseniase - controle,hanseniase,controle,-0.223922,0.0973992,-0.474295,0.0264504,0.0698583,5,0.269239,0.355727,0.205623,controle,Não significativo
+Treg,hanseniase - controle,hanseniase,controle,0.243531,0.133898,-0.100665,0.587726,0.128611,5,0.0606747,0.0502948,0.205623,hanseniase,Não significativo
+Tnaive,hanseniase - controle,hanseniase,controle,0.314679,0.201044,-0.202121,0.831479,0.178304,5,0.581119,0.45172,0.205623,hanseniase,Não significativo
+Tem,hanseniase - controle,hanseniase,controle,-0.334288,0.229868,-0.925182,0.256607,0.205623,5,0.0704942,0.107465,0.205623,controle,Não significativo

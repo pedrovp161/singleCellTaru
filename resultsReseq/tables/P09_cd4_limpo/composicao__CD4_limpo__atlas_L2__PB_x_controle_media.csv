@@ -1,0 +1,13 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+TcmTh2,PB - controle,PB,controle,-0.603059,0.245577,-1.3846,0.178478,0.0912174,3,0.013244,0.0266979,0.586274,controle,Não significativo
+TcmTh17,PB - controle,PB,controle,-0.730542,0.440955,-2.13386,0.672774,0.196153,3,0.0433148,0.104966,0.586274,controle,Não significativo
+TcmTh0,PB - controle,PB,controle,-0.16659,0.118125,-0.542517,0.209337,0.253258,3,0.135798,0.162676,0.586274,controle,Não significativo
+TemTh1pre,PB - controle,PB,controle,-0.411912,0.292658,-1.34328,0.519455,0.254002,3,0.0500846,0.0814265,0.586274,controle,Não significativo
+TregEff,PB - controle,PB,controle,0.229696,0.192943,-0.384336,0.843728,0.319472,3,0.0242131,0.0217924,0.586274,PB,Não significativo
+TregAct,PB - controle,PB,controle,-0.213229,0.194207,-0.831282,0.404823,0.352449,3,0.0132753,0.017296,0.586274,controle,Não significativo
+Tnaive,PB - controle,PB,controle,0.423325,0.418357,-0.908072,1.75472,0.386121,3,0.426385,0.307774,0.586274,PB,Não significativo
+TnaiveMX1,PB - controle,PB,controle,0.638131,0.661048,-1.46562,2.74188,0.405587,3,0.091382,0.0672118,0.586274,PB,Não significativo
+TcmTfh,PB - controle,PB,controle,-0.117319,0.132037,-0.537519,0.302881,0.439706,3,0.041662,0.0494129,0.586274,controle,Não significativo
+TnaiveSOX4,PB - controle,PB,controle,0.384794,0.496789,-1.19621,1.9658,0.495043,3,0.0175599,0.0140654,0.594052,PB,Não significativo
+TnaiveAct,PB - controle,PB,controle,0.427059,0.680403,-1.73829,2.59241,0.574755,3,0.0890251,0.0638468,0.627006,PB,Não significativo
+TregNaive,PB - controle,PB,controle,0.139647,0.477073,-1.37861,1.65791,0.788818,3,0.0118792,0.0118211,0.788818,PB,Não significativo

@@ -1,0 +1,16 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+TnaiveAct,estimulado - nao estimulado,estimulado,nao estimulado,0.968212,0.190944,0.477375,1.45905,0.0038649,5,0.101506,0.0453131,0.0363377,estimulado,FDR < 0.05
+TcmTfh,estimulado - nao estimulado,estimulado,nao estimulado,-0.298239,0.0620167,-0.457658,-0.13882,0.00484502,5,0.0388229,0.0559023,0.0363377,nao estimulado,FDR < 0.05
+TregEff,estimulado - nao estimulado,estimulado,nao estimulado,0.233986,0.113062,-0.0566504,0.524622,0.0932956,5,0.0279237,0.0186345,0.466478,estimulado,Não significativo
+TregAct,estimulado - nao estimulado,estimulado,nao estimulado,0.281997,0.193416,-0.215194,0.779188,0.204644,5,0.0203666,0.0162192,0.650853,estimulado,Não significativo
+TregNaive,estimulado - nao estimulado,estimulado,nao estimulado,-0.368457,0.281673,-1.09252,0.355607,0.247745,5,0.0122371,0.0170958,0.650853,nao estimulado,Não significativo
+TnaiveMX1,estimulado - nao estimulado,estimulado,nao estimulado,-0.354969,0.318457,-1.17359,0.46365,0.315689,5,0.0720515,0.0628641,0.650853,nao estimulado,Não significativo
+Tnaive,estimulado - nao estimulado,estimulado,nao estimulado,-0.133205,0.124379,-0.452933,0.186522,0.333137,5,0.342886,0.393596,0.650853,nao estimulado,Não significativo
+TcmTh17,estimulado - nao estimulado,estimulado,nao estimulado,0.0834724,0.0867225,-0.139455,0.3064,0.379993,5,0.07384,0.0692416,0.650853,estimulado,Não significativo
+TemTh1pre,estimulado - nao estimulado,estimulado,nao estimulado,-0.0602974,0.0686453,-0.236756,0.116161,0.419933,5,0.0595596,0.0689057,0.650853,nao estimulado,Não significativo
+TnaiveSOX4,estimulado - nao estimulado,estimulado,nao estimulado,-0.285496,0.335701,-1.14844,0.577451,0.433902,5,0.0149206,0.0202918,0.650853,nao estimulado,Não significativo
+TemTph,estimulado - nao estimulado,estimulado,nao estimulado,-0.0537208,0.135101,-0.401008,0.293566,0.707307,5,0.00904808,0.00912973,0.96451,nao estimulado,Não significativo
+TcmTh0,estimulado - nao estimulado,estimulado,nao estimulado,0.0204758,0.0864945,-0.201865,0.242817,0.82226,5,0.153714,0.162699,0.976744,estimulado,Não significativo
+TemTh117,estimulado - nao estimulado,estimulado,nao estimulado,-0.0248435,0.201487,-0.542783,0.493096,0.906672,5,0.0104523,0.0122209,0.976744,nao estimulado,Não significativo
+TcmTh2,estimulado - nao estimulado,estimulado,nao estimulado,0.00941149,0.116715,-0.290613,0.309436,0.938859,5,0.0208435,0.0187394,0.976744,estimulado,Não significativo
+TemraTh1,estimulado - nao estimulado,estimulado,nao estimulado,-0.0183248,0.598114,-1.55583,1.51918,0.976744,5,0.0328036,0.0201762,0.976744,nao estimulado,Não significativo

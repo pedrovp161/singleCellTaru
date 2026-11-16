@@ -1,0 +1,4 @@
+cluster,estado,células,Helios detectado,FOXP3 detectado,OR (vs demais),p,FDR
+0,eTreg,735,0.838095,0.855782,1.84271,5.58622e-07,8.37932e-07
+1,Treg naive,569,0.790861,0.773286,1.0984,0.459456,0.459456
+2,Treg ativada,429,0.666667,0.699301,0.446529,2.87376e-10,8.62129e-10

@@ -1,0 +1,15 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+9,estimulado - nao estimulado,estimulado,nao estimulado,0.230033,0.0902085,-0.0018553,0.461921,0.0512651,5,0.0526835,0.0481822,0.410192,estimulado,Não significativo
+6,estimulado - nao estimulado,estimulado,nao estimulado,-0.43432,0.178969,-0.894373,0.025733,0.0596156,5,0.0425051,0.0848837,0.410192,nao estimulado,Não significativo
+4,estimulado - nao estimulado,estimulado,nao estimulado,0.753447,0.355993,-0.161662,1.66856,0.0878983,5,0.0777779,0.0593233,0.410192,estimulado,Não significativo
+2,estimulado - nao estimulado,estimulado,nao estimulado,-0.318679,0.258117,-0.98219,0.344831,0.271822,5,0.0568773,0.0924993,0.715533,nao estimulado,Não significativo
+5,estimulado - nao estimulado,estimulado,nao estimulado,0.398637,0.331175,-0.452674,1.24995,0.282577,5,0.0814543,0.0471007,0.715533,estimulado,Não significativo
+3,estimulado - nao estimulado,estimulado,nao estimulado,-0.143537,0.129389,-0.476143,0.189069,0.317767,5,0.073454,0.101909,0.715533,nao estimulado,Não significativo
+8,estimulado - nao estimulado,estimulado,nao estimulado,0.0680273,0.0671884,-0.104686,0.240741,0.357766,5,0.0518121,0.0565813,0.715533,estimulado,Não significativo
+1,estimulado - nao estimulado,estimulado,nao estimulado,-0.20697,0.243174,-0.832068,0.418128,0.433562,5,0.0899236,0.115215,0.758733,nao estimulado,Não significativo
+17,estimulado - nao estimulado,estimulado,nao estimulado,0.158136,0.270393,-0.536932,0.853204,0.584052,5,0.0112786,0.0114922,0.842671,estimulado,Não significativo
+0,estimulado - nao estimulado,estimulado,nao estimulado,-0.0724876,0.130276,-0.407371,0.262396,0.601908,5,0.128199,0.15417,0.842671,nao estimulado,Não significativo
+7,estimulado - nao estimulado,estimulado,nao estimulado,-0.31984,0.80455,-2.388,1.74832,0.707374,5,0.101373,0.117689,0.900294,nao estimulado,Não significativo
+14,estimulado - nao estimulado,estimulado,nao estimulado,-0.104363,0.42185,-1.18876,0.980037,0.814441,5,0.0267279,0.0274927,0.950181,nao estimulado,Não significativo
+15,estimulado - nao estimulado,estimulado,nao estimulado,-0.023012,0.204858,-0.549617,0.503593,0.914931,5,0.0140964,0.0179987,0.96103,nao estimulado,Não significativo
+12,estimulado - nao estimulado,estimulado,nao estimulado,0.0149292,0.290698,-0.732334,0.762193,0.96103,5,0.0184965,0.0185071,0.96103,estimulado,Não significativo

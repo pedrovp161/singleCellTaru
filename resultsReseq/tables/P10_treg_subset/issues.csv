@@ -1,0 +1,2 @@
+severity,location,problem,evidence,impact,recommendation,notebook
+MAJOR,origem tTreg × pTreg,não há marcador humano estabelecido de tTreg × pTreg (Masopust et al. 2026),Helios detectado em 67%–84% das células em todos os clusters; 974 CD4 FOXP3⁺ IKZF2⁻ fora do cluster Treg,tTreg e pTreg não viram nome de cluster; os critérios de camundongo ficam só por célula (origem_criterio_camundongo),"validar por citometria (Helios, CD45RA, CD39) ou por TSDR antes de afirmar origem",P10_treg_subset

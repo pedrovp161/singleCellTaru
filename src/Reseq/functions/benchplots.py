@@ -470,3 +470,67 @@ def group_table(summary: pd.DataFrame, scaled: pd.DataFrame, *, groups: list, ba
         plotting.note(fig, note, y=0.005)
     fig.tight_layout(rect=(0, 0.03, 1, 0.97))
     return fig
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# UMAPs de vários métodos × várias colorações (P12)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def umap_matrix(umaps: dict, keys: list, rows: list, *, titles: dict, panel: float = 2.5, s: float = 0.5,
+                seed: int = 0, note: str = ""):
+    """Colunas = execuções; linhas = colorações.
+
+    Cada linha é um dict: ``titulo``; ``tipo`` ("cat" ou "cont"); ``valores``
+    (um por célula, ou um dict {execução: valores} quando muda por método).
+    Categórica: ``cores`` {categoria: cor} (no máximo 3, a regra de matizes),
+    ``nomes`` {categoria: texto da legenda}, ``outros`` (cor das demais
+    categorias, opcional), ``rotulo_outros``; as células sem valor ficam em
+    cinza claro (``rotulo_ausente``). Contínua: ``vmin``, ``vmax``, ``rotulo``.
+    """
+    rng = np.random.default_rng(seed)
+    n = len(next(iter(umaps.values())))
+    perm = rng.permutation(n)
+    fig, axes = plt.subplots(len(rows), len(keys), figsize=(panel * len(keys) + 2.2, panel * len(rows) + 0.9),
+                             squeeze=False)
+    for i, row in enumerate(rows):
+        dtype = object if row["tipo"] == "cat" else float
+        for j, k in enumerate(keys):
+            ax = axes[i][j]
+            um = umaps[k]
+            v = row["valores"]
+            vals = np.asarray(v[k] if isinstance(v, dict) else v, dtype=dtype)
+            if row["tipo"] == "cat":
+                c = np.full(n, plotting.CONTEXT, dtype=object)
+                if row.get("outros"):
+                    c[pd.notna(vals)] = row["outros"]
+                for cat, col in row["cores"].items():
+                    c[vals == cat] = col
+                ax.scatter(um[perm, 0], um[perm, 1], c=c[perm], s=s, lw=0, rasterized=True)
+            else:
+                o = np.argsort(vals)
+                sc_ = ax.scatter(um[o, 0], um[o, 1], c=vals[o], s=s, lw=0, cmap=plotting.SEQUENTIAL,
+                                 vmin=row.get("vmin"), vmax=row.get("vmax"), rasterized=True)
+            plotting._umap_axes(ax)
+            if i == 0:
+                ax.set_title(titles.get(k, k), fontsize=9, fontweight="bold")
+        axes[i][0].set_ylabel(row["titulo"], fontsize=9, color=INK["secondary"])
+        if row["tipo"] == "cat":
+            nomes = row.get("nomes", {})
+            h = [Line2D([], [], marker="o", ls="", ms=6, mfc=col, mec="none", label=nomes.get(cat, cat))
+                 for cat, col in row["cores"].items()]
+            if row.get("outros"):
+                h.append(Line2D([], [], marker="o", ls="", ms=6, mfc=row["outros"], mec="none",
+                                label=row.get("rotulo_outros", "outros")))
+            if row.get("rotulo_ausente", "sem rótulo"):
+                h.append(Line2D([], [], marker="o", ls="", ms=6, mfc=plotting.CONTEXT, mec="none",
+                                label=row.get("rotulo_ausente", "sem rótulo")))
+            axes[i][-1].legend(handles=h, loc="upper left", bbox_to_anchor=(1.02, 1.0), frameon=False, fontsize=8)
+        else:
+            cb = fig.colorbar(sc_, ax=axes[i][-1], fraction=0.05, pad=0.04)
+            cb.set_label(row.get("rotulo", ""), fontsize=8)
+            plotting._style_colorbar(cb)
+            cb.ax.tick_params(labelsize=8)
+    if note:
+        plotting.note(fig, note, y=0.0)
+    fig.tight_layout(rect=(0, 0.03, 1, 1))
+    return fig

@@ -1,0 +1,6 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+CD4 naive,PB - controle,PB,controle,0.533343,0.206222,-0.122947,1.18963,0.0813371,3,0.423354,0.297137,0.406686,PB,Não significativo
+CD4 memória,PB - controle,PB,controle,0.160158,0.113832,-0.202106,0.522422,0.254141,3,0.434234,0.443844,0.459439,PB,Não significativo
+CD4 ativada,PB - controle,PB,controle,-0.707586,0.656881,-2.79808,1.3829,0.360299,3,0.0478231,0.159521,0.459439,controle,Não significativo
+Treg,PB - controle,PB,controle,0.34324,0.3243,-0.688826,1.37531,0.367551,3,0.0530016,0.0435749,0.459439,PB,Não significativo
+CD4 citotóxica,PB - controle,PB,controle,-0.329154,0.544342,-2.0615,1.40319,0.588062,3,0.0415875,0.0559241,0.588062,controle,Não significativo

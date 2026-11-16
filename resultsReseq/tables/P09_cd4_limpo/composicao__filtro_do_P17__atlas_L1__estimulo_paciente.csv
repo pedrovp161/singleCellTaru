@@ -1,0 +1,6 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+Treg,estimulado - nao estimulado,estimulado,nao estimulado,0.155966,0.142134,-0.191823,0.503755,0.314577,6,0.0606392,0.0518132,0.95264,estimulado,Não significativo
+Tem,estimulado - nao estimulado,estimulado,nao estimulado,-0.119344,0.186168,-0.574881,0.336193,0.545178,6,0.0814124,0.0912654,0.95264,nao estimulado,Não significativo
+Tcm,estimulado - nao estimulado,estimulado,nao estimulado,-0.071298,0.141388,-0.417261,0.274665,0.632048,6,0.297135,0.315475,0.95264,nao estimulado,Não significativo
+Temra,estimulado - nao estimulado,estimulado,nao estimulado,0.0427828,0.433946,-1.01905,1.10461,0.924675,6,0.0316633,0.0192717,0.95264,estimulado,Não significativo
+Tnaive,estimulado - nao estimulado,estimulado,nao estimulado,-0.00810668,0.130928,-0.328476,0.312263,0.95264,6,0.52915,0.522175,0.95264,nao estimulado,Não significativo

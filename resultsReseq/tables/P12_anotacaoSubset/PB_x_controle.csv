@@ -1,0 +1,10 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+CD4 naive IFN⁺,PB - controle,PB,controle,0.607449,0.228841,-0.120826,1.33572,0.0767011,3,0.0534939,0.0287034,0.306343,PB,Não significativo
+CD4 Tcm,PB - controle,PB,controle,-0.170257,0.0642627,-0.374769,0.034256,0.0770344,3,0.24356,0.297669,0.306343,controle,Não significativo
+CD4 naive,PB - controle,PB,controle,0.376361,0.161503,-0.137615,0.890337,0.102114,3,0.368401,0.265454,0.306343,PB,Não significativo
+CD4 transição naive/Tcm,PB - controle,PB,controle,0.700275,0.439426,-0.698175,2.09872,0.209277,3,0.154287,0.0815762,0.470873,PB,Não significativo
+CD4 ativada,PB - controle,PB,controle,-0.995186,0.781353,-3.4818,1.49143,0.292503,3,0.0370086,0.151928,0.526506,controle,Não significativo
+CD4 citotóxica (Temra),PB - controle,PB,controle,-0.467302,0.576271,-2.30126,1.36665,0.476779,3,0.0415875,0.0559241,0.715169,controle,Não significativo
+CD4 Tcm (Th17),PB - controle,PB,controle,-0.257146,0.441899,-1.66346,1.14917,0.601469,3,0.0347965,0.0634521,0.773318,controle,Não significativo
+Treg naive,PB - controle,PB,controle,0.107784,0.440415,-1.29381,1.50938,0.822447,3,0.0166883,0.0176944,0.824328,PB,Não significativo
+eTreg,PB - controle,PB,controle,0.0980229,0.404931,-1.19065,1.38669,0.824328,3,0.020022,0.0168387,0.824328,PB,Não significativo

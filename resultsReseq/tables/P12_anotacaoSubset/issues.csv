@@ -1,0 +1,2 @@
+severity,location,problem,evidence,impact,recommendation,notebook
+INFO,grupos clínicos,contrastes clínicos com 3 a 4 pacientes por grupo,hanseníase 4 × controle 3; PB 2 × controle 3; um ponto por paciente,poder baixo; resultados exploratórios,tratar como hipótese,P12_anotacaoSubset

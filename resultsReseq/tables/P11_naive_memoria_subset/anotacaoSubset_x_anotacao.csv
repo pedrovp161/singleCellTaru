@@ -1,0 +1,14 @@
+anotacaoSubset,CD4 Tcm,CD4 Tcm/Tfh,CD4 Tem GZMK⁺,CD4 Th17,CD4 ativada,CD4 ativada (Th17),CD4 citotóxica (Temra),CD4 naive,CD4 transição naive/Tcm,Treg
+CD4 Tcm,4803,3048,5,504,0,0,0,0,316,0
+CD4 Tcm (Th17),44,25,0,1566,0,0,0,0,27,0
+CD4 Tem,2,0,51,0,0,0,0,0,0,0
+CD4 ativada,0,0,0,0,2798,0,0,0,0,0
+CD4 ativada (Th17),0,0,0,0,0,357,0,0,0,0
+CD4 citotóxica (Temra),0,0,0,0,0,0,1321,0,0,0
+CD4 naive,0,0,0,0,0,0,0,10170,0,0
+CD4 naive IFN⁺,0,0,0,0,0,0,0,1540,0,0
+CD4 naive emigrante tímica (SOX4⁺),0,0,0,0,0,0,0,49,0,0
+CD4 transição naive/Tcm,119,13,0,89,0,0,0,0,2353,0
+Treg ativada,0,0,0,0,0,0,0,0,0,429
+Treg naive,0,0,0,0,0,0,0,0,0,569
+eTreg,0,0,0,0,0,0,0,0,0,735

@@ -1,0 +1,11 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+TcmTh2,hanseniase - controle,hanseniase,controle,-0.402741,0.168698,-0.836393,0.0309109,0.0625927,5,0.0146116,0.0266979,0.471383,controle,Não significativo
+TemTh1pre,hanseniase - controle,hanseniase,controle,-0.309325,0.168151,-0.741571,0.122921,0.125217,5,0.0513373,0.0814265,0.471383,controle,Não significativo
+TcmTh17,hanseniase - controle,hanseniase,controle,-0.590078,0.34034,-1.46495,0.284793,0.143489,5,0.0464722,0.104966,0.471383,controle,Não significativo
+TregEff,hanseniase - controle,hanseniase,controle,0.323091,0.233015,-0.275893,0.922075,0.224216,5,0.0243941,0.0217924,0.471383,hanseniase,Não significativo
+Tnaive,hanseniase - controle,hanseniase,controle,0.467852,0.34723,-0.424731,1.36044,0.235692,5,0.413591,0.307774,0.471383,hanseniase,Não significativo
+TnaiveAct,hanseniase - controle,hanseniase,controle,0.369396,0.503149,-0.92399,1.66278,0.49581,5,0.0805813,0.0638468,0.767071,hanseniase,Não significativo
+TregAct,hanseniase - controle,hanseniase,controle,0.18161,0.274119,-0.523035,0.886254,0.53695,5,0.0190405,0.017296,0.767071,hanseniase,Não significativo
+TcmTh0,hanseniase - controle,hanseniase,controle,0.04525,0.148679,-0.336942,0.427442,0.773123,5,0.154855,0.162676,0.91114,hanseniase,Não significativo
+TcmTfh,hanseniase - controle,hanseniase,controle,0.0252271,0.132762,-0.316049,0.366503,0.856769,5,0.0458248,0.0494129,0.91114,hanseniase,Não significativo
+TnaiveMX1,hanseniase - controle,hanseniase,controle,-0.110281,0.939648,-2.52572,2.30516,0.91114,5,0.0676423,0.0672118,0.91114,controle,Não significativo

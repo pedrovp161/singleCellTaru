@@ -1,0 +1,2 @@
+severity,location,problem,evidence,impact,recommendation,notebook
+INFO,sufixos de helper,os sufixos (Th1)/(Th2)/(Th17)/(Tfh) exigem atlas ≥ 25 % e z do painel > 0,"regra fixada no cabeçalho, antes de ver os clusters",clusters de memória com perfil misto ficam sem sufixo,confirmar Th1/Th2 por citocinas após reestímulo ou por citometria (CXCR3/CCR4/CCR6),P11_naive_memoria_subset

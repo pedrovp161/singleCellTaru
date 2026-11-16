@@ -1,0 +1,5 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+Tcm,PB - controle,PB,controle,-0.294043,0.130706,-0.710009,0.121922,0.109974,3,0.240173,0.355727,0.439895,controle,Não significativo
+Tnaive,PB - controle,PB,controle,0.424894,0.278139,-0.460268,1.31005,0.224055,3,0.620326,0.45172,0.44811,PB,Não significativo
+Tem,PB - controle,PB,controle,-0.235855,0.327189,-1.27712,0.805405,0.523094,3,0.074955,0.107465,0.523561,controle,Não significativo
+Treg,PB - controle,PB,controle,0.105005,0.145845,-0.359137,0.569148,0.523561,3,0.0499283,0.0502948,0.523561,PB,Não significativo

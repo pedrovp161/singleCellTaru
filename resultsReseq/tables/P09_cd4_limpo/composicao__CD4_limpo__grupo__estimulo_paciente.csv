@@ -1,0 +1,6 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+CD4 ativada,estimulado - nao estimulado,estimulado,nao estimulado,0.898453,0.158818,0.509839,1.28707,0.00131042,6,0.14977,0.0408005,0.0065521,estimulado,FDR < 0.05
+CD4 memória,estimulado - nao estimulado,estimulado,nao estimulado,-0.382593,0.170815,-0.800562,0.0353756,0.0663642,6,0.415871,0.508763,0.121162,nao estimulado,Não significativo
+CD4 naive,estimulado - nao estimulado,estimulado,nao estimulado,-0.267036,0.122853,-0.567645,0.0335734,0.0726971,6,0.355672,0.385057,0.121162,nao estimulado,Não significativo
+Treg,estimulado - nao estimulado,estimulado,nao estimulado,-0.134249,0.180242,-0.575285,0.306788,0.484519,6,0.0552765,0.0514518,0.605648,nao estimulado,Não significativo
+CD4 citotóxica,estimulado - nao estimulado,estimulado,nao estimulado,-0.114576,0.37594,-1.03447,0.805316,0.770836,6,0.0234105,0.0139281,0.770836,nao estimulado,Não significativo

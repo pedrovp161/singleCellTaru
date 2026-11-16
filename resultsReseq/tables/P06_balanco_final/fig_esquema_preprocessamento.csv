@@ -1,0 +1,9 @@
+etapa,n
+matriz raw (barcodes ≥ 1 UMI),18534951
+Cell Ranger,37898
+emptyDrops (avaliação),74569
+CellBender (avaliação),59543
+QC 200 UMIs,36979
+QC: do Cell Ranger,36190
+QC: baixa profundidade,789
+sem doublets (final),35247

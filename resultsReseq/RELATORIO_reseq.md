@@ -107,6 +107,17 @@ variantes sobre o pré-processamento antigo.
     primeiros em todas as variantes e é o único do grupo que devolve a matriz
     de genes que a NMF exige. O Harmony de 15 dimensões fica sempre para trás,
     e a vantagem do scGen no P07 vinha do rótulo com que foi treinado.
+11. **A razão Treg / T efetora não muda de forma consistente com o estímulo
+    (P14).**
+    - Na definição principal (anotação; Teff = CD4⁺ convencional não naive),
+      ML/NS ×1,09 (IC 95% 0,75–1,58), p = 0,57, em 6 pares.
+    - Das 9 definições, nenhuma resiste à correção (menor p BH = 0,13).
+    - O estímulo expande mais a T efetora ativada que a Treg, e o efeito varia
+      por paciente: cai à metade no CTH97 e dobra no PB20.
+    - O atlas conta como Treg células FOXP3⁺ IL2RA⁺ Helios⁻ que o estímulo
+      cria, e a anotação não conta.
+    - Grupos clínicos, só descritivo: em NS, o MB34 fica acima de todos os
+      controles nas três réguas.
 
 ---
 
@@ -646,6 +657,151 @@ das réguas novas tem 14–18 células e nenhuma integração o isola.
 - O Harmony de 15 dimensões fica entre o 9º e o 12º lugar.
 - O scGen cai do 1º para o 5º/6º lugar quando a régua não é o rótulo com que
   foi treinado.
+
+**A UMAP de cada método (P12)**
+(`resultsReseq/figures/analises_previas/P12_benchmark_integracao_rotulos/umaps_metodos.png`).
+Sete colunas: o não integrado, o Harmony do P05 (15 dimensões), os três do
+grupo de cima (ComBat, Seurat RPCA, Harmony com 50 dimensões) e os dois que
+usam rótulo (scANVI e scGen). Cinco linhas: os estados de repouso e os de
+ativação da anotação, o atlas L1, o estímulo e o iLISI local.
+
+- **Sem integração,** NS e ML ocupam metades separadas (iLISI mediano 1,4 de
+  6,8 possíveis).
+- **O ComBat e os dois Harmony** têm o mesmo desenho: naive embaixo, memória
+  em cima e Treg numa ilha.
+- **O Seurat RPCA** é o mais compacto e o que mais mistura bibliotecas (iLISI
+  mediano 4,9, contra 3,4 do ComBat e 3,8 dos dois Harmony). Os contaminantes
+  ficam em ilhas afastadas.
+- **O scANVI e o scGen** reorganizam o espaço em blocos pelo tipo do Azimuth,
+  com que foram treinados, e espalham as células ativadas dentro desses blocos.
+
+### Objeto final e razão Treg / T efetora (P13–P14)
+
+**Objeto final (P13).** `dataReseq/analises_previas/P13_objeto_final/reseq_final.h5ad`
+(35.247 células × 26.053 genes) junta o objeto do P05, a integração ComBat do
+P07 (UMAP e grafo padrão), os clusters do P08, a anotação e o atlas do P09,
+os programas de NMF do P10 e as tabelas dos benchmarks do P07 e do P12. Só
+HNP44_NS precisou de span 0,4 no loess do HVG; as outras 13 bibliotecas
+usaram 0,3.
+
+**Razão Treg / T efetora (P14).** 30.933 células CD4⁺, sem contaminantes nem
+baixa qualidade. A unidade de análise é a biblioteca.
+
+- **Três réguas:** anotação (cluster Treg), atlas L2 (TregNaive, TregAct e
+  TregEff) e o programa dominante da NMF (Treg e Treg efetora).
+- **Três definições de Teff:** a ampla (toda CD4⁺ convencional não naive), a
+  estrita (ativada e citotóxica) e toda a CD4⁺ convencional.
+- **Estímulo:** quasi-binomial `Treg de (Treg + Teff) ~ paciente + estímulo`
+  em 6 pares. HNP44 fica fora, porque HNP44_NS tem 5 Treg.
+
+| régua · Teff | ML/NS | IC 95% | p | p BH (9) | sobe em |
+| --- | --- | --- | --- | --- | --- |
+| **anotação · ampla** | **×1,09** | 0,75–1,58 | 0,57 | 0,64 | 4 de 6 |
+| anotação · estrita | ×0,74 | 0,28–2,00 | 0,47 | 0,61 | 3 de 6 |
+| atlas · ampla | ×1,30 | 0,89–1,88 | 0,13 | 0,26 | 4 de 6 |
+| atlas · estrita | ×1,27 | 0,89–1,83 | 0,14 | 0,26 | 5 de 6 |
+| NMF · ampla | ×1,17 | 1,01–1,37 | 0,04 | 0,13 | 6 de 6 |
+| NMF · estrita | ×0,52 | 0,28–0,95 | 0,04 | 0,13 | 2 de 6 |
+
+- **Razão por paciente (anotação, NS → ML):**
+  - CTH92: 0,084 → 0,061
+  - CTH94: 0,086 → 0,102
+  - CTH97: 0,053 → 0,027
+  - PB20: 0,046 → 0,093
+  - PB21: 0,126 → 0,157
+  - MB34: 0,114 → 0,121
+  - HNP44: 0,088 (5 Treg) → 0,103
+- **Por que as réguas discordam.** No CTH97_ML, o atlas acha 192 Treg, e a
+  anotação, 61: 80% das Treg do atlas estão fora do cluster Treg, contra 7% no
+  CTH97_NS. Em ML, essas células detectam FOXP3 (54%) e IL2RA (72%), mas pouco
+  IKZF2 (21%) e RTKN2 (26%), contra 76% e 74% no cluster Treg. É o perfil de T
+  convencional ativada com FOXP3 transitório (Wang et al., 2007; Allan et al.,
+  2007).
+- **Grupos clínicos (descritivo; PB × controle não chega a p < 0,2 por
+  construção).**
+  - Em NS, o MB34 fica acima da faixa dos controles nas três réguas (×1,57;
+    ×2,00; ×1,32 sobre a média geométrica dos controles).
+  - O PB21 fica acima dos controles nas três réguas.
+  - O PB20 fica abaixo dos controles na anotação e na NMF, e acima no atlas.
+- **Treg efetora dentro da Treg:** no atlas, de 72% para 78%, sobe em 6 de 6
+  (p = 0,07); na NMF, de 42% para 49%, sobe em 3 de 6 (p = 0,64).
+
+### Composição celular por biblioteca (P15)
+
+Composição celular pelo método do projeto espacial: proporção de cada tipo por
+biblioteca → CLR → `lm` → BH. O código foi copiado dos scripts R
+(`composition_condition_by_resolution.R` e `composition_classificacao_forest.R`)
+e do `forest_composicao`.
+
+- **Rótulos:** a anotação do P09, sem contaminante nem baixa qualidade: `anotacao`
+  (10 rótulos) e `grupo` (5 categorias).
+- **Amostra:** 30.933 células CD4⁺ em 14 bibliotecas de 7 pacientes.
+- **Pareamento:** as bibliotecas são pares NS/ML, por isso entra também um modelo
+  com o paciente (E2).
+
+| contraste | rótulo | resultado |
+| --- | --- | --- |
+| ML × NS, pareado (E2) | `grupo` | **CD4 ativada ↑** FDR 0,011 (7 de 7); memória ↓ e naive ↓ FDR 0,046 |
+| ML × NS, pareado, CLR de contagem (`forest_composicao`) | `grupo` | CD4 ativada ↑ FDR 0,012 |
+| ML × NS, sem paciente (E, como no espacial) | `anotacao` | **CD4 Th17 ↓** FDR 0,012 (7 de 7); Tcm ↓ FDR 0,037 |
+| ML × NS, pareado (E2) | `anotacao` | Th17 ↓ FDR 0,061 |
+| PB × controle, em NS e em ML (C, D) | os dois | nada com FDR < 0,05 (2 × 3 bibliotecas) |
+| classificação par a par (14 bibliotecas juntas) | `grupo` | naive maior no PB (FDR 0,041; C e D não confirmam); Treg maior no MB (FDR 0,052) |
+
+- **O que muda com o estímulo é a fração de células ativadas.** Ela sobe nos 7
+  pacientes, mas com tamanho muito diferente: de 9 % para 50 % no CTH97 e de
+  4 % para 21 % no CTH92, contra 6,2 % → 6,9 % no PB21.
+- **A queda da Th17 é ao menos em parte mudança de rótulo:** a anotação é por
+  cluster, e a CD4 ativada (Th17) sobe em 6 de 7.
+- **A Treg não muda** (5,3 % → 6,0 %; FDR 0,52), como no P14.
+- **A primeira versão, com o atlas L2** (`raw/analises_previas/P15_composicao_atlasL2.*`), não
+  mostrava esse efeito. O atlas foi montado com sangue sem estímulo e distribui
+  as células ativadas entre os tipos de repouso.
+
+### Composição pelo método mais recente do espacial (P17)
+
+Refeito com o `forest_composicao` do espacial:
+- pseudocontagem na escala de contagem;
+- filtro de prevalência;
+- `lm` com covariáveis;
+- critério pelo FDR;
+- forest com os dados brutos ao lado.
+
+O estímulo é testado dentro do paciente (`CLR ~ estímulo + paciente + %MT`). Os grupos clínicos
+são testados com um ponto por paciente, a média do CLR das bibliotecas NS e ML, para não contar
+cada paciente duas vezes.
+
+| contraste | rótulo | resultado |
+| --- | --- | --- |
+| ML × NS (paciente + %MT) | `grupo` | **CD4 ativada ↑ FDR 0,030** (7 de 7; 0,012 sem o %MT) |
+| ML × NS | `anotacao` | Th17 ↓ (7 de 7) e ativada ↑, FDR 0,14–0,15 |
+| hanseníase (4) × controle (3), por paciente | os dois | nada com FDR < 0,05; naive maior nos doentes p = 0,034 |
+| PB (2) × controle (3), por paciente | os dois | nada; naive maior no PB p = 0,023 (FDR 0,18) |
+
+- Confirma o P15: o estímulo expande a CD4 ativada e a Treg não muda.
+- A naive maior no PB do P15 (FDR 0,041) vinha de contar cada paciente duas vezes.
+- **Hipótese para mais pacientes:** em ML, os 3 controles têm mais CD4 ativada (8,9 % a 50 %) que
+  os 4 doentes (3,4 % a 7,8 %).
+
+### Vias por cluster e Treg × T efetora (P16)
+
+GSEA do projeto espacial (Reactome, KEGG, Hallmark) com o ranking completo de
+genes, nas 5 categorias CD4⁺ do `grupo` e no contraste Treg × Teff (Teff ampla
+= memória + ativada + citotóxica, como no P14). O score usa o p bruto: com o p de
+Bonferroni, 80 % dos genes ficariam com score 0 e o GSEA não acharia nada.
+
+- **A CD4 ativada concentra as vias:** TNF-α/NF-κB, inflamação, interferon,
+  IL2–STAT5, mTORC1, OXPHOS e tradução. É a categoria que o estímulo expande
+  (P15).
+- **Treg × Teff:** 22 vias Reactome já no score do espacial.
+  - **Mais alto na Treg:** interferon (p.adj 0,012), MHC II, TCR, CD28/PD-1, ciclo
+    celular e, num dos rankings, IL2–STAT5.
+  - **Mais alto na Teff:** ribossomo e tradução em todos os rankings; com o log2FC,
+    também TNF-α, inflamação, IL-17, quimiocinas e citotoxicidade.
+- **A primeira versão, com o atlas L2** (`raw/analises_previas/P16_gsea_vias_atlasL2.*`), dava as
+  mesmas vias da Treg e da Teff, mas nenhuma passava no score do espacial.
+- O contraste junta NS e ML e descreve os tipos celulares. Não mede o efeito do
+  estímulo.
 
 ## 5. O que fazer a partir daqui
 

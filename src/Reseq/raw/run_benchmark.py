@@ -63,7 +63,7 @@ def _rotulo(nome: str | None):
         return None
     import pandas as pd
 
-    rb = pd.read_parquet(io.data_path("P09_anotacao", "rotulos_benchmark", "parquet")).set_index("cell_key")
+    rb = pd.read_parquet(io.data_path("analises_previas/P09_anotacao", "rotulos_benchmark", "parquet")).set_index("cell_key")
     if nome not in rb.columns:
         sys.exit(f"rótulo desconhecido: {nome} (há: {', '.join(rb.columns)})")
     return rb[nome]
@@ -84,7 +84,7 @@ def main() -> None:
     p.add_argument("--forcar", action="store_true")
     p.add_argument("--teste", type=int, default=None, help="subamostra de N células (só com RESEQ_BENCH_CACHE)")
     p.add_argument("--rotulo", default=None, help="métricas com outro rótulo no lugar do Azimuth: uma coluna de "
-                   "dataReseq/P09_anotacao/rotulos_benchmark (anotacao, atlas_L1, atlas_L2)")
+                   "dataReseq/analises_previas/P09_anotacao/rotulos_benchmark (anotacao, atlas_L1, atlas_L2)")
     a = p.parse_intermixed_args()
     if a.teste and "RESEQ_BENCH_CACHE" not in __import__("os").environ:
         sys.exit("--teste exige RESEQ_BENCH_CACHE apontando para um cache separado")

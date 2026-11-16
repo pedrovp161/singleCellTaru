@@ -61,6 +61,15 @@ Figuras e tabelas ficam em `resultsReseq/figures/<notebook>/` e
    que devolve a matriz de genes que a NMF exige. O Harmony de 15 dimensões do
    pipeline original fica sempre para trás, e a vantagem do scGen no P07 vinha
    do rótulo com que foi treinado.
+10. **Tudo num objeto só (P13):** `dataReseq/analises_previas/P13_objeto_final/reseq_final.h5ad`
+    junta o objeto principal, a integração ComBat, os clusters, a anotação, os
+    programas de NMF e os resultados dos benchmarks.
+11. **A razão Treg / T efetora não muda de forma consistente com o estímulo
+    (P14).** Na definição principal, ML/NS ×1,09 (IC 95% 0,75–1,58), p = 0,57,
+    em 6 pares. O estímulo expande mais a T efetora ativada que a Treg, e o
+    efeito varia por paciente. Entre os grupos clínicos, a comparação é só
+    descritiva: em NS, o MB34 tem a razão acima de todos os controles nas três
+    réguas.
 
 ## O caminho completo
 
@@ -80,17 +89,29 @@ data/allOuts (Cell Ranger 10.1.0, 14 bibliotecas)
  │     → P07 benchmark de integração (scIB) → ComBat
  │     → P08 clusterização (Leiden)          → objeto final
  │
- └─ Parte 4 · raw/           anotação e o método alternativo
+ ├─ Parte 4 · raw/           só células T CD4 (2ª rodada, em andamento)
+ │     P09 limpeza (sem baixa qualidade, contaminantes, CD8/NK) + ComBat e UMAP só nas CD4
+ │     → P10 reanotação dos clusters novos (a fazer) → …
+ │
+ └─ Análises prévias · raw/analises_previas/   1ª rodada (P09–P17), com todas as células
        atlas de Yasumizu et al. (2024) → régua independente (Symphony)
        P09 anotação por marcadores → P10 programas de NMF (o método do artigo)
        → P11 benchmark Leiden × NMF → P12 benchmark de integração com os rótulos novos
+       → P13 objeto final (um h5ad com tudo) → P14 razão Treg / T efetora
+       → P15 composição (CLR + lm) → P16 vias (GSEA) → P17 composição (forest_composicao)
 ```
 
 Cada parte responde a uma pergunta e alimenta a seguinte. A Parte 2 mostrou o
 que estava errado no pipeline antigo. A Parte 3 refaz o pré-processamento com
-essas correções e termina no objeto que deve ser usado daqui para frente. A
-Parte 4 anota esse objeto e compara o Leiden com o método de clusterização do
-artigo.
+essas correções e termina no objeto que deve ser usado daqui para frente.
+
+A 1ª rodada a partir do P08 anotou esse objeto, comparou o Leiden com o método
+de clusterização do artigo, juntou tudo num arquivo e começou as perguntas
+biológicas. Ela foi feita com todas as 35.247 células: as de baixa qualidade e
+os contaminantes ficavam no UMAP, no grafo e nos clusters, e só saíam das
+análises do P14 em diante. Por isso, em 2026-11-11, scripts e saídas dela foram
+para `analises_previas/` (em `raw/`, `resultsReseq/figures`, `resultsReseq/tables`
+e `dataReseq`). A 2ª rodada recomeça no P09 só com células T CD4 (Parte 4).
 
 ---
 
@@ -541,7 +562,11 @@ de CTH97. São hipóteses para a anotação, não resultado.
 
 ---
 
-## Parte 4 — Anotação, programas de NMF e o benchmark refeito (`raw/P09`–`P12`)
+## Análises prévias (1ª rodada) — Anotação, programas de NMF e o benchmark refeito (`raw/analises_previas/P09`–`P12`)
+
+> **1ª rodada, arquivada.** Feita com todas as 35.247 células (baixa qualidade e contaminantes no UMAP, no grafo e nos
+> clusters). Scripts em `raw/analises_previas/`; saídas em `resultsReseq/{figures,tables}/analises_previas/` e
+> `dataReseq/analises_previas/`. A análise em curso recomeça no P09 só com CD4 (Parte 4).
 
 Três pedidos, sobre os dados corrigidos pelo ComBat:
 
@@ -729,11 +754,237 @@ isolado, e a completa do artigo aparece ao lado.
   para o 6º e o 5º. A vantagem dele no P07 vinha do gabarito. O scANVI segue
   no alto com o atlas (2º).
 
+**A UMAP de cada método**
+(`resultsReseq/figures/analises_previas/P12_benchmark_integracao_rotulos/umaps_metodos.png`).
+Sete colunas: o não integrado, o Harmony do P05 (15 dimensões), os três do
+grupo de cima (ComBat, Seurat RPCA, Harmony com 50 dimensões) e os dois que
+usam rótulo (scANVI e scGen). Cinco linhas: os estados de repouso e os de
+ativação da anotação, o atlas L1, o estímulo e o iLISI local.
+
+- **Sem integração,** NS e ML ocupam metades separadas (iLISI mediano 1,4 de
+  6,8 possíveis).
+- **O ComBat e os dois Harmony** têm o mesmo desenho: naive embaixo, memória
+  em cima e Treg numa ilha.
+- **O Seurat RPCA** é o mais compacto e o que mais mistura bibliotecas (iLISI
+  mediano 4,9, contra 3,4 do ComBat e 3,8 dos dois Harmony). Os contaminantes
+  ficam em ilhas afastadas.
+- **O scANVI e o scGen** reorganizam o espaço em blocos pelo tipo do Azimuth,
+  com que foram treinados, e espalham as células ativadas dentro desses blocos.
+
+## Análises prévias (1ª rodada) — Objeto único e perguntas biológicas (`raw/analises_previas/P13`–`P17`)
+
+### P13 — O objeto final
+
+`raw/analises_previas/P13_objeto_final.py` (script, sem notebook) junta num único h5ad o que
+estava em cinco arquivos: o objeto do P05, a integração ComBat do P07 (que vira
+a UMAP e o grafo padrão), os clusters do P08, a anotação e o atlas do P09, os
+programas de NMF do P10, as tabelas dos benchmarks do P07 e do P12 e o span do
+loess usado no HVG de cada biblioteca. O h5ad do P05 não é alterado.
+`uns["guia"]` descreve cada campo. A matriz de genes corrigida pelo ComBat não
+está no objeto (é densa); ela se recalcula a partir de `X`.
+
+- **Arquivo:** `dataReseq/analises_previas/P13_objeto_final/reseq_final.h5ad` (35.247 células ×
+  26.053 genes, 709 MB).
+- **Só CD4⁺:** `a[~a.obs["grupo"].isin(["contaminante", "baixa qualidade"])]`
+  (30.933 células).
+
+### P14 — Razão Treg / T efetora: estímulo e grupo clínico
+
+**Pergunta.** A razão Treg/Teff muda com o estímulo (ML × NS) ou entre os
+grupos clínicos?
+
+**Três réguas,** porque elas discordam sob estímulo: a anotação (P09), o atlas
+L2 e o programa dominante da NMF. A Teff principal é toda CD4⁺ convencional
+fora do naive. A Teff estrita (só ativada e citotóxica) e toda a CD4⁺
+convencional entram como sensibilidade: 9 definições ao todo.
+
+**Estatística.** A unidade é a biblioteca. Para o estímulo, modelo
+quasi-binomial `Treg de (Treg + Teff) ~ paciente + estímulo`: exp(β) é
+quantas vezes a razão muda com ML. HNP44 fica fora do teste (HNP44_NS tem 5
+Treg), e restam 6 pares. Para os grupos, só descrição.
+
+| régua · Teff | ML/NS | IC 95% | p | sobe em |
+| --- | --- | --- | --- | --- |
+| **anotação · ampla (principal)** | **×1,09** | 0,75–1,58 | 0,57 | 4 de 6 |
+| atlas · ampla | ×1,30 | 0,89–1,88 | 0,13 | 4 de 6 |
+| NMF · ampla | ×1,17 | 1,01–1,37 | 0,04 | 6 de 6 |
+| anotação · estrita | ×0,74 | 0,28–2,00 | 0,47 | 3 de 6 |
+| NMF · estrita | ×0,52 | 0,28–0,95 | 0,04 | 2 de 6 |
+
+- **Não há mudança consistente com o estímulo.** Nenhuma das 9 definições
+  resiste à correção (menor p BH = 0,13). Contra a Teff ampla, a razão fica
+  estável ou sobe pouco. Contra a Teff estrita, cai, porque o estímulo
+  multiplica a CD4 ativada mais que a Treg.
+- **O efeito varia por paciente.** A razão cai à metade no CTH97, o controle
+  que mais responde ao estímulo, e dobra no PB20.
+- **As réguas discordam no estímulo por causa do FOXP3 transitório.** No
+  CTH97_ML, 80% das Treg do atlas estão fora do cluster Treg. Essas células
+  detectam FOXP3 e IL2RA, mas pouco Helios (IKZF2, 21%) e RTKN2 (26%), contra
+  76% e 74% no cluster Treg. É o perfil de T convencional ativada, e o atlas
+  as conta como Treg.
+- **Grupos clínicos (descritivo).** Em NS, o MB34 fica acima de todos os
+  controles nas três réguas (×1,32 a ×2,00). É um paciente: hipótese, não
+  resultado. O PB não se separa dos controles (o PB21 fica acima, o PB20 fica
+  abaixo em duas réguas).
+- **Treg efetora dentro da Treg:** no atlas, sobe em 6 de 6 (p = 0,07); na
+  NMF, em 3 de 6 (p = 0,64). Não há aumento consistente.
+
+Figuras em `resultsReseq/figures/analises_previas/P14_razao_treg_tefetora/`: `razao_estimulo`,
+`sensibilidade_definicoes`, `grupos_clinicos`, `foxp3_fora_do_cluster`,
+`treg_efetora`.
+
+### P15 — Composição celular por biblioteca (CLR + lm, forest plots)
+
+**Pergunta.** A proporção de cada tipo CD4⁺ muda com o estímulo ou entre os
+grupos clínicos?
+
+**Rótulos:** a anotação do P09, sem contaminante nem baixa qualidade (30.933
+células). A `anotacao` (10 rótulos) é a granularidade fina e o `grupo` (5
+categorias), a larga. Uma primeira versão com o atlas L2/L1 está em
+`raw/analises_previas/P15_composicao_atlasL2.*`, com saídas em `analises_previas/P15_composicao/`.
+
+**Método do projeto espacial, sem mudança:** proporção por biblioteca (≥ 30
+células) → CLR → `lm` por tipo → BH entre os tipos. O código R é cópia de
+`spatialPaper/src/integration/composition_condition_by_resolution.R` (painéis
+A–E) e `composition_classificacao_forest.R` (forests de classificação), em
+`functions/composicao_forest.R`. O forest único de `spatialPaper/src/forest_composicao/`
+está copiado em `functions/composicao.py` e `functions/forest_composicao.py`.
+
+**Adaptações** (lista completa no notebook):
+
+- os painéis C/D (no espacial, FB × UB dentro de cada condição) viram PB × controle dentro de NS e dentro de ML;
+- foi acrescentado um E2, com o paciente no `lm`, porque as bibliotecas são 7 pares NS/ML;
+- o HNP44 conta como NP;
+- as cores do estímulo são as do Reseq.
+
+A pseudocontagem de contagem e o filtro de prevalência do `forest_composicao`
+entram como sensibilidade. R e Python dão o mesmo número nos modelos em comum
+(|Δ| < 1e-14).
+
+- **O estímulo expande a CD4 ativada** (`grupo`): sobe em 7 de 7 pacientes,
+  ×2,6 em CLR no modelo pareado, FDR 0,011 (0,012 no modelo do
+  `forest_composicao`). Sem o paciente no modelo, FDR 0,08. O tamanho varia
+  muito: de 9 % para 50 % no CTH97, contra 6,2 % → 6,9 % no PB21. A memória cai
+  (FDR 0,046) e a naive cai junto, como efeito composicional.
+- **A CD4 Th17 cai em 7 de 7** (`anotacao`, 6,7 % → 3,9 %; FDR 0,012 sem o
+  paciente e 0,061 pareado), enquanto a CD4 ativada (Th17) sobe em 6 de 7. A
+  anotação é por cluster, então parte da queda é a Th17 que se ativa e muda de
+  rótulo.
+- **A Treg não muda** (5,3 % → 6,0 %, FDR 0,52), como no P14.
+- **O atlas não via a ativação:** a referência é de sangue sem estímulo e espalha
+  as células ativadas pelos tipos de repouso. A versão com o atlas não tinha
+  efeito robusto; o mais próximo era a TcmTfh, que cai em 7 de 7 mas só cruza o
+  FDR num modelo.
+- **PB × controle (C, D):** nada com FDR < 0,05.
+- **Classificação par a par** (14 bibliotecas juntas, cada paciente conta duas
+  vezes): naive maior no PB (FDR 0,041), mas C e D não confirmam. Treg maior no MB
+  (FDR 0,052), como no P14, mas é um paciente só e fica como descritivo.
+- **Agrupamento (pvclust):** as bibliotecas não se separam por estímulo nem por
+  grupo. O CTH97_ML fica sozinho, com metade das células ativadas.
+
+Figuras em `resultsReseq/figures/analises_previas/P15_composicao_anotacao/`:
+
+- `Figure_ABCDE_<anotacao|grupo>`;
+- `Figure_forests_classificacao_<anotacao|grupo>`;
+- os painéis soltos;
+- `forest_pareado_<anotacao|grupo>`.
+
+Tabelas em `resultsReseq/tables/analises_previas/P15_composicao_anotacao/`:
+
+- `Comparisons_*`;
+- `SampleClusters_*`;
+- `sensibilidade_pseudocontagem_*`;
+- `comparacao_modelos_anotacao`;
+- `consistencia_pacientes_anotacao`.
+
+### P16 — Vias por cluster (GSEA: Reactome, KEGG, Hallmark), foco em Treg × Teff
+
+**Método do projeto espacial** (`/mnt/SATA/analiseR/GSEA.rmd`): FindAllMarkers →
+score → GSEA por cluster (gsePathway, gseKEGG, GSEA/msigdbr H) → BH → Jaccard 5 % →
+vias marcadoras e figuras. O código é a cópia dos chunks do Rmd, em
+`functions/gsea_vias.R` (mudanças marcadas `[P16]`).
+
+**Rótulos:** a anotação do P09, sem contaminante nem baixa qualidade (30.933
+células). Uma primeira versão com o atlas L2 está em `raw/analises_previas/P16_gsea_vias_atlasL2.*`,
+com saídas em `analises_previas/P16_gsea_vias/`. São três execuções:
+
+- as 5 categorias do `grupo`;
+- Treg × Teff ampla (`grupo` memória + ativada + citotóxica, a principal, como no P14);
+- Treg × Teff estrita (`anotacao` ativada, ativada (Th17), citotóxica (Temra), Tem GZMK⁺).
+
+**Adaptações:**
+
+- **ranking completo, sem cortes** (pedido): `logfc.threshold = 0`, `min.pct = 0`, `return.thresh = Inf`, com o Wilcoxon do presto;
+- **score com o p bruto** (`avg_log2FC × −log10(p_val)`): com o p de Bonferroni, ~80 % dos genes ficam com score 0 e o GSEA perde todo o poder;
+- o contraste principal também roda com `sinal × −log10 p` e só com o log2FC (sensibilidade);
+- o script não quebra mais quando uma base não tem nenhuma via significativa;
+- rótulos inclinados no plot combinado.
+
+- **CD4 ativada** concentra as vias (70 Reactome, 52 KEGG, 17 Hallmark): TNF-α/NF-κB,
+  inflamação, interferon, IL2–STAT5, mTORC1, OXPHOS, tradução e apresentação de
+  antígeno. **CD4 citotóxica:** MYC e ribossomo mais baixos. **Treg:** MHC II e
+  interferon mais altos, tradução mais baixa.
+- **Treg × Teff ampla:** 22 vias Reactome já no score do espacial (no atlas, nenhuma).
+  - **Mais alto na Treg:** interferon (p.adj 0,012), MHC II, TCR, CD28/PD-1, ciclo
+    celular e IL2–STAT5 (este só com `sinal × −log10 p`).
+  - **Mais alto na Teff:** ribossomo/tradução/rRNA em todos os rankings; com o log2FC,
+    também TNF-α, inflamação, IL-17, quimiocinas e citotoxicidade.
+  - **Concordância:** o sinal do NES concorda nos quatro rankings em 115 de 138 vias Reactome.
+- **Marcadores:** Treg = FOXP3, IKZF2, TIGIT, RTKN2, CTLA4; ativada = OX40, GITR,
+  IL2RA, MIR155HG; citotóxica = CCL5, NKG7, GNLY, PRF1, GZMB.
+
+Figuras e tabelas em `resultsReseq/{figures,tables}/analises_previas/P16_gsea_vias_anotacao/<execução>/`.
+O resumo dos quatro rankings da Treg × Teff está em
+`tables/analises_previas/P16_gsea_vias_anotacao/treg_vs_teff_sensibilidade.csv`.
+
+### P17 — Composição pelo método mais recente do espacial (`forest_composicao`)
+
+`raw/analises_previas/P17_composicao_forest.py`. É o método de `spatialPaper/src/forest_composicao/`, que substituiu
+os scripts R do P15:
+- CLR com pseudocontagem na escala de contagem;
+- filtro de prevalência (≥ 1 % em ≥ 3 amostras de cada grupo);
+- `lm` com covariáveis e BH;
+- critério pelo FDR;
+- um forest por contraste, com os dados brutos ao lado.
+
+Os módulos são cópia (`functions/composicao.py`, `functions/forest_composicao.py`). Os rótulos são
+`anotacao` e `grupo`, sem contaminante nem baixa qualidade.
+
+**Adaptação ao desenho** (em `functions/composicao_sc.py`):
+- **Estímulo, dentro do paciente:** `CLR ~ estímulo + paciente + %MT` nas 14 bibliotecas. O
+  paciente faz o papel do `study`. O %MT não difere entre NS e ML (p = 0,69). A profundidade
+  difere (p = 0,047) e fica só como sensibilidade.
+- **Grupo clínico, entre pacientes:** um ponto por paciente, a média do CLR das suas bibliotecas
+  NS e ML. Com o desenho balanceado, é o teste entre pacientes de um modelo misto. Há dois
+  contrastes: hanseníase (PB + MB + NP, 4) × controle (3) e PB (2) × controle (3).
+- **Por estímulo:** os scripts R comparavam os grupos dentro de cada estímulo. Esses contrastes
+  (só NS, só ML) entram como sensibilidade.
+
+Resultados:
+- **Estímulo:** a CD4 ativada sobe em 7 de 7 (2,9 % → 7,8 %). FDR 0,030 no modelo da figura e
+  0,012 sem o %MT. Na `anotacao`, a Th17 cai em 7 de 7 (FDR 0,14). A Treg não muda.
+- **O %MT não ajuda aqui:** custa um grau de liberdade e explica pouco. A profundidade apaga o
+  efeito, porque cai junto com a ativação.
+- **Grupos clínicos:** nada passa pelo BH. A naive é maior nos doentes e no PB (p = 0,02 a 0,03,
+  FDR ≥ 0,18). Com um ponto por paciente, a naive maior no PB do P15 (FDR 0,041) não se sustenta.
+- **Hipótese:** em ML, os 3 controles têm mais CD4 ativada que os 4 doentes (separação completa,
+  p ≈ 0,06 no máximo).
+
+Figuras em `resultsReseq/figures/analises_previas/P17_composicao_forest/`:
+- `forest_estimulo_<anotacao|grupo>`;
+- `forest_hanseniase_x_controle_*`;
+- `forest_PB_x_controle_*`.
+
+As tabelas `comparacao_modelos_*` mostram os quatro modelos lado a lado.
+
 ---
 
 ## Como usar o resultado final
 
-O resultado final são cinco arquivos em `dataReseq/`, unidos pela chave
+**O jeito mais simples** é abrir o objeto do P13, que já tem tudo:
+`ad.read_h5ad("dataReseq/analises_previas/P13_objeto_final/reseq_final.h5ad")`.
+
+Os mesmos dados também estão em cinco arquivos em `dataReseq/`, unidos pela chave
 `cell_key` (`library_id|barcode`): o objeto principal, a integração, os
 clusters do Leiden, a anotação e os programas de NMF.
 
@@ -756,8 +1007,8 @@ adata.uns["neighbors"]["params"] = {"method": "umap", "n_neighbors": 15, "use_re
 adata.obs = adata.obs.join(rot.drop(columns="library_id").set_index("cell_key"), on="cell_key")
 
 # anotação (P09) e programas de NMF (P10)
-anot = pd.read_parquet("dataReseq/P09_anotacao/anotacao.parquet").set_index("cell_key")
-prog = pd.read_parquet("dataReseq/P10_nmf_programas/programas.parquet").set_index("cell_key")
+anot = pd.read_parquet("dataReseq/analises_previas/P09_anotacao/anotacao.parquet").set_index("cell_key")
+prog = pd.read_parquet("dataReseq/analises_previas/P10_nmf_programas/programas.parquet").set_index("cell_key")
 adata.obs = adata.obs.join(anot[["anotacao", "grupo", "atlas_L1", "atlas_L2", "atlas_L2_prob"]], on="cell_key")
 adata.obs = adata.obs.join(prog[["nmf14_rotulo", "nmf14_fracao", "proj_rotulo"]], on="cell_key")
 adata.obsm["X_nmf14"] = prog.loc[adata.obs["cell_key"], [f"H14_P{k}" for k in range(14)]].to_numpy()
@@ -795,7 +1046,7 @@ cd4 = adata[~adata.obs["grupo"].isin(["contaminante", "baixa qualidade"])].copy(
 | `leiden_r*` | todas as resoluções testadas (0,2 = escala intermediária) |
 | `cluster_tecnico` | marca dos clusters 7, 11, 14 e 15 |
 
-**A anotação** (`P09_anotacao/anotacao.parquet`):
+**A anotação** (`analises_previas/P09_anotacao/anotacao.parquet`):
 
 | coluna | o quê |
 | --- | --- |
@@ -804,7 +1055,7 @@ cd4 = adata[~adata.obs["grupo"].isin(["contaminante", "baixa qualidade"])].copy(
 | `atlas_L1`, `atlas_L2`, `*_prob` | tipo do atlas de Yasumizu et al. (2024) e a fração de votos dos 5 vizinhos |
 | `azimuth_fino`, `azimuth_grupo` | o Azimuth do Cell Ranger |
 
-**Os programas de NMF** (`P10_nmf_programas/programas.parquet`):
+**Os programas de NMF** (`analises_previas/P10_nmf_programas/programas.parquet`):
 
 | coluna | o quê |
 | --- | --- |
@@ -864,13 +1115,13 @@ python raw/run_benchmark.py tudo                    # ajustes (~40 min) + métri
 
 # Parte 4
 python raw/run_atlas_mapping.py                     # Symphony no atlas de Yasumizu et al. (~7 min)
-./build_notebook.sh raw/P09_anotacao
+./build_notebook.sh raw/analises_previas/P09_anotacao
 python raw/run_nmf.py tudo --workers 4              # 57 ajustes de NMF, estabilidade, projeção (~10 min)
-./build_notebook.sh raw/P10_nmf_programas
-./build_notebook.sh raw/P11_benchmark_clusterizacao 5400
+./build_notebook.sh raw/analises_previas/P10_nmf_programas
+./build_notebook.sh raw/analises_previas/P11_benchmark_clusterizacao 5400
 python raw/run_benchmark.py metricas --rotulo anotacao   # ~6–7 h em série por rótulo
 python raw/run_benchmark.py metricas --rotulo atlas_L2
-./build_notebook.sh raw/P12_benchmark_integracao_rotulos
+./build_notebook.sh raw/analises_previas/P12_benchmark_integracao_rotulos
 ```
 
 A referência do atlas (`ref_Reference_Mapping_20220525.RData`, Figshare
@@ -933,13 +1184,14 @@ src/Reseq/
 │   └── legacy.py           # acesso às funções de src/scripts/claude/functions
 ├── comparativa/            # Parte 1: C01–C03 (.py + .ipynb executado)
 ├── analise/                # Parte 2: A01–A06
-└── raw/                    # Partes 3 e 4: P01–P12 + run_cellbender.py, run_benchmark.py,
+└── raw/                    # Partes 3 e 4: P01–P09 + run_cellbender.py, run_benchmark.py,
                             #   run_atlas_mapping.py, run_nmf.py
+    └── analises_previas/   # 1ª rodada a partir do P09 (P09–P17), arquivada
 
 dataReseq/                  # objetos (parquet, h5ad) + MANIFEST.jsonl — fora do git
 resultsReseq/
 ├── RELATORIO_reseq.md      # o relatório, com todos os números
-├── figures/<notebook>/     # PNG + PDF
+├── figures/<notebook>/     # PNG + PDF (1ª rodada P09–P17 em figures/analises_previas/)
 └── tables/<notebook>/      # CSV; cada figura tem a sua tabela fig_<nome>.csv,
                             # cada notebook tem o seu issues.csv
 ```
@@ -948,12 +1200,13 @@ resultsReseq/
 
 | arquivo | conteúdo |
 | --- | --- |
+| `analises_previas/P13_objeto_final/reseq_final.h5ad` | **o objeto final, com tudo** (P05 + P07 a P12) |
 | `P05_integracao/reseq_raw_integrado__v2.h5ad` | **o objeto principal** (Parte 3) |
 | `P07_benchmark_integracao/integracao_escolhida.h5ad` | **a integração escolhida** (ComBat) |
 | `P08_clusterizacao/clusters.parquet` | **os clusters do Leiden** |
-| `P09_anotacao/anotacao.parquet` | **a anotação** por marcadores, o atlas e o Azimuth, por célula |
-| `P10_nmf_programas/programas.parquet` | **os programas de NMF** por célula |
-| `P09_anotacao/rotulos_benchmark.parquet` | os rótulos usados no P12 |
+| `analises_previas/P09_anotacao/anotacao.parquet` | **a anotação** por marcadores, o atlas e o Azimuth, por célula |
+| `analises_previas/P10_nmf_programas/programas.parquet` | **os programas de NMF** por célula |
+| `analises_previas/P09_anotacao/rotulos_benchmark.parquet` | os rótulos usados no P12 |
 | `P07_benchmark_integracao/benchmark.parquet` | scores e métricas das 18 execuções do benchmark |
 | `P03_qc_best_practices/qc_candidatos*.parquet` | todo barcode com ≥ 100 UMIs ou chamado: chamadas, métricas e regras |
 | `P07_integracao_clusterizacao/clusters__v3.parquet` | clusters anteriores, sobre o Harmony (superados pelo P08) |

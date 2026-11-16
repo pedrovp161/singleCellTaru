@@ -1,0 +1,11 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+6,estimulado - nao estimulado,estimulado,nao estimulado,-0.497917,0.1444,-0.85125,-0.144584,0.0136632,6,0.0461398,0.0838081,0.0999715,nao estimulado,p < 0.05
+4,estimulado - nao estimulado,estimulado,nao estimulado,0.964935,0.307021,0.213681,1.71619,0.0199943,6,0.134108,0.0393171,0.0999715,estimulado,p < 0.05
+12,estimulado - nao estimulado,estimulado,nao estimulado,-0.225348,0.165261,-0.629728,0.179032,0.221641,6,0.0127018,0.0171856,0.597343,nao estimulado,Não significativo
+8,estimulado - nao estimulado,estimulado,nao estimulado,0.127143,0.10811,-0.137393,0.39168,0.284119,6,0.0552765,0.0514518,0.597343,estimulado,Não significativo
+1,estimulado - nao estimulado,estimulado,nao estimulado,-0.13367,0.117503,-0.42119,0.153849,0.298671,6,0.141411,0.174382,0.597343,nao estimulado,Não significativo
+5,estimulado - nao estimulado,estimulado,nao estimulado,-0.46783,0.595418,-1.92477,0.989105,0.461924,6,0.122578,0.137612,0.769874,nao estimulado,Não significativo
+9,estimulado - nao estimulado,estimulado,nao estimulado,0.146817,0.47735,-1.02122,1.31485,0.768809,6,0.0234105,0.0139281,0.957414,estimulado,Não significativo
+2,estimulado - nao estimulado,estimulado,nao estimulado,0.0597788,0.214247,-0.464465,0.584022,0.789599,6,0.118916,0.118721,0.957414,estimulado,Não significativo
+3,estimulado - nao estimulado,estimulado,nao estimulado,0.01789,0.151476,-0.352759,0.388539,0.90984,6,0.104257,0.111232,0.957414,estimulado,Não significativo
+0,estimulado - nao estimulado,estimulado,nao estimulado,0.00820129,0.147325,-0.352291,0.368694,0.957414,6,0.224054,0.24915,0.957414,estimulado,Não significativo

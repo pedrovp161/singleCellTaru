@@ -1,0 +1,10 @@
+cell_population,comparison,g1,g2,estimate,std_error,conf_low,conf_high,p_value,df_resid,prop_media_g1,prop_media_g2,FDR,direction,sig_shape
+0,hanseniase - controle,hanseniase,controle,0.333418,0.0721267,0.148011,0.518826,0.00572154,5,0.253419,0.189418,0.0514939,hanseniase,p < 0.05
+5,hanseniase - controle,hanseniase,controle,1.12404,0.554612,-0.301633,2.54972,0.0985226,5,0.156935,0.083871,0.307963,hanseniase,Não significativo
+4,hanseniase - controle,hanseniase,controle,-1.05254,0.527716,-2.40908,0.303992,0.102654,5,0.0338953,0.151928,0.307963,controle,Não significativo
+8,hanseniase - controle,hanseniase,controle,0.299713,0.173537,-0.146378,0.745804,0.144734,5,0.0565637,0.0435749,0.325652,hanseniase,Não significativo
+6,hanseniase - controle,hanseniase,controle,-0.457156,0.325672,-1.29432,0.38001,0.219356,5,0.0453693,0.085232,0.39484,controle,Não significativo
+3,hanseniase - controle,hanseniase,controle,-0.24993,0.256223,-0.908574,0.408713,0.374141,5,0.0917375,0.116914,0.498845,controle,Não significativo
+2,hanseniase - controle,hanseniase,controle,0.265576,0.280994,-0.456742,0.987893,0.38799,5,0.127548,0.0974288,0.498845,hanseniase,Não significativo
+9,hanseniase - controle,hanseniase,controle,-0.274771,0.60588,-1.83224,1.28269,0.669187,5,0.0602025,0.0559241,0.752836,controle,Não significativo
+1,hanseniase - controle,hanseniase,controle,0.011654,0.104851,-0.257873,0.281181,0.915822,5,0.146674,0.156488,0.915822,hanseniase,Não significativo

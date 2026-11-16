@@ -39,7 +39,7 @@ def main() -> None:
     res = atlas.run_mapping(adata, cells)
     out = atlas.DIR / "mapeamento" / "mapeamento.parquet"
     res.to_parquet(out)
-    io.register(stage="P09_anotacao", name="mapeamento_atlas", kind="cache", path=out,
+    io.register(stage="analises_previas/P09_anotacao", name="mapeamento_atlas", kind="cache", path=out,
                 description="Mapeamento Symphony no atlas CD4⁺ de Yasumizu et al. (2024): L1, L2 e fração de votos")
     print(res["atlas_L1"].value_counts().to_string())
     print(f"pronto em {(time.time() - t0) / 60:.1f} min", flush=True)
